@@ -8,7 +8,12 @@ import {
   ConfirmSignUpCommand,
   AuthFlowType,
 } from "@aws-sdk/client-cognito-identity-provider";
-import config from "./config.json";
+
+const config = {
+  region: import.meta.env.VITE_AWS_REGION,
+  userPoolId: import.meta.env.VITE_AWS_COGNITO_USER_POOL_ID,
+  clientId: import.meta.env.VITE_AWS_COGNITO_CLIENT_ID,
+};
 
 export const cognitoClient = new CognitoIdentityProviderClient({
   region: config.region,

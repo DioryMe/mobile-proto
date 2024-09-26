@@ -20,8 +20,8 @@ const LoginPage = () => {
       if (session && typeof session.AccessToken !== "undefined") {
         sessionStorage.setItem("accessToken", session.AccessToken);
         if (sessionStorage.getItem("accessToken")) {
-          window.location.href = `http://localhost:5173`;
-          // window.location.href = `http://localhost:3000/throwaway/callback?token=${session.IdToken}`;
+          window.location.href = import.meta.env.VITE_CALLBACK_URL;
+          // window.location.href = `${import.meta.env.VITE_CALLBACK_URL}?token=${session.IdToken}`;
         } else {
           console.error("Session token was not set properly.");
         }

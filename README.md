@@ -9,16 +9,16 @@ yarn
 yarn dev
 ```
 
-## Config.json
+## Envs
 
-Replace the placeholders in config.json (TODO: Read from .env or .gitignore config.json)
+Create .env (=dev) and .env.production (=deploy) files.
 
 ```
-{
-  "region": "YOUR_AWS_REGION",
-  "userPoolId": "YOUR_COGNITO_USER_POOL_ID",
-  "clientId": "YOUR_COGNITO_APP_CLIENT_ID"
-}
+VITE_CALLBACK_URL=
+
+VITE_AWS_REGION=
+VITE_AWS_COGNITO_USER_POOL_ID=
+VITE_AWS_COGNITO_CLIENT_ID=
 ```
 
 ## Features
