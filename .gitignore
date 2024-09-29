@@ -25,3 +25,9 @@ dist-ssr
 
 .env
 .env.production
+
+tests/log.html
+tests/output.xml
+tests/playwright-log.txt
+tests/report.html
+
