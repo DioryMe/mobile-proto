@@ -3,7 +3,7 @@ name: Robot test in production
 on: [push]
 
 jobs:
-  robot_framework_tests:
+  prod_robot_tests:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -24,7 +24,7 @@ jobs:
 
       - name: Run Robot Framework tests
         env:
-          FFMPEG_PATH: /usr/bin/ffmpeg
+          BASE_URL: http://materialistic-insect.surge.sh
         run: robot tests/main.robot
 
       - name: Upload test artifacts

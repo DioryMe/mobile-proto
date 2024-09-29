@@ -3,7 +3,7 @@ name: Robot test
 on: [push]
 
 jobs:
-  robot_framework_tests:
+  local_robot_tests:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -45,7 +45,7 @@ jobs:
 
       - name: Run Robot Framework tests
         env:
-          FFMPEG_PATH: /usr/bin/ffmpeg
+          BASE_URL: http://localhost:5173
         run: robot tests/main.robot
 
       - name: Upload test artifacts
