@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { signIn, signUp } from "./authService";
 
 const LoginPage = () => {
@@ -10,7 +9,7 @@ const LoginPage = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [isSignUp, setIsSignUp] = useState(false);
-  const navigate = useNavigate();
+  const [errorMessage, setErrorMessage] = useState(null);
 
   const handleSignIn = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
@@ -29,27 +28,37 @@ const LoginPage = () => {
         console.error("SignIn session or AccessToken is undefined.");
       }
     } catch (error) {
-      alert(`Sign in failed: ${error}`);
+      setErrorMessage(`Sign in failed: ${error}`);
     }
   };
 
   const handleSignUp = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
     if (password !== confirmPassword) {
-      alert("Passwords do not match");
+      setErrorMessage("Passwords do not match");
       return;
     }
     try {
       await signUp(email, password);
       setIsSignUp(false);
     } catch (error) {
-      alert(`Sign up failed: ${error}`);
+      setErrorMessage(`Sign up failed: ${error}`);
     }
+  };
+
+  const handleSignInOrSignUpToggle = (isSignUp) => {
+    setIsSignUp(isSignUp);
+    setErrorMessage(null);
   };
 
   return (
     <div className="loginForm">
       <h1>Welcome</h1>
+      {errorMessage && (
+        <div style={{ color: "#ff1e1e" }} id="errorMessage">
+          {errorMessage}
+        </div>
+      )}
       <h4>
         {isSignUp ? "Sign up to create an account" : "Sign in to your account"}
       </h4>
@@ -91,7 +100,7 @@ const LoginPage = () => {
         )}
         <button type="submit">{isSignUp ? "Sign Up" : "Sign In"}</button>
       </form>
-      <button onClick={() => setIsSignUp(!isSignUp)}>
+      <button onClick={() => handleSignInOrSignUpToggle(!isSignUp)}>
         {isSignUp
           ? "Already have an account? Sign In"
           : "Need an account? Sign Up"}
