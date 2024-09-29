@@ -1,4 +1,4 @@
-name: Robot test
+name: Robot test in production
 
 on: [push]
 
@@ -8,12 +8,6 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-
-      - name: Checkout demo-content-room
-        uses: actions/checkout@v4
-        with:
-          path: "tests/demo-content-room"
-          repository: "DioryMe/demo-content-room"
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -27,14 +21,6 @@ jobs:
 
       - name: Verify Python and Robot installation
         run: echo $(robot --version)
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version-file: ".nvmrc"
-
-      - name: Install dcli
-        run: yarn && yarn build
 
       - name: Run Robot Framework tests
         env:
