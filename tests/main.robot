@@ -23,5 +23,7 @@ Test Login and Verify Alert
     Fill Text    id=email    ${EMAIL}
     Fill Text    id=password    ${PASSWORD}
     Click    css=button[type="submit"]
-    Handle Future Dialogs    accept
+    ${error_text}=    Get Text    data-test-id=errorMessage
+    Should Be Equal    ${error_text}    Sign in failed: NotAuthorizedException: Incorrect username or password.
+
     Close Browser

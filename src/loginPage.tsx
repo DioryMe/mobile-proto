@@ -55,7 +55,7 @@ const LoginPage = () => {
     <div className="loginForm">
       <h1>Welcome</h1>
       {errorMessage && (
-        <div style={{ color: "#ff1e1e" }} id="errorMessage">
+        <div style={{ color: "#ff1e1e" }} data-test-id="errorMessage">
           {errorMessage}
         </div>
       )}
