@@ -8,7 +8,8 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "deploy": "yarn build && cp dist/index.html dist/200.html && surge dist materialistic-insect.surge.sh"
+    "pre-deploy": "yarn build && cp dist/index.html dist/200.html",
+    "deploy": "yarn pre-deploy && surge dist materialistic-insect.surge.sh"
   },
   "dependencies": {
     "@aws-sdk/client-cognito-identity-provider": "^3.533.0",

@@ -5,15 +5,16 @@ on: [push]
 jobs:
   local_robot_tests:
     runs-on: ubuntu-latest
+    environment: local
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Checkout demo-content-room
-        uses: actions/checkout@v4
-        with:
-          path: "tests/demo-content-room"
-          repository: "DioryMe/demo-content-room"
+      # - name: Checkout demo-content-room
+      #   uses: actions/checkout@v4
+      #   with:
+      #     path: "tests/demo-content-room"
+      #     repository: "DioryMe/demo-content-room"
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -33,10 +34,16 @@ jobs:
         with:
           node-version-file: ".nvmrc"
 
-      - name: Install dcli
-        run: yarn && yarn build
+      - name: Install
+        run: yarn
 
       - name: Run server
+        env:
+          VITE_AWS_REGION: ${{ env.VITE_AWS_REGION }}
+          VITE_AWS_COGNITO_USER_POOL_ID: ${{ env.VITE_AWS_COGNITO_USER_POOL_ID }}
+          VITE_AWS_COGNITO_CLIENT_ID: ${{ env.VITE_AWS_COGNITO_CLIENT_ID }}
+          VITE_CALLBACK_URL: ${{ env.VITE_CALLBACK_URL }}
+          BASE_URL: ${{ env.BASE_URL }}
         run: yarn dev &
 
       - name: Wait for the server to be ready

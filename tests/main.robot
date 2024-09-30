@@ -2,7 +2,7 @@
 Library    Browser
 
 *** Variables ***
-${BASE_URL}     %{BASE_URL}   # TODO: Default to http://localhost:5173 if not defined?
+${BASE_URL}     http://localhost:5173   # TODO: Default to http://localhost:5173 if not defined?
 ${EMAIL}        jvalanen@gmail.com
 ${PASSWORD}     asdf
 
