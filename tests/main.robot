@@ -2,13 +2,14 @@
 Library    Browser
 
 *** Variables ***
-${BASE_URL}     http://localhost:5173   # TODO: Default to http://localhost:5173 if not defined?
+${BASE_URL}     %{BASE_URL}   # TODO: Default to http://localhost:5173 if not defined?
 ${EMAIL}        jvalanen@gmail.com
 ${PASSWORD}     asdf
 
 *** Test Cases ***
 Test Login and Verify Alert
-    Open Browser    ${BASE_URL}    chromium    headless=True
+    New Browser  headless=True
+    New Page  ${BASE_URL}
     Set Viewport Size    1920    1080
     Fill Text    id=email    ${EMAIL}
     Fill Text    id=password    ${PASSWORD}
