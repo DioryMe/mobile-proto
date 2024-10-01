@@ -17,10 +17,10 @@ jobs:
 
       - name: Install packages + pre-deploy
         env:
-          VITE_AWS_REGION: ${{ env.VITE_AWS_REGION }}
-          VITE_AWS_COGNITO_USER_POOL_ID: ${{ env.VITE_AWS_COGNITO_USER_POOL_ID }}
-          VITE_AWS_COGNITO_CLIENT_ID: ${{ env.VITE_AWS_COGNITO_CLIENT_ID }}
-          VITE_CALLBACK_URL: ${{ env.VITE_CALLBACK_URL }}
+          VITE_AWS_REGION: ${{ vars.VITE_AWS_REGION }}
+          VITE_AWS_COGNITO_USER_POOL_ID: ${{ vars.VITE_AWS_COGNITO_USER_POOL_ID }}
+          VITE_AWS_COGNITO_CLIENT_ID: ${{ vars.VITE_AWS_COGNITO_CLIENT_ID }}
+          VITE_CALLBACK_URL: ${{ vars.VITE_CALLBACK_URL }}
         run: yarn && yarn pre-deploy
 
       - name: Install surge
@@ -28,9 +28,9 @@ jobs:
 
       - name: Surge deploy
         env:
-          BASE_URL: ${{ env.BASE_URL }}
+          BASE_URL: ${{ vars.BASE_URL }}
           SURGE_DEPLOY_TOKEN: ${{ secrets.SURGE_DEPLOY_TOKEN }}
-        run: surge dist $BASE_URL --token $SURGE_DEPLOY_TOKEN
+        run: surge ./dist --domain http://materialistic-insect.surge.sh --token $SURGE_DEPLOY_TOKEN
 
       - name: Set up Python
         uses: actions/setup-python@v5
