@@ -99,9 +99,14 @@ const LoginPage = () => {
             />
           </div>
         )}
-        <button type="submit">{isSignUp ? "Sign Up" : "Sign In"}</button>
+        <button data-test-id="signInOrUpSubmit" type="submit">
+          {isSignUp ? "Sign Up" : "Sign In"}
+        </button>
       </form>
-      <button onClick={() => handleSignInOrSignUpToggle(!isSignUp)}>
+      <button
+        data-test-id="signInOrUpToggle"
+        onClick={() => handleSignInOrSignUpToggle(!isSignUp)}
+      >
         {isSignUp
           ? "Already have an account? Sign In"
           : "Need an account? Sign Up"}
