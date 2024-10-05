@@ -1,6 +1,7 @@
-name: Robot test in production
+name: Deploy and robot tests
 
-on: [push]
+on:
+  workflow_dispatch:
 
 jobs:
   prod_robot_tests:
