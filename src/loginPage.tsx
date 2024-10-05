@@ -41,6 +41,7 @@ const LoginPage = () => {
     try {
       await signUp(email, password);
       setIsSignUp(false);
+      setErrorMessage(null);
     } catch (error) {
       setErrorMessage(`Sign up failed: ${error}`);
     }

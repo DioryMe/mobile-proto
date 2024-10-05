@@ -26,3 +26,4 @@ VITE_AWS_COGNITO_CLIENT_ID=
 1. Sign-up
 2. Login
 3. List dummy list with "Make API request" button
+4. Auto-confirm emails with specific pattern in Cognito console
