@@ -28,8 +28,12 @@ const HomePage = () => {
   return (
     <div>
       <h1>Hello World</h1>
-      <button onClick={handleApiRequest}>Make API request</button>
-      <button onClick={handleLogout}>Logout</button>
+      <button data-test-id="makeApiRequest" onClick={handleApiRequest}>
+        Make API request
+      </button>
+      <button data-test-id="logout" onClick={handleLogout}>
+        Logout
+      </button>
       {dummyList.map(({ todo }, index) => (
         <div
           key={index}
