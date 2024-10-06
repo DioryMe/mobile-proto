@@ -6,7 +6,7 @@ on:
 jobs:
   prod_robot_tests:
     runs-on: ubuntu-latest
-    environment: production
+    environment: local
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -29,7 +29,7 @@ jobs:
 
       - name: Surge deploy
         env:
-          BASE_URL: ${{ vars.BASE_URL }}
+          BASE_URL: http://materialistic-insect.surge.sh
           SURGE_DEPLOY_TOKEN: ${{ secrets.SURGE_DEPLOY_TOKEN }}
         run: surge ./dist --domain http://materialistic-insect.surge.sh --token $SURGE_DEPLOY_TOKEN
 
@@ -53,7 +53,7 @@ jobs:
         env:
           BASE_URL: http://materialistic-insect.surge.sh
           AUTO_USER_EMAIL: ${{ vars.AUTO_USER_EMAIL }}
-          CONFIRMED_USER_EMAIL: ${{ vars.CONFIRMED_USER_EMAIL}}
+          NON_CONFIRMED_EMAIL: ${{ vars.NON_CONFIRMED_EMAIL}}
           EXISTING_EMAIL: ${{ vars.EXISTING_EMAIL }}
         run: robot tests/main.robot
 
@@ -63,6 +63,6 @@ jobs:
         with:
           name: robot-framework-outputs
           path: |
-            /home/runner/work/diograph-cli/diograph-cli/output.xml
-            /home/runner/work/diograph-cli/diograph-cli/log.html
-            /home/runner/work/diograph-cli/diograph-cli/report.html
+            /home/runner/work/mobile-proto/mobile-proto/output.xml
+            /home/runner/work/mobile-proto/mobile-proto/log.html
+            /home/runner/work/mobile-proto/mobile-proto/report.html
