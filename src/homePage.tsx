@@ -34,15 +34,20 @@ const HomePage = () => {
       <button data-test-id="logout" onClick={handleLogout}>
         Logout
       </button>
-      {dummyList.map(({ todo }, index) => (
-        <div
-          key={index}
-          style={{ cursor: "pointer" }}
-          onClick={() => alert(`You clicked dummy: ${todo}`)}
-        >
-          {todo}
-        </div>
-      ))}
+      <div data-test-id="diory-list">
+        {dummyList.map(({ id, todo }, index) => (
+          <div
+            key={index}
+            id={`diory-${id}`}
+            style={{ cursor: "pointer" }}
+            onClick={() =>
+              alert(`You clicked dummy-diory (id: ${id}): ${todo}`)
+            }
+          >
+            {todo}
+          </div>
+        ))}
+      </div>
     </div>
   );
 };

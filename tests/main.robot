@@ -30,6 +30,11 @@ Test Sign up and Make API Request
     Sleep  1
     Click    css=button[data-test-id="signInOrUpSubmit"]
     Click    css=button[data-test-id="makeApiRequest"]
+    ${dioryText}=  Get Text   css=div#diory-1
+    Should Be Equal  ${dioryText}  Do something nice for someone you care about
+    ${count}=    Get Element Count    css=div[data-test-id=diory-list] > *
+    Should Be Equal As Numbers    ${count}    30
+
     Close Browser
 
 Test Sign up and User Not Confirmed
