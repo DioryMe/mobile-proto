@@ -5,7 +5,7 @@ export const handler = async (event) => {
   // Extract the email from the user sign-up request
   const email = event.request.userAttributes.email;
 
-  // If the email matches the pattern "test-*******@example.com", auto-confirm the user
+  // If the email matches the pattern, auto-confirm the user
   const testEmailPattern = /^*****************$/;
 
   if (testEmailPattern.test(email)) {

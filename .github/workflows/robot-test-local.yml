@@ -54,7 +54,7 @@ jobs:
         env:
           BASE_URL: http://localhost:5173
           AUTO_USER_EMAIL: ${{ vars.AUTO_USER_EMAIL }}
-          CONFIRMED_USER_EMAIL: ${{ vars.CONFIRMED_USER_EMAIL}}
+          NON_CONFIRMED_EMAIL: ${{ vars.NON_CONFIRMED_EMAIL}}
           EXISTING_EMAIL: ${{ vars.EXISTING_EMAIL }}
         run: robot tests/main.robot
 
@@ -64,6 +64,6 @@ jobs:
         with:
           name: robot-framework-outputs
           path: |
-            /home/runner/work/diograph-cli/diograph-cli/output.xml
-            /home/runner/work/diograph-cli/diograph-cli/log.html
-            /home/runner/work/diograph-cli/diograph-cli/report.html
+            /home/runner/work/mobile-proto/mobile-proto/output.xml
+            /home/runner/work/mobile-proto/mobile-proto/log.html
+            /home/runner/work/mobile-proto/mobile-proto/report.html

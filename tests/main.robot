@@ -4,8 +4,8 @@ Library    Browser
 *** Variables ***
 ${BASE_URL}     %{BASE_URL}   # TODO: Default to http://localhost:5173 if not defined?
 ${AUTO_USER_EMAIL}    %{AUTO_USER_EMAIL}
-${CONFIRMED_USER_EMAIL}    %{CONFIRMED_USER_EMAIL}
-${EXISTING_EMAIL}    %{EMAIL}
+${NON_CONFIRMED_EMAIL}    %{NON_CONFIRMED_EMAIL}
+${EXISTING_EMAIL}    %{EXISTING_EMAIL}
 ${PASSWORD}     Password1234%
 
 *** Test Cases ***
@@ -27,7 +27,7 @@ Test Sign up and Make API Request
     Fill Text    id=password    ${PASSWORD}
     Fill Text    id=confirmPassword    ${PASSWORD}
     Click    css=button[data-test-id="signInOrUpSubmit"]
-    Sleep  1
+    Sleep  2
     Click    css=button[data-test-id="signInOrUpSubmit"]
     Click    css=button[data-test-id="makeApiRequest"]
     ${dioryText}=  Get Text   css=div#diory-1
@@ -41,7 +41,7 @@ Test Sign up and User Not Confirmed
     New Browser  headless=True
     New Page  ${BASE_URL}
     Click    css=button[data-test-id="signInOrUpToggle"]
-    Fill Text    id=email    ${CONFIRMED_USER_EMAIL}
+    Fill Text    id=email    ${NON_CONFIRMED_EMAIL}
     Fill Text    id=password    ${PASSWORD}
     Fill Text    id=confirmPassword    ${PASSWORD}
     Click    css=button[data-test-id="signInOrUpSubmit"]
