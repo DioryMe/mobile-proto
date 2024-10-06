@@ -53,6 +53,9 @@ jobs:
       - name: Run Robot Framework tests
         env:
           BASE_URL: http://localhost:5173
+          AUTO_USER_EMAIL: ${{ vars.AUTO_USER_EMAIL }}
+          CONFIRMED_USER_EMAIL: ${{ vars.CONFIRMED_USER_EMAIL}}
+          EXISTING_EMAIL: ${{ vars.EXISTING_EMAIL }}
         run: robot tests/main.robot
 
       - name: Upload test artifacts
