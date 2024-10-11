@@ -19,8 +19,9 @@ const LoginPage = () => {
       if (session && typeof session.AccessToken !== "undefined") {
         sessionStorage.setItem("accessToken", session.AccessToken);
         if (sessionStorage.getItem("accessToken")) {
-          window.location.href = import.meta.env.VITE_CALLBACK_URL;
-          // window.location.href = `${import.meta.env.VITE_CALLBACK_URL}?token=${session.IdToken}`;
+          window.location.href = `${import.meta.env.VITE_CALLBACK_URL}?token=${
+            session.IdToken
+          }`;
         } else {
           console.error("Session token was not set properly.");
         }
