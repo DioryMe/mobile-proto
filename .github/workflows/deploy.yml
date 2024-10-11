@@ -6,7 +6,7 @@ on:
 jobs:
   prod_robot_tests:
     runs-on: ubuntu-latest
-    environment: local
+    environment: production
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
