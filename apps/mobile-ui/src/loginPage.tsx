@@ -9,7 +9,7 @@ const LoginPage = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [isSignUp, setIsSignUp] = useState(false);
-  const [errorMessage, setErrorMessage] = useState(null);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const handleSignIn = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
@@ -48,7 +48,7 @@ const LoginPage = () => {
     }
   };
 
-  const handleSignInOrSignUpToggle = (isSignUp) => {
+  const handleSignInOrSignUpToggle = (isSignUp: boolean) => {
     setIsSignUp(isSignUp);
     setErrorMessage(null);
   };

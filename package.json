@@ -1,28 +1,22 @@
 {
-  "name": "diograph-fetch-assets",
-  "description": "Test project for using @diograph libraries in browser based environment",
+  "name": "mobile-proto-monorepo",
   "private": true,
-  "version": "0.0.1",
-  "type": "module",
+  "version": "0.1.0",
+  "workspaces": [
+    "apps/*",
+    "packages/*",
+    "infra"
+  ],
   "scripts": {
-    "dev": "vite",
-    "build": "tsc && vite build",
-    "preview": "vite preview",
-    "pre-deploy": "yarn build && cp dist/index.html dist/200.html",
-    "deploy": "yarn pre-deploy && surge dist materialistic-insect.surge.sh"
-  },
-  "dependencies": {
-    "@aws-sdk/client-cognito-identity-provider": "^3.533.0",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-router-dom": "^6.22.3"
+    "start:all": "concurrently \"yarn start:mobile-ui\" \"yarn start:mobile-server\"",
+    "start:mobile-ui": "yarn workspace mobile-ui dev",
+    "start:mobile-server": "yarn workspace mobile-server start",
+    "deploy:infra": "yarn workspace infra cdk deploy",
+    "test:all": "yarn workspaces run test",
+    "lint:all": "yarn workspaces run lint",
+    "test:robot": "./tests/robot main.robot"
   },
   "devDependencies": {
-    "@types/react": "^18.2.64",
-    "@types/react-dom": "^18.2.21",
-    "@types/react-router-dom": "^5.3.3",
-    "@vitejs/plugin-react": "^4.2.1",
-    "typescript": "^5.2.2",
-    "vite": "^5.1.6"
+    "concurrently": "^7.0.0"
   }
 }

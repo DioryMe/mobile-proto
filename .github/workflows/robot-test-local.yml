@@ -44,7 +44,7 @@ jobs:
           VITE_AWS_COGNITO_CLIENT_ID: ${{ vars.VITE_AWS_COGNITO_CLIENT_ID }}
           VITE_CALLBACK_URL: ${{ vars.VITE_CALLBACK_URL }}
           BASE_URL: ${{ vars.BASE_URL }}
-        run: yarn dev &
+        run: yarn workspace mobile-ui dev &
 
       - name: Wait for the server to be ready
         run: |

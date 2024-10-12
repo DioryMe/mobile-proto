@@ -16,13 +16,15 @@ jobs:
         with:
           node-version-file: ".nvmrc"
 
-      - name: Install packages + pre-deploy
+      - name: Install packages
+        run: yarn
+      - name: Pre-deploy mobile-ui
         env:
           VITE_AWS_REGION: ${{ vars.VITE_AWS_REGION }}
           VITE_AWS_COGNITO_USER_POOL_ID: ${{ vars.VITE_AWS_COGNITO_USER_POOL_ID }}
           VITE_AWS_COGNITO_CLIENT_ID: ${{ vars.VITE_AWS_COGNITO_CLIENT_ID }}
           VITE_CALLBACK_URL: ${{ vars.VITE_CALLBACK_URL }}
-        run: yarn && yarn pre-deploy
+        run: yarn workspace mobile-ui pre-deploy
 
       - name: Install surge
         run: yarn global add surge
@@ -31,7 +33,7 @@ jobs:
         env:
           BASE_URL: http://materialistic-insect.surge.sh
           SURGE_DEPLOY_TOKEN: ${{ secrets.SURGE_DEPLOY_TOKEN }}
-        run: surge ./dist --domain http://materialistic-insect.surge.sh --token $SURGE_DEPLOY_TOKEN
+        run: surge ./apps/mobile-ui/dist --domain http://materialistic-insect.surge.sh --token $SURGE_DEPLOY_TOKEN
 
       - name: Set up Python
         uses: actions/setup-python@v5

@@ -31,3 +31,4 @@ tests/output.xml
 tests/playwright-log.txt
 tests/report.html
 
+.vite

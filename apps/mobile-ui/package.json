@@ -1,0 +1,28 @@
+{
+  "name": "mobile-ui",
+  "description": "Mobile proto",
+  "private": true,
+  "version": "0.0.1",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "pre-deploy": "yarn build && cp dist/index.html dist/200.html",
+    "deploy": "yarn pre-deploy && surge dist materialistic-insect.surge.sh"
+  },
+  "dependencies": {
+    "@aws-sdk/client-cognito-identity-provider": "^3.533.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.22.3"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.64",
+    "@types/react-dom": "^18.2.21",
+    "@types/react-router-dom": "^5.3.3",
+    "@vitejs/plugin-react": "^4.2.1",
+    "typescript": "^5.2.2",
+    "vite": "^5.1.6"
+  }
+}
