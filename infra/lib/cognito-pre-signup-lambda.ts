@@ -1,12 +1,9 @@
-// Code executed in lambda when users sign up
-// - Pre sign-up Lambda trigger
-
-export const handler = async (event) => {
+export const handler = async (event: any) => {
   // Extract the email from the user sign-up request
   const email = event.request.userAttributes.email;
 
   // If the email matches the pattern, auto-confirm the user
-  const testEmailPattern = /^*****************$/;
+  const testEmailPattern = /^test$/;
 
   if (testEmailPattern.test(email)) {
     event.response.autoConfirmUser = true; // Automatically confirm the user
