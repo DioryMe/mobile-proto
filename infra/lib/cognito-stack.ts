@@ -1,3 +1,16 @@
+/*
+
+Mobile proto is still part of naming (user pool & user pool client names)
+=> should use `id` in naming instead of CognitoStack (e.g. MobileProtoUserPool)
+=> better naming conventions would be welcome too...
+
+For Robot tests two emails are needed:
+- existing-user@example.com
+- testemail@example.com
+=> maybe not worth it to make these automatic...
+
+*/
+
 import * as cdk from "aws-cdk-lib";
 import { Construct } from "constructs";
 import * as cognito from "aws-cdk-lib/aws-cognito";
