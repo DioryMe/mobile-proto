@@ -9,7 +9,7 @@ export class CognitoStack extends cdk.Stack {
     super(scope, id, props);
 
     // User Pool
-    const userPool = new cognito.UserPool(this, "MobileProtoUserPool", {
+    const userPool = new cognito.UserPool(this, "CognitoStackUserPool", {
       userPoolName: "mobile-proto-user-pool",
       selfSignUpEnabled: true,
       signInAliases: { email: true },
@@ -18,7 +18,7 @@ export class CognitoStack extends cdk.Stack {
     // App Client for Mobile Proto Frontend
     const userPoolClient = new cognito.UserPoolClient(
       this,
-      "MobileProtoFrontendClient",
+      "CognitoStackFrontendClient",
       {
         userPool,
         userPoolClientName: "mobile-proto-frontend",
@@ -33,7 +33,7 @@ export class CognitoStack extends cdk.Stack {
     // Identity Pool
     const identityPool = new cognito.CfnIdentityPool(
       this,
-      "MobileProtoIdentityPool",
+      "CognitoStackIdentityPool",
       {
         allowUnauthenticatedIdentities: false,
         cognitoIdentityProviders: [
@@ -48,7 +48,7 @@ export class CognitoStack extends cdk.Stack {
     // Lambda Role
     const lambdaRole = new iam.Role(
       this,
-      "MobileProtoPreSignUpLambdaExecutionRole",
+      "CognitoStackPreSignUpLambdaExecutionRole",
       {
         assumedBy: new iam.ServicePrincipal("lambda.amazonaws.com"),
         managedPolicies: [
@@ -62,7 +62,7 @@ export class CognitoStack extends cdk.Stack {
     // Pre-Signup Lambda Function
     const preSignUpLambda = new lambda.Function(
       this,
-      "MobileProtoPreSignUpLambda",
+      "CognitoStackPreSignUpLambda",
       {
         runtime: lambda.Runtime.NODEJS_20_X,
         handler: "index.handler",
@@ -74,10 +74,10 @@ export class CognitoStack extends cdk.Stack {
     // Attach Lambda as Pre-Signup Trigger
     userPool.addTrigger(cognito.UserPoolOperation.PRE_SIGN_UP, preSignUpLambda);
 
-    // IAM Policy: MobileProtoPersonalS3
-    const mobileProtoPersonalS3Policy = new iam.ManagedPolicy(
+    // IAM Policy: CognitoStackPersonalS3
+    const cognitoStackPersonalS3Policy = new iam.ManagedPolicy(
       this,
-      "MobileProtoPersonalS3Policy",
+      "CognitoStackPersonalS3Policy",
       {
         statements: [
           new iam.PolicyStatement({
@@ -93,10 +93,10 @@ export class CognitoStack extends cdk.Stack {
       }
     );
 
-    // IAM Policy: MobileProtoGetAWSCredentials
-    const mobileProtoGetAWSCredentialsPolicy = new iam.ManagedPolicy(
+    // IAM Policy: CognitoStackGetAWSCredentials
+    const cognitoStackGetAWSCredentialsPolicy = new iam.ManagedPolicy(
       this,
-      "MobileProtoGetAWSCredentialsPolicy",
+      "CognitoStackGetAWSCredentialsPolicy",
       {
         statements: [
           new iam.PolicyStatement({
@@ -118,7 +118,7 @@ export class CognitoStack extends cdk.Stack {
     );
 
     // IAM Role for Authenticated Cognito Users
-    const authenticatedRole = new iam.Role(this, "MobileProtoCommonUser", {
+    const authenticatedRole = new iam.Role(this, "CognitoStackCommonUser", {
       assumedBy: new iam.FederatedPrincipal(
         "cognito-identity.amazonaws.com",
         {
@@ -132,9 +132,9 @@ export class CognitoStack extends cdk.Stack {
         "sts:AssumeRoleWithWebIdentity"
       ),
       inlinePolicies: {
-        MobileProtoPersonalS3Policy: mobileProtoPersonalS3Policy.document,
-        MobileProtoGetAWSCredentialsPolicy:
-          mobileProtoGetAWSCredentialsPolicy.document,
+        CognitoStackPersonalS3Policy: cognitoStackPersonalS3Policy.document,
+        CognitoStackGetAWSCredentialsPolicy:
+          cognitoStackGetAWSCredentialsPolicy.document,
       },
     });
 
