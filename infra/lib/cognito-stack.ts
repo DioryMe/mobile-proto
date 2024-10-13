@@ -66,22 +66,7 @@ export class CognitoStack extends cdk.Stack {
       {
         runtime: lambda.Runtime.NODEJS_20_X,
         handler: "index.handler",
-        code: lambda.Code.fromInline(`
-        export const handler = async (event) => {
-          // Extract the email from the user sign-up request
-          const email = event.request.userAttributes.email;
-
-          // If the email matches the pattern, auto-confirm the user
-          const testEmailPattern = /^test$/;
-
-          if (testEmailPattern.test(email)) {
-            event.response.autoConfirmUser = true; // Automatically confirm the user
-            event.response.autoVerifyEmail = true; // Automatically verify the user's email
-          }
-
-          // Return the modified event
-          return event;
-        };`),
+        code: lambda.Code.fromAsset("pre-signup-lambda"),
         role: lambdaRole,
       }
     );
