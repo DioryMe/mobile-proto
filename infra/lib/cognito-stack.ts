@@ -9,47 +9,131 @@ export class CognitoStack extends cdk.Stack {
     super(scope, id, props);
 
     // User Pool
-    const userPool = new cognito.UserPool(this, "MyUserPool", {
-      userPoolName: "my-user-pool",
+    const userPool = new cognito.UserPool(this, "MobileProtoUserPool", {
+      userPoolName: "mobile-proto-user-pool",
       selfSignUpEnabled: true,
       signInAliases: { email: true },
-      autoVerify: { email: true },
     });
+
+    // App Client for Mobile Proto Frontend
+    const userPoolClient = new cognito.UserPoolClient(
+      this,
+      "MobileProtoFrontendClient",
+      {
+        userPool,
+        userPoolClientName: "mobile-proto-frontend",
+        authFlows: {
+          custom: true,
+          userPassword: true,
+          userSrp: true,
+        },
+      }
+    );
 
     // Identity Pool
-    const identityPool = new cognito.CfnIdentityPool(this, "MyIdentityPool", {
-      allowUnauthenticatedIdentities: false,
-      cognitoIdentityProviders: [
-        {
-          clientId: userPool.userPoolId,
-          providerName: userPool.userPoolProviderName,
-        },
-      ],
-    });
+    const identityPool = new cognito.CfnIdentityPool(
+      this,
+      "MobileProtoIdentityPool",
+      {
+        allowUnauthenticatedIdentities: false,
+        cognitoIdentityProviders: [
+          {
+            clientId: userPoolClient.userPoolClientId,
+            providerName: userPool.userPoolProviderName,
+          },
+        ],
+      }
+    );
 
     // Lambda Role
-    const lambdaRole = new iam.Role(this, "LambdaExecutionRole", {
-      assumedBy: new iam.ServicePrincipal("lambda.amazonaws.com"),
-      managedPolicies: [
-        iam.ManagedPolicy.fromAwsManagedPolicyName(
-          "service-role/AWSLambdaBasicExecutionRole"
-        ),
-      ],
-    });
+    const lambdaRole = new iam.Role(
+      this,
+      "MobileProtoPreSignUpLambdaExecutionRole",
+      {
+        assumedBy: new iam.ServicePrincipal("lambda.amazonaws.com"),
+        managedPolicies: [
+          iam.ManagedPolicy.fromAwsManagedPolicyName(
+            "service-role/AWSLambdaBasicExecutionRole"
+          ),
+        ],
+      }
+    );
 
     // Pre-Signup Lambda Function
-    // const preSignUpLambda = new lambda.Function(this, "PreSignUpLambda", {
-    //   runtime: lambda.Runtime.NODEJS_20_X,
-    //   handler: "index.handler",
-    //   code: lambda.Code.fromAsset("cognito-pre-signup-lambda"),
-    //   role: lambdaRole,
-    // });
+    const preSignUpLambda = new lambda.Function(
+      this,
+      "MobileProtoPreSignUpLambda",
+      {
+        runtime: lambda.Runtime.NODEJS_20_X,
+        handler: "index.handler",
+        code: lambda.Code.fromInline(`
+        export const handler = async (event) => {
+          // Extract the email from the user sign-up request
+          const email = event.request.userAttributes.email;
+
+          // If the email matches the pattern, auto-confirm the user
+          const testEmailPattern = /^test$/;
+
+          if (testEmailPattern.test(email)) {
+            event.response.autoConfirmUser = true; // Automatically confirm the user
+            event.response.autoVerifyEmail = true; // Automatically verify the user's email
+          }
+
+          // Return the modified event
+          return event;
+        };`),
+        role: lambdaRole,
+      }
+    );
 
     // Attach Lambda as Pre-Signup Trigger
-    // userPool.addTrigger(cognito.UserPoolOperation.PRE_SIGN_UP, preSignUpLambda);
+    userPool.addTrigger(cognito.UserPoolOperation.PRE_SIGN_UP, preSignUpLambda);
+
+    // IAM Policy: MobileProtoPersonalS3
+    const mobileProtoPersonalS3Policy = new iam.ManagedPolicy(
+      this,
+      "MobileProtoPersonalS3Policy",
+      {
+        statements: [
+          new iam.PolicyStatement({
+            effect: iam.Effect.ALLOW,
+            actions: ["s3:GetObject", "s3:ListBucket", "s3:PutObject"],
+            resources: [
+              // `arn:aws:s3:::diory-mobile-proto/\${cognito-identity.amazonaws.com:sub}/*`,
+              "arn:aws:s3:::diory-mobile-proto/*",
+              "arn:aws:s3:::diory-mobile-proto",
+            ],
+          }),
+        ],
+      }
+    );
+
+    // IAM Policy: MobileProtoGetAWSCredentials
+    const mobileProtoGetAWSCredentialsPolicy = new iam.ManagedPolicy(
+      this,
+      "MobileProtoGetAWSCredentialsPolicy",
+      {
+        statements: [
+          new iam.PolicyStatement({
+            effect: iam.Effect.ALLOW,
+            actions: ["cognito-identity:GetCredentialsForIdentity"],
+            resources: [
+              cdk.Arn.format(
+                {
+                  service: "cognito-identity",
+                  resource: "identitypool",
+                  resourceName: identityPool.ref,
+                },
+                this
+              ),
+            ],
+          }),
+        ],
+      }
+    );
 
     // IAM Role for Authenticated Cognito Users
-    const authenticatedRole = new iam.Role(this, "CognitoAuthenticatedRole", {
+    const authenticatedRole = new iam.Role(this, "MobileProtoCommonUser", {
       assumedBy: new iam.FederatedPrincipal(
         "cognito-identity.amazonaws.com",
         {
@@ -62,9 +146,11 @@ export class CognitoStack extends cdk.Stack {
         },
         "sts:AssumeRoleWithWebIdentity"
       ),
-      managedPolicies: [
-        iam.ManagedPolicy.fromAwsManagedPolicyName("AmazonS3ReadOnlyAccess"),
-      ],
+      inlinePolicies: {
+        MobileProtoPersonalS3Policy: mobileProtoPersonalS3Policy.document,
+        MobileProtoGetAWSCredentialsPolicy:
+          mobileProtoGetAWSCredentialsPolicy.document,
+      },
     });
 
     // Attach Authenticated Role to Identity Pool
@@ -78,5 +164,21 @@ export class CognitoStack extends cdk.Stack {
         },
       }
     );
+
+    // Export user pool ID, app client ID, and region as stack outputs
+    new cdk.CfnOutput(this, "UserPoolIdOutput", {
+      value: userPool.userPoolId,
+      exportName: "UserPoolId",
+    });
+
+    new cdk.CfnOutput(this, "UserPoolClientIdOutput", {
+      value: userPoolClient.userPoolClientId,
+      exportName: "UserPoolClientId",
+    });
+
+    new cdk.CfnOutput(this, "RegionOutput", {
+      value: this.region,
+      exportName: "AppRegion",
+    });
   }
 }
