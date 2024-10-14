@@ -35,6 +35,13 @@ jobs:
           SURGE_DEPLOY_TOKEN: ${{ secrets.SURGE_DEPLOY_TOKEN }}
         run: surge ./apps/mobile-ui/dist --domain http://materialistic-insect.surge.sh --token $SURGE_DEPLOY_TOKEN
 
+      # - name: Deploy to Heroku
+      #   env:
+      #     HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+      #   run: |
+      #     git remote add heroku https://git.heroku.com/${{ secrets.HEROKU_APP_NAME }}.git
+      #     git subtree push --prefix apps/mobile-server heroku main --force
+
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
