@@ -163,7 +163,12 @@ export class CognitoStack extends cdk.Stack {
       }
     );
 
-    // Export user pool ID, app client ID, and region as stack outputs
+    // Export as stack outputs
+    new cdk.CfnOutput(this, "IdentityPoolIdOutput", {
+      value: identityPool.ref,
+      exportName: "IdentityPoolId",
+    });
+
     new cdk.CfnOutput(this, "UserPoolIdOutput", {
       value: userPool.userPoolId,
       exportName: "UserPoolId",
