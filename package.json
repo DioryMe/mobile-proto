@@ -8,9 +8,13 @@
     "infra"
   ],
   "scripts": {
-    "start:all": "concurrently \"yarn start:mobile-ui\" \"yarn start:mobile-server\"",
-    "start:mobile-ui": "yarn workspace mobile-ui dev",
+    "start:all": "concurrently \"yarn start:mobile-ui\" \"yarn start:mobile-server\" \"yarn start:redis\"",
+    "start:dev:all": "concurrently \"yarn start:dev:mobile-ui\" \"yarn start:dev:mobile-server\" \"yarn start:redis\"",
+    "start:mobile-ui": "yarn workspace mobile-ui preview",
+    "start:dev:mobile-ui": "yarn workspace mobile-ui dev",
     "start:mobile-server": "yarn workspace mobile-server start",
+    "start:dev:mobile-server": "yarn workspace mobile-server start:dev",
+    "start:redis": "docker run --rm --name redis-local -p 6379:6379 redis",
     "deploy:infra": "yarn workspace infra cdk deploy",
     "test:all": "yarn workspaces run test",
     "lint:all": "yarn workspaces run lint",
