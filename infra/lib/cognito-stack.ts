@@ -95,11 +95,19 @@ export class CognitoStack extends cdk.Stack {
         statements: [
           new iam.PolicyStatement({
             effect: iam.Effect.ALLOW,
-            actions: ["s3:GetObject", "s3:ListBucket", "s3:PutObject"],
+            actions: ["s3:ListBucket"],
+            resources: ["arn:aws:s3:::diory-mobile-proto"],
+            conditions: {
+              StringLike: {
+                "s3:prefix": [`\${cognito-identity.amazonaws.com:sub}/*`],
+              },
+            },
+          }),
+          new iam.PolicyStatement({
+            effect: iam.Effect.ALLOW,
+            actions: ["s3:GetObject", "s3:PutObject"],
             resources: [
-              // `arn:aws:s3:::diory-mobile-proto/\${cognito-identity.amazonaws.com:sub}/*`,
-              "arn:aws:s3:::diory-mobile-proto/*",
-              "arn:aws:s3:::diory-mobile-proto",
+              `arn:aws:s3:::diory-mobile-proto/\${cognito-identity.amazonaws.com:sub}/*`,
             ],
           }),
         ],
