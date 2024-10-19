@@ -97,17 +97,22 @@ export class CognitoStack extends cdk.Stack {
             effect: iam.Effect.ALLOW,
             actions: ["s3:ListBucket"],
             resources: ["arn:aws:s3:::diory-mobile-proto"],
-            conditions: {
-              StringLike: {
-                "s3:prefix": [`\${cognito-identity.amazonaws.com:sub}/*`],
-              },
-            },
+            // TODO: Restrict access to user's own folder
+            // conditions: {
+            //   StringLike: {
+            //     "s3:prefix": ["${cognito-identity.amazonaws.com:sub}/*"],
+            //     "s3:prefix": ["a09cf90c-c011-70db-90a1-ece51abba9a4"], // This hardcoded version works though...
+            //   },
+            // },
           }),
           new iam.PolicyStatement({
             effect: iam.Effect.ALLOW,
             actions: ["s3:GetObject", "s3:PutObject"],
             resources: [
-              `arn:aws:s3:::diory-mobile-proto/\${cognito-identity.amazonaws.com:sub}/*`,
+              "arn:aws:s3:::diory-mobile-proto/*",
+              // TODO: Restrict access to user's own folder
+              // "arn:aws:s3:::diory-mobile-proto/${cognito-identity.amazonaws.com:sub}/*",
+              // "arn:aws:s3:::diory-mobile-proto/a09cf90c-c011-70db-90a1-ece51abba9a4/*", // This hardcoded version works though...
             ],
           }),
         ],
