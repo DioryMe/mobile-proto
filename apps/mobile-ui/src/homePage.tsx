@@ -4,17 +4,62 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+interface DioryLink {
+  id: string;
+  path: string;
+}
+
+interface Diory {
+  text?: string;
+  image?: string;
+  links?: DioryLink[];
+  created?: string;
+  modified?: string;
+  id: string;
+  data?: Array<{
+    "@context": string;
+    "@type": string;
+    contentUrl: string;
+    height?: number;
+    width?: number;
+    encodingFormat: string;
+  }>;
+}
+
+interface DiographType {
+  [key: string]: Diory;
+}
+
 const HomePage = () => {
-  const [dummyList, setDummyList] = useState([]);
+  const [diograph, setDiograph] = useState<DiographType>({});
 
   const navigate = useNavigate();
 
   const handleApiRequest = async () => {
     try {
-      const response = await fetch("https://dummyjson.com/todos", {
-        // credentials: "include",
-      });
-      setDummyList((await response.json()).todos);
+      const accessToken = sessionStorage.getItem("accessToken");
+      const idToken = sessionStorage.getItem("idToken");
+
+      if (!accessToken || !idToken) {
+        throw new Error("No tokens found");
+      }
+
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/room/diograph`,
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            "X-Id-Token": idToken,
+          },
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(`API request failed: ${response.statusText}`);
+      }
+
+      const data = await response.json();
+      setDiograph(data);
     } catch (error) {
       console.error("API request failed:", error);
     }
@@ -35,16 +80,16 @@ const HomePage = () => {
         Logout
       </button>
       <div data-test-id="diory-list">
-        {dummyList.map(({ id, todo }, index) => (
+        {Object.entries(diograph).map(([id, diory]) => (
           <div
-            key={index}
+            key={id}
             id={`diory-${id}`}
             style={{ cursor: "pointer" }}
             onClick={() =>
-              alert(`You clicked dummy-diory (id: ${id}): ${todo}`)
+              alert(`You clicked diory (id: ${id}): ${diory.text || "No text"}`)
             }
           >
-            {todo}
+            {diory.text || id}
           </div>
         ))}
       </div>
