@@ -45,13 +45,14 @@ const HomePage = () => {
       }
 
       const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/room/diograph`,
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-            "X-Id-Token": idToken,
-          },
-        }
+        `/diograph.json`
+        // `${import.meta.env.VITE_API_URL}/room/diograph`,
+        // {
+        //   headers: {
+        //     Authorization: `Bearer ${accessToken}`,
+        //     "X-Id-Token": idToken,
+        //   },
+        // }
       );
 
       if (!response.ok) {
