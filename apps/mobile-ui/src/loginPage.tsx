@@ -14,19 +14,9 @@ const LoginPage = () => {
   const handleSignIn = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
     try {
-      const session = await signIn(email, password);
-      console.log("Sign in successful", session);
-      if (session && typeof session.AccessToken !== "undefined") {
-        sessionStorage.setItem("accessToken", session.AccessToken);
-        if (sessionStorage.getItem("accessToken")) {
-          window.location.href = `${import.meta.env.VITE_CALLBACK_URL}?token=${
-            session.IdToken
-          }`;
-        } else {
-          console.error("Session token was not set properly.");
-        }
-      } else {
-        console.error("SignIn session or AccessToken is undefined.");
+      const authResult = await signIn(email, password);
+      if (authResult) {
+        window.location.href = "/home";
       }
     } catch (error) {
       setErrorMessage(`Sign in failed: ${error}`);
