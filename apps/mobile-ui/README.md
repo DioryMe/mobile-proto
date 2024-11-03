@@ -14,7 +14,7 @@ yarn dev
 Create .env (=dev) and .env.production (=deploy) files.
 
 ```
-VITE_CALLBACK_URL=
+VITE_API_URL=
 
 VITE_AWS_REGION=
 VITE_AWS_COGNITO_USER_POOL_ID=
