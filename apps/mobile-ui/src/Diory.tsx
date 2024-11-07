@@ -28,28 +28,41 @@ const Diory = ({ dioryId, setDioryId, diograph }: DioryProps) => {
     <div
       style={{
         border: "1px solid #ddd",
-        padding: "10px",
+        padding: "20px",
         margin: "10px",
         borderRadius: "8px",
         textAlign: "center" as const,
+        backgroundImage: dioryData.image ? `url(${dioryData.image})` : "none",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        minHeight: "200px",
+        position: "relative",
       }}
     >
       {/* Main content */}
-      <div style={{ marginBottom: "10px" }}>
-        {dioryData.image && (
-          <img
-            src={dioryData.image}
-            alt={dioryData.text}
-            style={{
-              width: "50px",
-              height: "50px",
-              objectFit: "cover" as const,
-              borderRadius: "50%",
-            }}
-          />
-        )}
+      <div
+        style={{
+          marginBottom: "10px",
+          position: "relative",
+          zIndex: 1,
+          color: "white",
+          textShadow: "2px 2px 4px rgba(0,0,0,0.5)",
+        }}
+      >
         <h3>{dioryData.text}</h3>
       </div>
+
+      {/* Add a semi-transparent overlay to ensure text readability */}
+      <div
+        style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          borderRadius: "8px",
+        }}
+      />
 
       {/* Links */}
       <div
@@ -58,11 +71,51 @@ const Diory = ({ dioryId, setDioryId, diograph }: DioryProps) => {
           justifyContent: "center",
           gap: "10px",
           flexWrap: "wrap" as const,
+          position: "relative",
+          zIndex: 1,
         }}
       >
         {dioryData.links?.map((link) => (
-          <button key={link.id} onClick={() => setDioryId(link.id)}>
-            {diograph[link.id].text}
+          <button
+            key={link.id}
+            onClick={() => setDioryId(link.id)}
+            style={{
+              backgroundImage: diograph[link.id].image
+                ? `url(${diograph[link.id].image})`
+                : "none",
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+              backgroundColor: "rgba(255,255,255,0.9)",
+              padding: "5px 10px",
+              border: "none",
+              borderRadius: "4px",
+              cursor: "pointer",
+              minWidth: "100px",
+              minHeight: "50px",
+              position: "relative",
+            }}
+          >
+            <div
+              style={{
+                position: "absolute",
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                backgroundColor: "rgba(0,0,0,0.3)",
+                borderRadius: "4px",
+              }}
+            />
+            <span
+              style={{
+                position: "relative",
+                zIndex: 1,
+                color: "white",
+                textShadow: "1px 1px 2px rgba(0,0,0,0.5)",
+              }}
+            >
+              {diograph[link.id].text}
+            </span>
           </button>
         ))}
       </div>
