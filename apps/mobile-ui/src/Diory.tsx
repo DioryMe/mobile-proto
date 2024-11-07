@@ -73,6 +73,7 @@ const Diory = ({ dioryId, setDioryId, diograph }: DioryProps) => {
           flexWrap: "wrap" as const,
           position: "relative",
           zIndex: 1,
+          minWidth: "300px",
         }}
       >
         {dioryData.links?.map((link) => (
