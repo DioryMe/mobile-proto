@@ -3,6 +3,7 @@
 
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import DioryGrid from "./DioryGrid";
 
 interface DioryLink {
   id: string;
@@ -80,20 +81,7 @@ const HomePage = () => {
       <button data-test-id="logout" onClick={handleLogout}>
         Logout
       </button>
-      <div data-test-id="diory-list">
-        {Object.entries(diograph).map(([id, diory]) => (
-          <div
-            key={id}
-            id={`diory-${id}`}
-            style={{ cursor: "pointer" }}
-            onClick={() =>
-              alert(`You clicked diory (id: ${id}): ${diory.text || "No text"}`)
-            }
-          >
-            {diory.text || id}
-          </div>
-        ))}
-      </div>
+      <DioryGrid />
     </div>
   );
 };
