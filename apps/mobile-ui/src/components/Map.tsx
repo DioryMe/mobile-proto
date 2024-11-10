@@ -1,13 +1,13 @@
-import { useNavigate } from "react-router-dom";
 import NavBar from "./NavBar";
 const Map = () => {
-  const navigate = useNavigate();
-
   return (
     <div>
       <NavBar />
       <h2>Map</h2>
-      {/* Add your Map content here */}
+      <ol>
+        <li>Show list of diories which have latlng</li>
+        <li>Visualise them somehow + provide links to show on DioryGrid</li>
+      </ol>
     </div>
   );
 };
