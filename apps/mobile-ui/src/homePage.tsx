@@ -1,8 +1,9 @@
 // Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
 // SPDX-License-Identifier: Apache-2.0
 
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+
 import NavBar from "./components/NavBar";
 
 interface DioryLink {

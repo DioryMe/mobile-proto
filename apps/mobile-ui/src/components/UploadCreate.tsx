@@ -1,14 +1,21 @@
-import { useNavigate } from "react-router-dom";
 import NavBar from "./NavBar";
 
 const UploadCreate = () => {
-  const navigate = useNavigate();
-
   return (
     <div>
       <NavBar />
       <h2>Upload & Create</h2>
-      {/* Add your UploadCreate content here */}
+      <ul>
+        <li>
+          Create diory linked to diory in focus
+          <ul>
+            <li>Checkbox to create without linking</li>
+          </ul>
+        </li>
+        <li></li>
+        <li>Upload image or drag&drop file (triggers file-generator)</li>
+        <li></li>
+      </ul>
     </div>
   );
 };

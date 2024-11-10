@@ -1,13 +1,13 @@
-import { useNavigate } from "react-router-dom";
 import NavBar from "./NavBar";
 const Timeline = () => {
-  const navigate = useNavigate();
-
   return (
     <div>
       <NavBar />
       <h2>Timeline</h2>
-      {/* Add your Timeline content here */}
+      <ol>
+        <li>Show list of diories which have dates</li>
+        <li>Visualise them somehow + provide links to show on DioryGrid</li>
+      </ol>
     </div>
   );
 };
