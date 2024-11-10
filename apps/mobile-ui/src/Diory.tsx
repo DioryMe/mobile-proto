@@ -10,12 +10,6 @@ export interface DioryData {
   id: string;
 }
 
-export interface DioryProps {
-  dioryId: string;
-  setDioryId: (id: string) => void;
-  diograph: { [key: string]: DioryData };
-}
-
 const Diory = () => {
   const { dioryId, setDioryId, diograph } = useRoomContext();
 

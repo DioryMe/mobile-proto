@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
-import Diory, { DioryData } from "./Diory";
-import { ParentDioryLink } from "./ParentDioryLink";
-import { NavigationButton } from "./NavigationButton";
-import { useRoomContext } from "./contexts/RoomContext";
+import Diory, { DioryData } from "../Diory";
+import { ParentDioryLink } from "../ParentDioryLink";
+import { NavigationButton } from "../NavigationButton";
+import { useRoomContext } from "../contexts/RoomContext";
+import { useNavigate } from "react-router-dom";
 
 function DioryGrid() {
+  const navigate = useNavigate();
   const { diograph, dioryId } = useRoomContext();
   const [parentId, setParentId] = useState<string>("");
   const [parentDiories, setParentDiories] = useState<[string, DioryData][]>([]);
@@ -24,6 +26,8 @@ function DioryGrid() {
 
   return (
     <div>
+      <button onClick={() => navigate("/")}>Back to Home</button>
+
       <h1>Diory Viewer</h1>
       {dioryId !== "/" && (
         <ParentDioryLink
