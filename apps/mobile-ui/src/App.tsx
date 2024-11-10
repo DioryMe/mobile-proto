@@ -9,8 +9,8 @@ import {
 } from "react-router-dom";
 import HomePage from "./homePage";
 import DioryGrid from "./components/DioryGrid";
-import NewRoom from "./components/NewRoom";
-import Copy from "./components/Copy";
+import RoomAdmin from "./components/RoomAdmin";
+import Copy from "./components/CopyLink";
 import UploadCreate from "./components/UploadCreate";
 import Search from "./components/Search";
 import Timeline from "./components/Timeline";
@@ -41,7 +41,7 @@ const App = () => {
           />
           <Route path="/home" element={<HomePage />} />
           <Route path="/diory-grid" element={<DioryGrid />} />
-          <Route path="/new-room" element={<NewRoom />} />
+          <Route path="/new-room" element={<RoomAdmin />} />
           <Route path="/copy" element={<Copy />} />
           <Route path="/upload-create" element={<UploadCreate />} />
           <Route path="/search" element={<Search />} />

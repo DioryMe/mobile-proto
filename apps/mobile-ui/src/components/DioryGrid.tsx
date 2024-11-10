@@ -3,11 +3,10 @@ import Diory, { DioryData } from "../Diory";
 import { ParentDioryLink } from "../ParentDioryLink";
 import { NavigationButton } from "../NavigationButton";
 import { useRoomContext } from "../contexts/RoomContext";
-import { useNavigate } from "react-router-dom";
+
 import NavBar from "./NavBar";
 
 function DioryGrid() {
-  const navigate = useNavigate();
   const { diograph, dioryId } = useRoomContext();
   const [parentId, setParentId] = useState<string>("");
   const [parentDiories, setParentDiories] = useState<[string, DioryData][]>([]);
