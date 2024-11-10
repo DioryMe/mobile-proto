@@ -5,10 +5,12 @@ export const ParentDioryLink = ({
   diograph,
   dioryId,
   setDioryId,
+  onParentChange,
 }: {
   diograph: Record<string, DioryData>;
   dioryId: string;
   setDioryId: (id: string) => void;
+  onParentChange: (parentId: string) => void;
 }) => {
   const parentDiories = Object.entries(diograph).filter(([_, dioryData]) =>
     dioryData.links?.some((link) => link.id === dioryId)
@@ -22,7 +24,10 @@ export const ParentDioryLink = ({
     <div style={{ display: "flex", gap: "8px", margin: "8px 0" }}>
       <select
         value={selectedParentId}
-        onChange={(e) => setSelectedParentId(e.target.value)}
+        onChange={(e) => {
+          setSelectedParentId(e.target.value);
+          onParentChange(e.target.value);
+        }}
         style={{
           padding: "8px 16px",
           backgroundColor: "#f0f0f0",
