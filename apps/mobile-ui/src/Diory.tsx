@@ -1,4 +1,5 @@
 import React from "react";
+import { useRoomContext } from "./contexts/RoomContext";
 
 export interface DioryData {
   text: string;
@@ -15,12 +16,12 @@ export interface DioryProps {
   diograph: { [key: string]: DioryData };
 }
 
-const Diory = ({ dioryId, setDioryId, diograph }: DioryProps) => {
-  // Get diory data based on dioryId
-  const dioryData = diograph[dioryId];
+const Diory = () => {
+  const { dioryId, setDioryId, diograph } = useRoomContext();
 
-  // Check if dioryData exists
-  if (!dioryData) {
+  const diory = diograph[dioryId];
+
+  if (!diory) {
     return <div>Diory not found</div>;
   }
 
@@ -32,7 +33,7 @@ const Diory = ({ dioryId, setDioryId, diograph }: DioryProps) => {
         margin: "10px",
         borderRadius: "8px",
         textAlign: "center" as const,
-        backgroundImage: dioryData.image ? `url(${dioryData.image})` : "none",
+        backgroundImage: diory.image ? `url(${diory.image})` : "none",
         backgroundSize: "cover",
         backgroundPosition: "center",
         minHeight: "200px",
@@ -49,7 +50,7 @@ const Diory = ({ dioryId, setDioryId, diograph }: DioryProps) => {
           textShadow: "2px 2px 4px rgba(0,0,0,0.5)",
         }}
       >
-        <h3>{dioryData.text}</h3>
+        <h3>{diory.text}</h3>
       </div>
 
       {/* Add a semi-transparent overlay to ensure text readability */}
@@ -76,7 +77,7 @@ const Diory = ({ dioryId, setDioryId, diograph }: DioryProps) => {
           minWidth: "300px",
         }}
       >
-        {dioryData.links?.map((link) => (
+        {diory.links?.map((link) => (
           <button
             key={link.id}
             onClick={() => setDioryId(link.id)}
