@@ -1,12 +1,18 @@
 import React, { useState } from "react";
-import Diory, { DioryData } from "./Diory";
-import diograph from "./diograph.json";
+import Diory from "./Diory";
 import { ParentDioryLink } from "./ParentDioryLink";
 import { NavigationButton } from "./NavigationButton";
+import { useRoomContext } from "./contexts/RoomContext";
 
 function DioryGrid() {
-  const [dioryId, setDioryId] = useState<string>("/");
-  const [parentId, setParentId] = useState<string>("");
+  const { diograph, dioryId } = useRoomContext();
+
+  const parentDiories = Object.entries(diograph).filter(([_, dioryData]) =>
+    dioryData.links?.some((link) => link.id === dioryId)
+  );
+
+  const parentDioryId = parentDiories[0]?.[0] || "";
+  const [parentId, setParentId] = useState<string>(parentDioryId);
 
   const handleParentChange = (newParentId: string) => {
     setParentId(newParentId);
@@ -17,34 +23,15 @@ function DioryGrid() {
       <h1>Diory Viewer</h1>
       {dioryId !== "/" && (
         <ParentDioryLink
-          diograph={diograph as unknown as Record<string, DioryData>}
-          dioryId={dioryId}
-          setDioryId={setDioryId}
+          parentDiories={parentDiories}
+          parentId={parentId}
           onParentChange={handleParentChange}
         />
       )}
       <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
-        <NavigationButton
-          direction="prev"
-          dioryId={dioryId}
-          parentId={parentId}
-          diograph={diograph as unknown as Record<string, DioryData>}
-          setDioryId={setDioryId}
-        />
-
-        <Diory
-          dioryId={dioryId}
-          setDioryId={setDioryId}
-          diograph={diograph as any}
-        />
-
-        <NavigationButton
-          direction="next"
-          dioryId={dioryId}
-          parentId={parentId}
-          diograph={diograph as unknown as Record<string, DioryData>}
-          setDioryId={setDioryId}
-        />
+        <NavigationButton direction="prev" parentId={parentId} />
+        <Diory />
+        <NavigationButton direction="next" parentId={parentId} />
       </div>
     </div>
   );

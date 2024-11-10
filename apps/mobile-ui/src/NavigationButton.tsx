@@ -1,20 +1,17 @@
 import React from "react";
 import { DioryData } from "./Diory";
+import { useRoomContext } from "./contexts/RoomContext";
 
 export const NavigationButton = ({
   direction,
-  dioryId,
   parentId,
-  diograph,
-  setDioryId,
 }: {
   direction: "prev" | "next";
-  dioryId: string;
   parentId: string;
-  diograph: Record<string, DioryData>;
-  setDioryId: (id: string) => void;
 }) => {
   if (!parentId) return null;
+
+  const { dioryId, setDioryId, diograph } = useRoomContext();
 
   const parentData = diograph[parentId];
   const currentLinkIndex =
