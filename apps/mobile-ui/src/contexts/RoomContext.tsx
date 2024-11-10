@@ -19,8 +19,6 @@ export function RoomProvider({ children }: { children: ReactNode }) {
     diograph: diographJson as unknown as Record<string, DioryData>,
   };
 
-  console.log("diograph", value);
-
   return <RoomContext.Provider value={value}>{children}</RoomContext.Provider>;
 }
 
