@@ -6,6 +6,11 @@ import { NavigationButton } from "./NavigationButton";
 
 function DioryGrid() {
   const [dioryId, setDioryId] = useState<string>("/");
+  const [parentId, setParentId] = useState<string>("");
+
+  const handleParentChange = (newParentId: string) => {
+    setParentId(newParentId);
+  };
 
   return (
     <div>
@@ -15,12 +20,14 @@ function DioryGrid() {
           diograph={diograph as unknown as Record<string, DioryData>}
           dioryId={dioryId}
           setDioryId={setDioryId}
+          onParentChange={handleParentChange}
         />
       )}
       <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
         <NavigationButton
           direction="prev"
           dioryId={dioryId}
+          parentId={parentId}
           diograph={diograph as unknown as Record<string, DioryData>}
           setDioryId={setDioryId}
         />
@@ -34,6 +41,7 @@ function DioryGrid() {
         <NavigationButton
           direction="next"
           dioryId={dioryId}
+          parentId={parentId}
           diograph={diograph as unknown as Record<string, DioryData>}
           setDioryId={setDioryId}
         />
