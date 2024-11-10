@@ -4,6 +4,7 @@ import { ParentDioryLink } from "../ParentDioryLink";
 import { NavigationButton } from "../NavigationButton";
 import { useRoomContext } from "../contexts/RoomContext";
 import { useNavigate } from "react-router-dom";
+import NavBar from "./NavBar";
 
 function DioryGrid() {
   const navigate = useNavigate();
@@ -26,9 +27,8 @@ function DioryGrid() {
 
   return (
     <div>
-      <button onClick={() => navigate("/")}>Back to Home</button>
-
-      <h1>Diory Viewer</h1>
+      <NavBar />
+      <h2>Diory Grid</h2>
       {dioryId !== "/" && (
         <ParentDioryLink
           parentDiories={parentDiories}

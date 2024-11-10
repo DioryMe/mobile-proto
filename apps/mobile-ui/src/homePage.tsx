@@ -3,6 +3,7 @@
 
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import NavBar from "./components/NavBar";
 
 interface DioryLink {
   id: string;
@@ -72,42 +73,11 @@ const HomePage = () => {
 
   return (
     <div>
+      <NavBar />
       <h1>Hello World</h1>
       <button data-test-id="makeApiRequest" onClick={handleApiRequest}>
         Make API request
       </button>
-      <button data-test-id="logout" onClick={handleLogout}>
-        Logout
-      </button>
-
-      <nav>
-        <div>
-          <button onClick={() => navigate("/diory-grid")}>DioryGrid</button>
-        </div>
-        <div>
-          <button onClick={() => navigate("/new-room")}>NewRoom</button>
-        </div>
-        <div>
-          <button onClick={() => navigate("/copy")}>Copy</button>
-        </div>
-        <div>
-          <button onClick={() => navigate("/upload-create")}>
-            UploadCreate
-          </button>
-        </div>
-        <div>
-          <button onClick={() => navigate("/search")}>Search</button>
-        </div>
-        <div>
-          <button onClick={() => navigate("/timeline")}>Timeline</button>
-        </div>
-        <div>
-          <button onClick={() => navigate("/map")}>Map</button>
-        </div>
-        <div>
-          <button onClick={() => navigate("/edit-delete")}>EditDelete</button>
-        </div>
-      </nav>
     </div>
   );
 };

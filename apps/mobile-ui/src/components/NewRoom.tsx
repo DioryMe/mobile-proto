@@ -1,11 +1,12 @@
 import { useNavigate } from "react-router-dom";
+import NavBar from "./NavBar";
 
 const NewRoom = () => {
   const navigate = useNavigate();
 
   return (
     <div>
-      <button onClick={() => navigate("/")}>Back to Home</button>
+      <NavBar />
       <h2>New Room</h2>
       {/* Add your NewRoom content here */}
     </div>
