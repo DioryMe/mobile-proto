@@ -1,5 +1,5 @@
 import React from "react";
-import { DioryData } from "./Diory";
+import { DioryData } from "./components/Diory";
 import { useRoomContext } from "./contexts/RoomContext";
 
 export const ParentDioryLink = ({
