@@ -1,11 +1,11 @@
 import { useNavigate } from "react-router-dom";
-
+import NavBar from "./NavBar";
 const Timeline = () => {
   const navigate = useNavigate();
 
   return (
     <div>
-      <button onClick={() => navigate("/")}>Back to Home</button>
+      <NavBar />
       <h2>Timeline</h2>
       {/* Add your Timeline content here */}
     </div>
