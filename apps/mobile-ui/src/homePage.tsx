@@ -3,6 +3,7 @@
 
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { RoomProvider } from "./contexts/RoomContext";
 import DioryGrid from "./DioryGrid";
 
 interface DioryLink {
@@ -80,7 +81,9 @@ const HomePage = () => {
       <button data-test-id="logout" onClick={handleLogout}>
         Logout
       </button>
-      <DioryGrid />
+      <RoomProvider>
+        <DioryGrid />
+      </RoomProvider>
     </div>
   );
 };
