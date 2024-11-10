@@ -46,14 +46,13 @@ const HomePage = () => {
       }
 
       const response = await fetch(
-        `/diograph.json`
-        // `${import.meta.env.VITE_API_URL}/room/diograph`,
-        // {
-        //   headers: {
-        //     Authorization: `Bearer ${accessToken}`,
-        //     "X-Id-Token": idToken,
-        //   },
-        // }
+        `${import.meta.env.VITE_API_URL}/room/diograph`,
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            "X-Id-Token": idToken,
+          },
+        }
       );
 
       if (!response.ok) {
@@ -61,7 +60,7 @@ const HomePage = () => {
       }
 
       const data = await response.json();
-      setDiograph(data);
+      alert(JSON.stringify(data));
     } catch (error) {
       console.error("API request failed:", error);
     }
