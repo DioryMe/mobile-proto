@@ -13,8 +13,7 @@ export interface DioryData {
 const Diory = () => {
   const { dioryId, setDioryId, diograph } = useRoomContext();
 
-  const diory = diograph[dioryId];
-
+  const diory = diograph.getDiory({ id: dioryId });
   if (!diory) {
     return <div>Diory not found</div>;
   }
@@ -76,8 +75,8 @@ const Diory = () => {
             key={link.id}
             onClick={() => setDioryId(link.id)}
             style={{
-              backgroundImage: diograph[link.id].image
-                ? `url(${diograph[link.id].image})`
+              backgroundImage: diograph.getDiory({ id: link.id }).image
+                ? `url(${diograph.getDiory({ id: link.id }).image})`
                 : "none",
               backgroundSize: "cover",
               backgroundPosition: "center",
@@ -110,7 +109,7 @@ const Diory = () => {
                 textShadow: "1px 1px 2px rgba(0,0,0,0.5)",
               }}
             >
-              {diograph[link.id].text}
+              {diograph.getDiory({ id: link.id }).text}
             </span>
           </button>
         ))}

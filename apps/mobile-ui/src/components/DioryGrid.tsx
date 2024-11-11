@@ -5,17 +5,20 @@ import { NavigationButton } from "../NavigationButton";
 import { useRoomContext } from "../contexts/RoomContext";
 
 import NavBar from "./NavBar";
+import { IDioryObject } from "@diograph/diograph/types";
 
 function DioryGrid() {
   const { diograph, dioryId } = useRoomContext();
-  const [parentId, setParentId] = useState<string>("");
-  const [parentDiories, setParentDiories] = useState<[string, DioryData][]>([]);
+  const [parentId, setParentId] = useState<string>("/");
+  const [parentDiories, setParentDiories] = useState<[string, IDioryObject][]>(
+    []
+  );
 
   useEffect(() => {
-    const parentDiories = Object.entries(diograph).filter(([_, dioryData]) =>
-      dioryData.links?.some((link) => link.id === dioryId)
+    const parentDiories = Object.entries(diograph.toObject()).filter(
+      ([_, dioryData]) => dioryData.links?.some((link) => link.id === dioryId)
     );
-    const parentDioryId = parentDiories[0]?.[0] || "";
+    const parentDioryId = parentDiories[0]?.[0] || "/";
     setParentId(parentDioryId);
     setParentDiories(parentDiories);
   }, [diograph, dioryId]);
@@ -40,6 +43,13 @@ function DioryGrid() {
         <Diory />
         <NavigationButton direction="next" parentId={parentId} />
       </div>
+      <ul>
+        <li>Show and play video in "fullscreen"</li>
+        <li>
+          BUG: Parent diory should persist when navigating (now always selects
+          the first story)
+        </li>
+      </ul>
     </div>
   );
 }

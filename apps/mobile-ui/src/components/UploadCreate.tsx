@@ -1,10 +1,33 @@
+import { Diory } from "@diograph/diograph";
+import { useRoomContext } from "../contexts/RoomContext";
 import NavBar from "./NavBar";
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 const UploadCreate = () => {
+  const { diograph, setDiograph, dioryId } = useRoomContext();
+  const navigate = useNavigate();
+  const [dioryText, setDioryText] = useState("Superii");
+
   return (
     <div>
       <NavBar />
       <h2>Upload & Create</h2>
+      <input
+        type="text"
+        value={dioryText}
+        onChange={(e) => setDioryText(e.target.value)}
+      />
+      <button
+        onClick={() => {
+          diograph.addDioryAndLink(new Diory({ text: dioryText }), {
+            id: dioryId,
+          });
+          navigate("/diory-grid");
+        }}
+      >
+        Create
+      </button>
       <ul>
         <li>
           Create diory linked to diory in focus
