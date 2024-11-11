@@ -1,8 +1,11 @@
 import { useNavigate } from "react-router-dom";
 import styles from "./NavBar.module.css";
+import { useRoomContext } from "../contexts/RoomContext";
+import diographJson from "../diograph.json";
 
 const NavBar = () => {
   const navigate = useNavigate();
+  const { diograph, setDiograph } = useRoomContext();
 
   const handleLogout = () => {
     sessionStorage.clear();
@@ -12,6 +15,9 @@ const NavBar = () => {
   return (
     <nav className={styles.navbar}>
       <div className={styles.leftSection}>
+        <div onClick={() => setDiograph(diographJson as any)}>
+          {Object.keys(diograph).length}
+        </div>
         <button onClick={() => navigate("/")}>Home</button>
         <button onClick={() => navigate("/diory-grid")}>DioryGrid</button>
         <button onClick={() => navigate("/search")}>Search</button>
