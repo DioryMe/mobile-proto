@@ -1,10 +1,23 @@
+import { useRoomContext } from "../contexts/RoomContext";
 import NavBar from "./NavBar";
+import smallDiograph from "../smallDiograph.json";
+import { useNavigate } from "react-router-dom";
 
 const Search = () => {
+  const { diograph, setDiograph } = useRoomContext();
+  const navigate = useNavigate();
   return (
     <div>
       <NavBar />
       <h2>Search</h2>
+      <button
+        onClick={() => {
+          setDiograph(smallDiograph as any);
+          navigate("/diory-grid");
+        }}
+      >
+        Submit search
+      </button>
       <ul>
         <li>Add setDiograph and create mock search result diograph</li>
         <li>X button to navbar to revert complete diograph & its focus</li>
