@@ -13,7 +13,7 @@ export const NavigationButton = ({
 
   const { dioryId, setDioryId, diograph } = useRoomContext();
 
-  const parentData = diograph[parentId];
+  const parentData = diograph.getDiory({ id: parentId });
   const currentLinkIndex =
     parentData.links?.findIndex((link) => link.id === dioryId) ?? -1;
 
