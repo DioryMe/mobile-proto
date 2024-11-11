@@ -1,13 +1,13 @@
 import React from "react";
-import { DioryData } from "./components/Diory";
 import { useRoomContext } from "./contexts/RoomContext";
+import { IDioryObject } from "@diograph/diograph/types";
 
 export const ParentDioryLink = ({
   parentDiories,
   parentId,
   onParentChange,
 }: {
-  parentDiories: [string, DioryData][];
+  parentDiories: [string, IDioryObject][];
   parentId: string;
   onParentChange: (parentId: string) => void;
 }) => {
@@ -50,7 +50,7 @@ export const ParentDioryLink = ({
         }}
       >
         <span>↑</span>
-        <span>{diograph[parentId]?.text || "Parent"}</span>
+        <span>{diograph.getDiory({ id: parentId })?.text || "Parent"}</span>
       </button>
     </div>
   );

@@ -2,9 +2,10 @@ import { useRoomContext } from "../contexts/RoomContext";
 import NavBar from "./NavBar";
 import smallDiograph from "../smallDiograph.json";
 import { useNavigate } from "react-router-dom";
+import { Diograph } from "@diograph/diograph";
 
 const Search = () => {
-  const { diograph, setDiograph } = useRoomContext();
+  const { setDiograph, setDioryId } = useRoomContext();
   const navigate = useNavigate();
   return (
     <div>
@@ -12,7 +13,8 @@ const Search = () => {
       <h2>Search</h2>
       <button
         onClick={() => {
-          setDiograph(smallDiograph as any);
+          setDiograph(new Diograph(smallDiograph));
+          setDioryId("/");
           navigate("/diory-grid");
         }}
       >
