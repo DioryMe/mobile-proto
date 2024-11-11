@@ -29,12 +29,7 @@ const UploadCreate = () => {
         Create
       </button>
       <ul>
-        <li>
-          Create diory linked to diory in focus
-          <ul>
-            <li>Checkbox to create without linking</li>
-          </ul>
-        </li>
+        <li>Checkbox to create without linking</li>
         <li></li>
         <li>Upload image or drag&drop file (triggers file-generator)</li>
         <li></li>
