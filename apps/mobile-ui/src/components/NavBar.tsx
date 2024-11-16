@@ -2,7 +2,9 @@ import { useNavigate } from "react-router-dom";
 import styles from "./NavBar.module.css";
 import { useRoomContext } from "../contexts/RoomContext";
 import diographJson from "../diograph.json";
+// import diographJson from "../ignored/diograph.json";
 import { Diograph } from "@diograph/diograph";
+import { IDiographObject } from "@diograph/diograph/types";
 
 const NavBar = () => {
   const navigate = useNavigate();
@@ -17,9 +19,10 @@ const NavBar = () => {
     <nav className={styles.navbar}>
       <div className={styles.leftSection}>
         <div
+          style={{ cursor: "pointer" }}
           onClick={() => {
             setDioryId("/");
-            setDiograph(new Diograph(diographJson));
+            setDiograph(new Diograph(diographJson as IDiographObject));
           }}
         >
           {Object.keys(diograph.toObject()).length}
