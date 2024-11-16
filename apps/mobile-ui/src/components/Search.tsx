@@ -9,9 +9,15 @@ const Search = () => {
   const { diograph, setDiograph, setDioryId } = useRoomContext();
   const navigate = useNavigate();
 
+  const dateSearchResultMaaliskuu = () =>
+    diograph.queryDiographByDateAndGeo({
+      dateStart: "2016-03-10",
+      dateEnd: "2016-03-31",
+    });
+
   const textSearchResult2016 = () =>
     diograph.queryDiograph({
-      text: "2016",
+      text: "2016-1",
     });
 
   const geoSearchResultKangasala = () =>
@@ -56,9 +62,37 @@ const Search = () => {
       </ul>
 
       <div>
+        <b>Maaliskuu:</b>
+        <br />
+        {Object.values(dateSearchResultMaaliskuu()).map((diory) => (
+          <img
+            key={`maalis-${diory.id}`}
+            onClick={() => {
+              setDioryId(diory.id);
+              navigate("/diory-grid");
+            }}
+            width={100}
+            src={diory.image}
+            style={{ cursor: "pointer" }}
+          />
+        ))}
+      </div>
+
+      <div>
         <b>Text "2016":</b>
         {Object.values(textSearchResult2016()).map((diory) => (
-          <div key={diory.id}>{diory.text}</div>
+          <div key={`text-${diory.id}`}>
+            <img
+              onClick={() => {
+                setDioryId(diory.id);
+                navigate("/diory-grid");
+              }}
+              width={100}
+              src={diory.image}
+              style={{ cursor: "pointer" }}
+            />
+            {diory.text}
+          </div>
         ))}
       </div>
       <div>------------------------</div>
@@ -67,6 +101,7 @@ const Search = () => {
         <br />
         {Object.values(geoSearchResultKangasala()).map((diory) => (
           <img
+            key={`geo-${diory.id}`}
             onClick={() => {
               setDioryId(diory.id);
               navigate("/diory-grid");
