@@ -3,10 +3,23 @@ import NavBar from "./NavBar";
 import smallDiograph from "../smallDiograph.json";
 import { useNavigate } from "react-router-dom";
 import { Diograph } from "@diograph/diograph";
+import Diory from "../Diory";
 
 const Search = () => {
-  const { setDiograph, setDioryId } = useRoomContext();
+  const { diograph, setDiograph, setDioryId } = useRoomContext();
   const navigate = useNavigate();
+
+  const textSearchResult2016 = () =>
+    diograph.queryDiograph({
+      text: "2016",
+    });
+
+  const geoSearchResultKangasala = () =>
+    diograph.queryDiographByDateAndGeo({
+      latlngStart: "61.48587998183945, 23.96633387857436",
+      latlngEnd: "61.385879805830584, 24.241258867230393",
+    });
+
   return (
     <div>
       <NavBar />
@@ -41,6 +54,29 @@ const Search = () => {
         <li></li>
         <li>On submit: set diograph & redirect to DioryGrid to see results</li>
       </ul>
+
+      <div>
+        <b>Text "2016":</b>
+        {Object.values(textSearchResult2016()).map((diory) => (
+          <div key={diory.id}>{diory.text}</div>
+        ))}
+      </div>
+      <div>------------------------</div>
+      <div>
+        <b>Geo "Kangasala":</b>
+        <br />
+        {Object.values(geoSearchResultKangasala()).map((diory) => (
+          <img
+            onClick={() => {
+              setDioryId(diory.id);
+              navigate("/diory-grid");
+            }}
+            width={100}
+            src={diory.image}
+            style={{ cursor: "pointer" }}
+          />
+        ))}
+      </div>
     </div>
   );
 };
