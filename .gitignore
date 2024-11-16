@@ -32,3 +32,6 @@ tests/playwright-log.txt
 tests/report.html
 
 .vite
+
+# Own diographs
+apps/mobile-ui/src/ignored

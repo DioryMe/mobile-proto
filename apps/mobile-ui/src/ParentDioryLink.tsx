@@ -14,7 +14,7 @@ export const ParentDioryLink = ({
   const { dioryId, setDioryId, diograph } = useRoomContext();
 
   return (
-    <div style={{ display: "flex", gap: "8px", margin: "8px 0" }}>
+    <>
       <select
         value={parentId}
         onChange={(e) => {
@@ -52,6 +52,6 @@ export const ParentDioryLink = ({
         <span>↑</span>
         <span>{diograph.getDiory({ id: parentId })?.text || "Parent"}</span>
       </button>
-    </div>
+    </>
   );
 };

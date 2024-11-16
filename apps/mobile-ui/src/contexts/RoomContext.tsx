@@ -1,7 +1,9 @@
 import React, { createContext, useContext, useState, ReactNode } from "react";
 import { DioryData } from "../Diory";
-import diographJson from "../diograph.json";
+import diographJson from "../ignored/diograph.json";
+// import diographJson from "../diograph.json";
 import { Diograph } from "@diograph/diograph";
+import { IDiographObject } from "@diograph/diograph/types";
 
 interface RoomContextType {
   dioryId: string;
@@ -15,7 +17,7 @@ const RoomContext = createContext<RoomContextType | undefined>(undefined);
 export function RoomProvider({ children }: { children: ReactNode }) {
   const [dioryId, setDioryId] = useState<string>("/");
   const [diograph, setDiograph] = useState<Diograph>(
-    new Diograph(diographJson)
+    new Diograph(diographJson as IDiographObject)
   );
 
   const value = {
