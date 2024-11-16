@@ -6,6 +6,7 @@ import { useRoomContext } from "../contexts/RoomContext";
 
 import NavBar from "./NavBar";
 import { IDioryObject } from "@diograph/diograph/types";
+import { OpenInNewWindow } from "./OpenInNewWindow";
 
 function DioryGrid() {
   const { diograph, dioryId } = useRoomContext();
@@ -42,8 +43,8 @@ function DioryGrid() {
           </div>
           <div style={{ display: "flex", gap: "8px", margin: "8px 0" }}>
             <NavigationButton direction="prev" parentId={parentId} />
-
             <NavigationButton direction="next" parentId={parentId} />
+            <OpenInNewWindow />
           </div>
         </div>
       )}
