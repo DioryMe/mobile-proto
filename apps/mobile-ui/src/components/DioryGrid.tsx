@@ -32,16 +32,23 @@ function DioryGrid() {
       <NavBar />
       <h2>Diory Grid</h2>
       {dioryId !== "/" && (
-        <ParentDioryLink
-          parentDiories={parentDiories}
-          parentId={parentId}
-          onParentChange={handleParentChange}
-        />
+        <div>
+          <div style={{ display: "flex", gap: "8px", margin: "8px 0" }}>
+            <ParentDioryLink
+              parentDiories={parentDiories}
+              parentId={parentId}
+              onParentChange={handleParentChange}
+            />
+          </div>
+          <div style={{ display: "flex", gap: "8px", margin: "8px 0" }}>
+            <NavigationButton direction="prev" parentId={parentId} />
+
+            <NavigationButton direction="next" parentId={parentId} />
+          </div>
+        </div>
       )}
       <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
-        <NavigationButton direction="prev" parentId={parentId} />
         <Diory />
-        <NavigationButton direction="next" parentId={parentId} />
       </div>
       <ul>
         <li>Show and play video in "fullscreen"</li>

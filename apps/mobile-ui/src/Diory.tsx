@@ -27,9 +27,8 @@ const Diory = () => {
         borderRadius: "8px",
         textAlign: "center" as const,
         backgroundImage: diory.image ? `url(${diory.image})` : "none",
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        minHeight: "200px",
+        minHeight: "330px",
+        width: "450px",
         position: "relative",
       }}
     >
@@ -67,7 +66,6 @@ const Diory = () => {
           flexWrap: "wrap" as const,
           position: "relative",
           zIndex: 1,
-          minWidth: "300px",
         }}
       >
         {diory.links?.map((link) => (
