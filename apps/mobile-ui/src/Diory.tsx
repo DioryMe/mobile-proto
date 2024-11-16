@@ -1,5 +1,6 @@
 import React from "react";
 import { useRoomContext } from "./contexts/RoomContext";
+import { IDiory } from "@diograph/diograph/types";
 
 export interface DioryData {
   text: string;
@@ -10,11 +11,17 @@ export interface DioryData {
   id: string;
 }
 
-const Diory = () => {
+interface DioryProps {
+  dioryId?: string;
+}
+
+const Diory = ({ dioryId: dioryIdProp }: DioryProps) => {
   const { dioryId, setDioryId, diograph } = useRoomContext();
 
-  const diory = diograph.getDiory({ id: dioryId });
-  if (!diory) {
+  let diory: IDiory;
+  try {
+    diory = diograph.getDiory({ id: dioryIdProp || dioryId });
+  } catch (e) {
     return <div>Diory not found</div>;
   }
 
