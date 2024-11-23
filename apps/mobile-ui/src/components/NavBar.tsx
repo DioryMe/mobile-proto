@@ -36,7 +36,7 @@ const NavBar = () => {
         <button onClick={() => navigate("/upload-create")}>
           Upload/Create
         </button>
-        <button onClick={() => navigate("/new-room")}>NewRoom</button>
+        <button onClick={() => navigate("/room-admin")}>Rooms</button>
         <button onClick={() => navigate("/copy")}>Copy</button>
       </div>
       <div className={styles.rightSection}>
