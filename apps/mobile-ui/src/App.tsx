@@ -41,7 +41,7 @@ const App = () => {
           />
           <Route path="/home" element={<HomePage />} />
           <Route path="/diory-grid" element={<DioryGrid />} />
-          <Route path="/new-room" element={<RoomAdmin />} />
+          <Route path="/room-admin" element={<RoomAdmin />} />
           <Route path="/copy" element={<Copy />} />
           <Route path="/upload-create" element={<UploadCreate />} />
           <Route path="/search" element={<Search />} />
