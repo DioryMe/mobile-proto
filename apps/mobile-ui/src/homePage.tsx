@@ -77,11 +77,18 @@ const HomePage = () => {
       <NavBar />
       <h1>Hello World</h1>
       <button
-        data-test-id="diographButton"
+        data-test-id="nativeDiographButton"
         onClick={() => handleApiRequest("native/diograph")}
       >
-        Diograph
+        Native Diograph
       </button>
+      <button
+        data-test-id="demoDiographButton"
+        onClick={() => handleApiRequest("demo/diograph")}
+      >
+        Demo Diograph
+      </button>
+      <br />
       <button
         data-test-id="thumbnailButton"
         onClick={() => handleApiRequest("thumbnail")}
