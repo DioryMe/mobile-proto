@@ -37,7 +37,7 @@ const HomePage = () => {
 
   const navigate = useNavigate();
 
-  const handleApiRequest = async () => {
+  const handleApiRequest = async (postfix: string) => {
     try {
       const accessToken = sessionStorage.getItem("accessToken");
       const idToken = sessionStorage.getItem("idToken");
@@ -47,7 +47,7 @@ const HomePage = () => {
       }
 
       const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/room/diograph`,
+        `${import.meta.env.VITE_API_URL}/room/${postfix}`,
         {
           headers: {
             Authorization: `Bearer ${accessToken}`,
@@ -60,8 +60,8 @@ const HomePage = () => {
         throw new Error(`API request failed: ${response.statusText}`);
       }
 
-      const data = await response.json();
-      alert(JSON.stringify(data));
+      // const data = await response.json();
+      alert(JSON.stringify(response));
     } catch (error) {
       console.error("API request failed:", error);
     }
@@ -76,8 +76,23 @@ const HomePage = () => {
     <div>
       <NavBar />
       <h1>Hello World</h1>
-      <button data-test-id="makeApiRequest" onClick={handleApiRequest}>
-        Make API request
+      <button
+        data-test-id="diographButton"
+        onClick={() => handleApiRequest("native/diograph")}
+      >
+        Diograph
+      </button>
+      <button
+        data-test-id="thumbnailButton"
+        onClick={() => handleApiRequest("thumbnail")}
+      >
+        Thumbnail
+      </button>
+      <button
+        data-test-id="contentButton"
+        onClick={() => handleApiRequest("content")}
+      >
+        Content
       </button>
     </div>
   );
