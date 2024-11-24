@@ -94,6 +94,12 @@ const HomePage = () => {
       >
         Content
       </button>
+      <button
+        data-test-id="listButton"
+        onClick={() => handleApiRequest("list")}
+      >
+        List
+      </button>
     </div>
   );
 };
