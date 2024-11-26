@@ -19,7 +19,7 @@ export const fetchData = async <T>(url: string): Promise<T> => {
     throw new Error(`API request failed: ${response.statusText}`);
   }
 
-  return response as T;
+  return response.json() as T;
 };
 
 const baseUrl = import.meta.env.VITE_API_URL;

@@ -1,21 +1,25 @@
 import React, { useEffect, useState } from "react";
-import Diory, { DioryData } from "../Diory";
+import Diory from "../Diory";
 import { ParentDioryLink } from "../ParentDioryLink";
 import { NavigationButton } from "../NavigationButton";
 import { useRoomContext } from "../contexts/RoomContext";
-
 import NavBar from "./NavBar";
 import { IDioryObject } from "@diograph/diograph/types";
 import { OpenInNewWindow } from "./OpenInNewWindow";
 
 function DioryGrid() {
   const { diograph, dioryId } = useRoomContext();
+
   const [parentId, setParentId] = useState<string>("/");
   const [parentDiories, setParentDiories] = useState<[string, IDioryObject][]>(
     []
   );
 
   useEffect(() => {
+    if (!diograph) {
+      return;
+    }
+
     const parentDiories = Object.entries(diograph.toObject()).filter(
       ([_, dioryData]) => dioryData.links?.some((link) => link.id === dioryId)
     );

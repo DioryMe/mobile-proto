@@ -25,7 +25,7 @@ const NavBar = () => {
             setDiograph(new Diograph(diographJson as IDiographObject));
           }}
         >
-          {Object.keys(diograph.toObject()).length}
+          {diograph ? Object.keys(diograph.toObject()).length : "-"}
         </div>
         <button onClick={() => navigate("/")}>Home</button>
         <button onClick={() => navigate("/diory-grid")}>DioryGrid</button>
