@@ -1,10 +1,18 @@
 import NavBar from "./NavBar";
+import useFetchData from "../hooks/useFetchData";
+import { RoomConfigData } from "@diograph/diograph/types";
 
 const RoomAdmin = () => {
+  const url = `/room/list`;
+  const rooms = useFetchData<RoomConfigData[]>(url) || [];
+
   return (
     <div>
       <NavBar />
       <h2>Room Admin</h2>
+      {rooms.map((room) => (
+        <div key={room.id}>{room.id}</div>
+      ))}
       <ul>
         <li>List of rooms for user</li>
         <li>

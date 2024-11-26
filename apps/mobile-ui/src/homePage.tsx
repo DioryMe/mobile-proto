@@ -3,107 +3,64 @@
 
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import useFetchData, { fetchData } from "./hooks/useFetchData";
 
 import NavBar from "./components/NavBar";
 
-interface DioryLink {
-  id: string;
-  path: string;
-}
-
-interface Diory {
-  text?: string;
-  image?: string;
-  links?: DioryLink[];
-  created?: string;
-  modified?: string;
-  id: string;
-  data?: Array<{
-    "@context": string;
-    "@type": string;
-    contentUrl: string;
-    height?: number;
-    width?: number;
-    encodingFormat: string;
-  }>;
-}
-
-interface DiographType {
-  [key: string]: Diory;
-}
-
 const HomePage = () => {
-  const [diograph, setDiograph] = useState<DiographType>({});
+  const [responses, setResponses] = useState<Record<string, any>>({
+    "/room/native/diograph": null,
+    "/room/demo/diograph": null,
+    "/room/thumbnail": null,
+    "/room/content": null,
+    "/room/list": null,
+  });
 
   const navigate = useNavigate();
 
   const handleApiRequest = async (postfix: string) => {
-    try {
-      const accessToken = sessionStorage.getItem("accessToken");
-      const idToken = sessionStorage.getItem("idToken");
-
-      if (!accessToken || !idToken) {
-        throw new Error("No tokens found");
-      }
-
-      const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/room/${postfix}`,
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-            "X-Id-Token": idToken,
-          },
-        }
-      );
-
-      if (!response.ok) {
-        throw new Error(`API request failed: ${response.statusText}`);
-      }
-
-      // const data = await response.json();
-      alert(JSON.stringify(response));
-    } catch (error) {
-      console.error("API request failed:", error);
-    }
-  };
-
-  const handleLogout = () => {
-    sessionStorage.clear();
-    navigate("/login");
+    fetchData(postfix).then((data) =>
+      setResponses({ ...responses, [postfix]: data })
+    );
   };
 
   return (
     <div>
       <NavBar />
       <h1>Hello World</h1>
+      {Object.entries(responses).map(([key, value]) => (
+        <div>
+          {key}: {value ? "OK" : "-"}
+        </div>
+      ))}
       <button
         data-test-id="nativeDiographButton"
-        onClick={() => handleApiRequest("native/diograph")}
+        onClick={() => handleApiRequest("/room/native/diograph")}
       >
         Native Diograph
       </button>
       <button
         data-test-id="demoDiographButton"
-        onClick={() => handleApiRequest("demo/diograph")}
+        onClick={() => handleApiRequest("/room/demo/diograph")}
       >
         Demo Diograph
       </button>
       <br />
       <button
         data-test-id="thumbnailButton"
-        onClick={() => handleApiRequest("thumbnail")}
+        onClick={() => handleApiRequest("/room/thumbnail")}
       >
         Thumbnail
       </button>
       <button
         data-test-id="contentButton"
-        onClick={() => handleApiRequest("content")}
+        onClick={() => handleApiRequest("/room/content")}
       >
         Content
       </button>
       <button
         data-test-id="listButton"
-        onClick={() => handleApiRequest("list")}
+        onClick={() => handleApiRequest("/room/list")}
       >
         List
       </button>
