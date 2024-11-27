@@ -29,6 +29,7 @@ const NavBar = () => {
         </div>
         <button onClick={() => navigate("/")}>Home</button>
         <button onClick={() => navigate("/diory-grid")}>DioryGrid</button>
+        <button onClick={() => navigate("/room-admin")}>Rooms</button>
         <button onClick={() => navigate("/search")}>Search</button>
         <button onClick={() => navigate("/timeline")}>Timeline</button>
         <button onClick={() => navigate("/map")}>Map</button>
@@ -36,7 +37,6 @@ const NavBar = () => {
         <button onClick={() => navigate("/upload-create")}>
           Upload/Create
         </button>
-        <button onClick={() => navigate("/room-admin")}>Rooms</button>
         <button onClick={() => navigate("/copy")}>Copy</button>
       </div>
       <div className={styles.rightSection}>

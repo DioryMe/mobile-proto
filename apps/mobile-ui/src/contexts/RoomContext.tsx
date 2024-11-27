@@ -14,6 +14,8 @@ interface RoomContextType {
   setDioryId: (id: string) => void;
   diograph: Diograph | null;
   setDiograph: (diograph: Diograph) => void;
+  roomId: string;
+  setRoomId: (id: string) => void;
 }
 
 const RoomContext = createContext<RoomContextType | undefined>(undefined);
@@ -21,8 +23,11 @@ const RoomContext = createContext<RoomContextType | undefined>(undefined);
 export function RoomProvider({ children }: { children: ReactNode }) {
   const [dioryId, setDioryId] = useState<string>("/");
   const [diograph, setDiograph] = useState<Diograph | null>(null);
+  const [roomId, setRoomId] = useState("demo");
 
-  const diographJson = useFetchData<IDiographObject>("/room/demo/diograph");
+  const diographJson = useFetchData<IDiographObject>(
+    `/room/${roomId}/diograph`
+  );
 
   useEffect(() => {
     if (diographJson) {
@@ -35,6 +40,8 @@ export function RoomProvider({ children }: { children: ReactNode }) {
     setDioryId,
     diograph,
     setDiograph,
+    roomId,
+    setRoomId,
   };
 
   return <RoomContext.Provider value={value}>{children}</RoomContext.Provider>;
