@@ -3,32 +3,26 @@ import useFetchData from "../hooks/useFetchData";
 import { RoomConfigData } from "@diograph/diograph/types";
 import { useRoomContext } from "../contexts/RoomContext";
 import { useNavigate } from "react-router-dom";
+import RoomSelection from "./RoomSelection";
 
 const RoomAdmin = () => {
   const url = `/room/list`;
-  const { setRoomId } = useRoomContext();
+  const { setRoomId, setDioryId } = useRoomContext();
   const rooms = useFetchData<RoomConfigData[]>(url);
   const navigate = useNavigate();
+
+  const handleRoomSelect = (roomId: string) => {
+    setRoomId(roomId);
+    setDioryId("/");
+    navigate("/diory-grid");
+  };
 
   return (
     rooms && (
       <div>
         <NavBar />
         <h2>Room Admin</h2>
-        {rooms.map((room) => (
-          <div
-            key={room.id}
-            style={{ cursor: "pointer" }}
-            onClick={() => {
-              if (room.id) {
-                setRoomId(room.id);
-                navigate("/diory-grid");
-              }
-            }}
-          >
-            {room.id}
-          </div>
-        ))}
+        <RoomSelection rooms={rooms} onSelect={handleRoomSelect} />
         <ul>
           <li>List of rooms for user</li>
           <li>

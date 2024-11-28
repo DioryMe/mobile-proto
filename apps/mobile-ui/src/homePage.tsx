@@ -2,68 +2,31 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
-import useFetchData, { fetchData } from "./hooks/useFetchData";
+import useFetchData from "./hooks/useFetchData";
 
 import NavBar from "./components/NavBar";
+import RoomSelection from "./components/RoomSelection";
+import { RoomConfigData } from "@diograph/diograph/types";
+import { useRoomContext } from "./contexts/RoomContext";
+import DioryGrid from "./components/DioryGrid";
 
 const HomePage = () => {
-  const [responses, setResponses] = useState<Record<string, any>>({
-    "/room/native/diograph": null,
-    "/room/demo/diograph": null,
-    "/room/thumbnail": null,
-    "/room/content": null,
-    "/room/list": null,
-  });
-
+  const url = `/room/list`;
+  const { setRoomId, setDioryId } = useRoomContext();
+  const rooms = useFetchData<RoomConfigData[]>(url);
   const navigate = useNavigate();
 
-  const handleApiRequest = async (postfix: string) => {
-    fetchData(postfix).then((data) =>
-      setResponses({ ...responses, [postfix]: data })
-    );
+  const handleRoomSelect = (roomId: string) => {
+    setRoomId(roomId);
+    setDioryId("/");
   };
 
   return (
     <div>
       <NavBar />
-      <h1>Hello World</h1>
-      {Object.entries(responses).map(([key, value]) => (
-        <div>
-          {key}: {value ? "OK" : "-"}
-        </div>
-      ))}
-      <button
-        data-test-id="nativeDiographButton"
-        onClick={() => handleApiRequest("/room/native/diograph")}
-      >
-        Native Diograph
-      </button>
-      <button
-        data-test-id="demoDiographButton"
-        onClick={() => handleApiRequest("/room/demo/diograph")}
-      >
-        Demo Diograph
-      </button>
-      <br />
-      <button
-        data-test-id="thumbnailButton"
-        onClick={() => handleApiRequest("/room/thumbnail")}
-      >
-        Thumbnail
-      </button>
-      <button
-        data-test-id="contentButton"
-        onClick={() => handleApiRequest("/room/content")}
-      >
-        Content
-      </button>
-      <button
-        data-test-id="listButton"
-        onClick={() => handleApiRequest("/room/list")}
-      >
-        List
-      </button>
+      <h2>Home</h2>
+      <RoomSelection rooms={rooms || []} onSelect={handleRoomSelect} />
+      <DioryGrid />
     </div>
   );
 };
