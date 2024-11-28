@@ -9,9 +9,8 @@ export const NavigationButton = ({
   direction: "prev" | "next";
   parentId: string;
 }) => {
-  if (!parentId) return null;
-
   const { dioryId, setDioryId, diograph } = useRoomContext();
+  if (!parentId || !diograph) return null;
 
   const parentData = diograph.getDiory({ id: parentId });
   const currentLinkIndex =

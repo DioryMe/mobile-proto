@@ -18,6 +18,10 @@ interface DioryProps {
 const Diory = ({ dioryId: dioryIdProp }: DioryProps) => {
   const { dioryId, setDioryId, diograph } = useRoomContext();
 
+  if (!diograph) {
+    return <div>Diograph not found</div>;
+  }
+
   let diory: IDiory;
   try {
     diory = diograph.getDiory({ id: dioryIdProp || dioryId });

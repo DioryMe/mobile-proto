@@ -50,7 +50,7 @@ export const ParentDioryLink = ({
         }}
       >
         <span>↑</span>
-        <span>{diograph.getDiory({ id: parentId })?.text || "Parent"}</span>
+        <span>{diograph?.getDiory({ id: parentId })?.text || "Parent"}</span>
       </button>
     </>
   );
