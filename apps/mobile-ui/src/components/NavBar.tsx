@@ -15,30 +15,39 @@ const NavBar = () => {
     navigate("/login");
   };
 
+  const isFeatureEnabled = true; // Set this to true or false based on your feature flag status
+
   return (
     <nav className={styles.navbar}>
-      <div className={styles.leftSection}>
-        <div
-          style={{ cursor: "pointer" }}
-          onClick={() => {
-            setDioryId("/");
-            setDiograph(new Diograph(diographJson as IDiographObject));
-          }}
-        >
-          {diograph ? Object.keys(diograph.toObject()).length : "-"}
+      <img
+        src="https://avatars.githubusercontent.com/u/7499267  "
+        alt="Diograph Logo"
+        style={{ width: "32px", height: "32px", cursor: "pointer" }}
+        onClick={() => navigate("/")}
+      />
+      {isFeatureEnabled && (
+        <div className={styles.leftSection}>
+          <div
+            style={{ cursor: "pointer" }}
+            onClick={() => {
+              setDioryId("/");
+              setDiograph(new Diograph(diographJson as IDiographObject));
+            }}
+          >
+            {diograph ? Object.keys(diograph.toObject()).length : "-"}
+          </div>
+          <button onClick={() => navigate("/diory-grid")}>DioryGrid</button>
+          <button onClick={() => navigate("/room-admin")}>Rooms</button>
+          <button onClick={() => navigate("/search")}>Search</button>
+          <button onClick={() => navigate("/timeline")}>Timeline</button>
+          <button onClick={() => navigate("/map")}>Map</button>
+          <button onClick={() => navigate("/edit-delete")}>Edit/Delete</button>
+          <button onClick={() => navigate("/upload-create")}>
+            Upload/Create
+          </button>
+          <button onClick={() => navigate("/copy")}>Copy</button>
         </div>
-        <button onClick={() => navigate("/")}>Home</button>
-        <button onClick={() => navigate("/diory-grid")}>DioryGrid</button>
-        <button onClick={() => navigate("/room-admin")}>Rooms</button>
-        <button onClick={() => navigate("/search")}>Search</button>
-        <button onClick={() => navigate("/timeline")}>Timeline</button>
-        <button onClick={() => navigate("/map")}>Map</button>
-        <button onClick={() => navigate("/edit-delete")}>Edit/Delete</button>
-        <button onClick={() => navigate("/upload-create")}>
-          Upload/Create
-        </button>
-        <button onClick={() => navigate("/copy")}>Copy</button>
-      </div>
+      )}
       <div className={styles.rightSection}>
         <button onClick={handleLogout}>Logout</button>
       </div>
