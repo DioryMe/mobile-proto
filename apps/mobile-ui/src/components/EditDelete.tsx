@@ -2,7 +2,6 @@ import NavBar from "./NavBar";
 const EditDelete = () => {
   return (
     <div>
-      <NavBar />
       <h2>Edit & Delete</h2>
       <ul>
         <li>Delete button to delete diory</li>

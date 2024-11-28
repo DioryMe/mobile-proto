@@ -20,7 +20,6 @@ const RoomAdmin = () => {
   return (
     rooms && (
       <div>
-        <NavBar />
         <h2>Room Admin</h2>
         <RoomSelection rooms={rooms} onSelect={handleRoomSelect} />
         <ul>

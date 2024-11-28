@@ -28,7 +28,6 @@ const Search = () => {
 
   return (
     <div>
-      <NavBar />
       <h2>Search</h2>
       <button
         onClick={() => {

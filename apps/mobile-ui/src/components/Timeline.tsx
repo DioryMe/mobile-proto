@@ -2,7 +2,6 @@ import NavBar from "./NavBar";
 const Timeline = () => {
   return (
     <div>
-      <NavBar />
       <h2>Timeline</h2>
       <ol>
         <li>Show list of diories which have dates</li>
