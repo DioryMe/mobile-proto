@@ -15,7 +15,7 @@ const NavBar = () => {
     navigate("/login");
   };
 
-  const isFeatureEnabled = true; // Set this to true or false based on your feature flag status
+  const isDevelopment = process.env.NODE_ENV === "development";
 
   return (
     <nav className={styles.navbar}>
@@ -25,7 +25,7 @@ const NavBar = () => {
         style={{ width: "32px", height: "32px", cursor: "pointer" }}
         onClick={() => navigate("/")}
       />
-      {isFeatureEnabled && (
+      {isDevelopment && (
         <div className={styles.leftSection}>
           <div
             style={{ cursor: "pointer" }}
