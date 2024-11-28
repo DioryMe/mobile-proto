@@ -19,9 +19,10 @@ const UploadCreate = () => {
       />
       <button
         onClick={() => {
-          diograph.addDioryAndLink(new Diory({ text: dioryText }), {
-            id: dioryId,
-          });
+          diograph &&
+            diograph.addDioryAndLink(new Diory({ text: dioryText }), {
+              id: dioryId,
+            });
           navigate("/diory-grid");
         }}
       >

@@ -10,17 +10,20 @@ const Search = () => {
   const navigate = useNavigate();
 
   const dateSearchResultMaaliskuu = () =>
+    diograph &&
     diograph.queryDiographByDateAndGeo({
       dateStart: "2016-03-10",
       dateEnd: "2016-03-31",
     });
 
   const textSearchResult2016 = () =>
+    diograph &&
     diograph.queryDiograph({
       text: "2016-1",
     });
 
   const geoSearchResultKangasala = () =>
+    diograph &&
     diograph.queryDiographByDateAndGeo({
       latlngStart: "61.48587998183945, 23.96633387857436",
       latlngEnd: "61.385879805830584, 24.241258867230393",
@@ -63,7 +66,7 @@ const Search = () => {
       <div>
         <b>Maaliskuu:</b>
         <br />
-        {Object.values(dateSearchResultMaaliskuu()).map((diory) => (
+        {Object.values(dateSearchResultMaaliskuu() || []).map((diory) => (
           <img
             key={`maalis-${diory.id}`}
             onClick={() => {
@@ -79,7 +82,7 @@ const Search = () => {
 
       <div>
         <b>Text "2016":</b>
-        {Object.values(textSearchResult2016()).map((diory) => (
+        {Object.values(textSearchResult2016() || []).map((diory) => (
           <div key={`text-${diory.id}`}>
             <img
               onClick={() => {
@@ -98,7 +101,7 @@ const Search = () => {
       <div>
         <b>Geo "Kangasala":</b>
         <br />
-        {Object.values(geoSearchResultKangasala()).map((diory) => (
+        {Object.values(geoSearchResultKangasala() || []).map((diory) => (
           <img
             key={`geo-${diory.id}`}
             onClick={() => {
