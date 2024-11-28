@@ -8,7 +8,7 @@ import DioryGrid from "./components/DioryGrid";
 
 const HomePage = () => {
   const url = `/room/list`;
-  const { setRoomId, setDioryId } = useRoomContext();
+  const { roomId: selectedRoomId, setRoomId, setDioryId } = useRoomContext();
   const rooms = useFetchData<RoomConfigData[]>(url);
   const navigate = useNavigate();
 
@@ -19,7 +19,11 @@ const HomePage = () => {
 
   return (
     <div>
-      <RoomSelection rooms={rooms || []} onSelect={handleRoomSelect} />
+      <RoomSelection
+        rooms={rooms || []}
+        onSelect={handleRoomSelect}
+        selectedRoomId={selectedRoomId}
+      />
       <DioryGrid />
     </div>
   );
