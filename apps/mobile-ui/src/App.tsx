@@ -18,6 +18,7 @@ import Map from "./components/Map";
 import EditDelete from "./components/EditDelete";
 import LoginPage from "./loginPage";
 import { RoomProvider } from "./contexts/RoomContext";
+import NavBar from "./components/NavBar";
 
 const App = () => {
   const isAuthenticated = () => {
@@ -27,6 +28,7 @@ const App = () => {
   return (
     <RoomProvider>
       <Router>
+        <NavBar />
         <Routes>
           <Route path="/login" element={<LoginPage />} />
           <Route

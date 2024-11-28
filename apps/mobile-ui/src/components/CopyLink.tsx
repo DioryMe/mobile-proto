@@ -6,7 +6,6 @@ const CopyLink = () => {
 
   return (
     <div>
-      <NavBar />
       <h2>Copy</h2>
       <p>Diory ID: {dioryId}</p>
       <ul>

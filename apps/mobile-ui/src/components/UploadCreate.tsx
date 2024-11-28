@@ -11,7 +11,6 @@ const UploadCreate = () => {
 
   return (
     <div>
-      <NavBar />
       <h2>Upload & Create</h2>
       <input
         type="text"

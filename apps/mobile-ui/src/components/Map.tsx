@@ -2,7 +2,6 @@ import NavBar from "./NavBar";
 const Map = () => {
   return (
     <div>
-      <NavBar />
       <h2>Map</h2>
       <ol>
         <li>Show list of diories which have latlng</li>

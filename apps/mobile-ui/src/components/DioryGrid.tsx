@@ -34,8 +34,6 @@ function DioryGrid() {
 
   return (
     <div>
-      <NavBar />
-      <h2>Diory Grid</h2>
       {dioryId !== "/" && (
         <div>
           <div style={{ display: "flex", gap: "8px", margin: "8px 0" }}>
@@ -55,13 +53,13 @@ function DioryGrid() {
       <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
         <Diory />
       </div>
-      <ul>
+      {/* <ul>
         <li>Show and play video in "fullscreen"</li>
         <li>
           BUG: Parent diory should persist when navigating (now always selects
           the first story)
         </li>
-      </ul>
+      </ul> */}
     </div>
   );
 }
