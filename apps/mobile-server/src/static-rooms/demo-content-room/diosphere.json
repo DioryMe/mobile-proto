@@ -1,0 +1,71 @@
+{
+  "rooms": {
+    "/": {
+      "id": "home-room",
+      "created": "2024-03-24T14:56:21.243Z",
+      "modified": "2024-03-24T14:56:21.243Z"
+    },
+    "home-room": {
+      "id": "home-room",
+      "text": "Home room",
+      "doors": [
+        {
+          "id": "image-room-id",
+          "connections": [
+            {
+              "client": "LocalClient",
+              "address": "/Users/Jouni/Code/demo-content-room",
+              "key": "image-room-key"
+            }
+          ]
+        },
+        {
+          "id": "the-diory",
+          "connections": [
+            {
+              "client": "LocalClient",
+              "address": "/Users/Jouni/My Diories/TheDiory/My Diory",
+              "key": "the-diory"
+            }
+          ]
+        }
+      ],
+      "connections": [
+        {
+          "client": "LocalClient",
+          "address": "/tmp"
+        }
+      ],
+      "created": "2024-03-24T14:56:21.243Z",
+      "modified": "2024-03-24T14:56:21.243Z"
+    },
+    "image-room-id": {
+      "id": "image-room-id",
+      "text": "Image rooms",
+      "doors": [],
+      "connections": [
+        {
+          "client": "LocalClient",
+          "address": "/Users/Jouni/Code/demo-content-room",
+          "key": "image-room-key"
+        }
+      ],
+      "created": "2024-03-24T14:56:21.243Z",
+      "modified": "2024-03-24T15:02:47.539Z"
+    },
+    "the-diory": {
+      "text": "The Diory",
+      "id": "the-diory",
+      "doors": [],
+      "connections": [
+        {
+          "client": "LocalClient",
+          "address": "/Users/Jouni/My Diories/TheDiory/My Diory",
+          "key": "the-diory"
+        }
+      ],
+      "created": "2024-03-24T14:56:21.243Z",
+      "modified": "2024-03-24T15:02:47.539Z"
+    }
+  }
+}
