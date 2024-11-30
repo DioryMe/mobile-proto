@@ -35,4 +35,4 @@ tests/report.html
 
 # Own diographs
 apps/mobile-ui/src/ignored
-apps/mobile-server/src/static-rooms
+apps/mobile-server/src/static-rooms/ignored
