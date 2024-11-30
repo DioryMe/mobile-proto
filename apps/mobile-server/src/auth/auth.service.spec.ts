@@ -1,13 +1,13 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { AuthService } from './auth.service';
 import { HttpModule } from '@nestjs/axios';
-import jwt from 'jsonwebtoken';
+import * as jwt from 'jsonwebtoken';
 import {
   CognitoIdentityClient,
   GetIdCommand,
   GetCredentialsForIdentityCommand,
 } from '@aws-sdk/client-cognito-identity';
-import jwkToPem from 'jwk-to-pem';
+import * as jwkToPem from 'jwk-to-pem';
 
 // Mock jwk-to-pem
 jest.mock('jwk-to-pem', () => jest.fn().mockReturnValue('mockedPemValue'));

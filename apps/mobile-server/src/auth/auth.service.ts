@@ -6,8 +6,9 @@ import {
   GetCredentialsForIdentityCommand,
 } from '@aws-sdk/client-cognito-identity';
 import { firstValueFrom } from 'rxjs';
-import jwt from 'jsonwebtoken';
-import jwkToPem, { JWK } from 'jwk-to-pem';
+import * as jwt from 'jsonwebtoken';
+import * as jwkToPem from 'jwk-to-pem';
+import { JWK } from 'jwk-to-pem';
 
 @Injectable()
 export class AuthService {
