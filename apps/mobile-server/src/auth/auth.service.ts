@@ -39,7 +39,9 @@ export class AuthService {
       throw new Error('Invalid public key');
     }
 
-    return jwt.verify(token, jwkToPem(publicKey), { algorithms: ['RS256'] });
+    return jwt.verify(token, jwkToPem.default(publicKey), {
+      algorithms: ['RS256'],
+    });
   }
 
   async getCredentials(identityToken: string) {
