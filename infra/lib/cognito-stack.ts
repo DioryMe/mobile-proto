@@ -78,26 +78,14 @@ export class CognitoStack extends cdk.Stack {
                 actions: ["s3:PutObject"],
                 resources: [
                   // Only room.json and diograph.json in user's own folder /users/$identityId/*
-                  "arn:aws:s3:::diory-mobile-proto/users/${cognito-identity.amazonaws.com:sub}/room.json",
-                  "arn:aws:s3:::diory-mobile-proto/users/${cognito-identity.amazonaws.com:sub}/diograph.json",
+                  "arn:aws:s3:::diory-mobile-proto/users/*/room.json",
+                  "arn:aws:s3:::diory-mobile-proto/users/*/diograph.json",
                 ],
-                conditions: {
-                  StringEquals: {
-                    "s3:ExistingObject": "false",
-                  },
-                },
-              }),
-            ],
-          }),
-          AllowRetrievingCognitoIdentityIdByEmail: new iam.PolicyDocument({
-            statements: [
-              new iam.PolicyStatement({
-                effect: iam.Effect.ALLOW,
-                actions: ["cognito-idp:AdminGetUser"],
-                resources: [
-                  // To avoid circular dependency: attach later when userpool already created?
-                  `arn:aws:cognito-idp:${this.region}:${this.account}:userpool/*`, // ${userPool.userPoolId}`,
-                ],
+                // conditions: {
+                //   StringEquals: {
+                //     "s3:ExistingObject": "false",
+                //   },
+                // },
               }),
             ],
           }),
@@ -117,8 +105,21 @@ export class CognitoStack extends cdk.Stack {
       }
     );
 
+    // Signin Lambda Function
+    const signinLambda = new lambda.Function(this, "CognitoStackSigninLambda", {
+      runtime: lambda.Runtime.NODEJS_20_X,
+      handler: "index.handler",
+      code: lambda.Code.fromAsset("signin-lambda"),
+      // TODO: Make own role for signin lambda
+      role: lambdaRole,
+    });
+
     // Attach Lambda as Pre-Signup Trigger
     userPool.addTrigger(cognito.UserPoolOperation.PRE_SIGN_UP, preSignUpLambda);
+    userPool.addTrigger(
+      cognito.UserPoolOperation.POST_AUTHENTICATION,
+      signinLambda
+    );
 
     // IAM Policy: CognitoStackPersonalS3
     const cognitoStackPersonalS3Policy = new iam.ManagedPolicy(

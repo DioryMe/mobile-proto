@@ -1,11 +1,15 @@
 import { randomUUID } from "crypto";
 
+// TODO: Generate with @diograph library
+
 export const createDefaultDiographJson = (email) => {
-  const id = randomUUID();
+  // const id = randomUUID();
   const diographJson = {
     "/": {
-      id,
+      id: "/",
       text: email,
+      created: new Date().toISOString(),
+      modified: new Date().toISOString(),
     },
   };
   return JSON.stringify(diographJson);

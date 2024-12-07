@@ -26,7 +26,7 @@ const Diory = ({ dioryId: dioryIdProp }: DioryProps) => {
   try {
     diory = diograph.getDiory({ id: dioryIdProp || dioryId });
   } catch (e) {
-    return <div>Diory not found</div>;
+    return <div>Diory not found {dioryIdProp || dioryId}</div>;
   }
 
   return (

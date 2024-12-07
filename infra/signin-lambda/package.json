@@ -1,5 +1,5 @@
 {
-  "name": "pre-signup-lambda",
+  "name": "signin-lambda",
   "version": "1.0.0",
   "main": "index.mjs",
   "license": "MIT",
