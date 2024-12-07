@@ -1,6 +1,5 @@
 import { Diory } from "@diograph/diograph";
 import { useRoomContext } from "../contexts/RoomContext";
-import NavBar from "./NavBar";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 

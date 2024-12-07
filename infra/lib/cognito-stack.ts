@@ -69,6 +69,27 @@ export class CognitoStack extends cdk.Stack {
             "service-role/AWSLambdaBasicExecutionRole"
           ),
         ],
+        inlinePolicies: {
+          // Allow writing diograph.json and room.json if they don't exist yet
+          AllowDiographAndRoomJsonWritingIfNotExisting: new iam.PolicyDocument({
+            statements: [
+              new iam.PolicyStatement({
+                effect: iam.Effect.ALLOW,
+                actions: ["s3:PutObject"],
+                resources: [
+                  // Only room.json and diograph.json in user's own folder /users/$identityId/*
+                  "arn:aws:s3:::diory-mobile-proto/users/${cognito-identity.amazonaws.com:sub}/room.json",
+                  "arn:aws:s3:::diory-mobile-proto/users/${cognito-identity.amazonaws.com:sub}/diograph.json",
+                ],
+                conditions: {
+                  StringEquals: {
+                    "s3:ExistingObject": "false",
+                  },
+                },
+              }),
+            ],
+          }),
+        },
       }
     );
 
@@ -97,12 +118,14 @@ export class CognitoStack extends cdk.Stack {
             effect: iam.Effect.ALLOW,
             actions: ["s3:ListBucket"],
             resources: ["arn:aws:s3:::diory-mobile-proto"],
-            conditions: {
-              StringLike: {
-                // Only from user's own folder /users/$identityId/*
-                "s3:prefix": ["users/${cognito-identity.amazonaws.com:sub}/*"],
-              },
-            },
+            // TODO: Something in Cognito-flow requires listing the whole bucket
+            // - not authorized to perform: "s3:ListBucket on resource: \"arn:aws:s3:::diory-mobile-proto\"
+            // conditions: {
+            //   StringLike: {
+            //     // Only from user's own folder /users/$identityId/*
+            //     "s3:prefix": ["users/${cognito-identity.amazonaws.com:sub}/*"],
+            //   },
+            // },
           }),
           new iam.PolicyStatement({
             effect: iam.Effect.ALLOW,
