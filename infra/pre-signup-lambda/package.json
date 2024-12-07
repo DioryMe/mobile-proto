@@ -1,0 +1,9 @@
+{
+  "name": "pre-signup-lambda",
+  "version": "1.0.0",
+  "main": "index.mjs",
+  "license": "MIT",
+  "dependencies": {
+    "aws-sdk": "^2.1692.0"
+  }
+}

@@ -1,17 +1,18 @@
 import { randomUUID } from "crypto";
 
-export const createDefaultDiographJson = async (email) => {
+export const createDefaultDiographJson = (email) => {
   const id = randomUUID();
-  return {
+  const diographJson = {
     "/": {
       id,
       text: email,
     },
   };
+  return JSON.stringify(diographJson);
 };
 
-export const createDefaultRoomJson = async (roomS3Address) => {
-  return {
+export const createDefaultRoomJson = (roomS3Address) => {
+  const roomJson = {
     connections: [
       {
         address: `${roomS3Address}/Diory Content`,
@@ -21,4 +22,6 @@ export const createDefaultRoomJson = async (roomS3Address) => {
       },
     ],
   };
+
+  return JSON.stringify(roomJson);
 };
