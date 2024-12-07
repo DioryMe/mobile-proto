@@ -31,9 +31,9 @@ jobs:
 
       - name: Surge deploy
         env:
-          BASE_URL: http://materialistic-insect.surge.sh
+          BASE_URL: http://diory-mobile-proto.surge.sh
           SURGE_DEPLOY_TOKEN: ${{ secrets.SURGE_DEPLOY_TOKEN }}
-        run: surge ./apps/mobile-ui/dist --domain http://materialistic-insect.surge.sh --token $SURGE_DEPLOY_TOKEN
+        run: surge ./apps/mobile-ui/dist --domain http://diory-mobile-proto.surge.sh --token $SURGE_DEPLOY_TOKEN
 
       # - name: Deploy to Heroku
       #   env:
@@ -60,7 +60,7 @@ jobs:
 
       - name: Run Robot Framework tests
         env:
-          BASE_URL: http://materialistic-insect.surge.sh
+          BASE_URL: http://diory-mobile-proto.surge.sh
           AUTO_USER_EMAIL: ${{ vars.AUTO_USER_EMAIL }}
           NON_CONFIRMED_EMAIL: ${{ vars.NON_CONFIRMED_EMAIL}}
           EXISTING_EMAIL: ${{ vars.EXISTING_EMAIL }}
