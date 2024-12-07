@@ -89,6 +89,18 @@ export class CognitoStack extends cdk.Stack {
               }),
             ],
           }),
+          AllowRetrievingCognitoIdentityIdByEmail: new iam.PolicyDocument({
+            statements: [
+              new iam.PolicyStatement({
+                effect: iam.Effect.ALLOW,
+                actions: ["cognito-idp:AdminGetUser"],
+                resources: [
+                  // To avoid circular dependency: attach later when userpool already created?
+                  `arn:aws:cognito-idp:${this.region}:${this.account}:userpool/*`, // ${userPool.userPoolId}`,
+                ],
+              }),
+            ],
+          }),
         },
       }
     );
