@@ -1,0 +1,25 @@
+name: Lint & test
+
+on: [push]
+
+jobs:
+  local_lint_test:
+    runs-on: ubuntu-latest
+    environment: local
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: ".nvmrc"
+
+      - name: Install
+        run: yarn
+
+      - name: Run lint
+        run: yarn workspace mobile-server lint
+
+      - name: Run tests
+        run: yarn workspace mobile-server test
