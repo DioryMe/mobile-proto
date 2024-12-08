@@ -30,7 +30,7 @@ export class CognitoAuthMiddleware implements NestMiddleware {
 
       req.session = {
         userId: sub,
-        email: username,
+        username,
         accessToken,
         identityToken,
       };

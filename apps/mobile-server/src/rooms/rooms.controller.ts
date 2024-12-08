@@ -5,6 +5,7 @@ import { Response } from 'express';
 import { SessionData } from '../@types/session-data';
 import { ConnectionClientList, IDiory } from '@diograph/diograph/types';
 import { LocalClient } from '@diograph/local-client';
+import { uploadDefaultFiles } from './initNativeRoom.utils';
 
 @Controller('room')
 export class RoomsController {
@@ -57,6 +58,39 @@ export class RoomsController {
     const room = await constructAndLoadRoom(address, clientType, clients);
 
     return room;
+  }
+
+  @Get('native/init')
+  async initNativeRoom(@Session() session: SessionData) {
+    const roomId = 'native';
+    const email = session.username; // session.email;
+    const roomList = this.getRoomConfig(session);
+    const roomConfig = roomList.find((room) => room.id === roomId);
+
+    if (
+      !roomConfig ||
+      !session.identityId ||
+      !email ||
+      !session.awsCredentials
+    ) {
+      console.log(
+        'props',
+        roomId,
+        session.identityId,
+        email,
+        session.awsCredentials,
+      );
+      throw new Error('Native room not found');
+    }
+
+    await uploadDefaultFiles(
+      roomConfig,
+      session.identityId,
+      email,
+      JSON.parse(session.awsCredentials),
+    );
+
+    return { message: 'OK' };
   }
 
   @Get(':roomId/diograph')
