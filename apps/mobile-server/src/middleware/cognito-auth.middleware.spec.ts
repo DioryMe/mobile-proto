@@ -11,6 +11,9 @@ describe('CognitoAuthMiddleware', () => {
     mockAuthService = {
       verifyToken: jest.fn(),
       getCredentials: jest.fn(),
+      decodeToken: jest
+        .fn()
+        .mockReturnValue({ payload: { email: 'mockEmail' } }),
     };
 
     // Initialize the middleware with the mock authService
@@ -55,7 +58,8 @@ describe('CognitoAuthMiddleware', () => {
 
     expect(req.session).toEqual({
       userId: 'mockSub',
-      email: 'mockUsername',
+      email: 'mockEmail',
+      username: 'mockUsername',
       accessToken: 'mockAccessToken',
       identityToken: 'mockIdentityToken',
       awsCredentials: JSON.stringify({

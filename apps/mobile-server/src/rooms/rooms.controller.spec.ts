@@ -43,13 +43,16 @@ describe('RoomsController', () => {
       accessToken: 'test-access-token',
     };
 
-    const result = await roomsController.getRoomDiograph(mockSession);
+    const result = await roomsController.getRoomDiograph(mockSession, 'native');
 
     expect(result).toEqual('mock-diograph-data');
     expect(constructAndLoadRoom).toHaveBeenCalledWith(
       expect.stringContaining('s3://'),
       'S3Client',
       {
+        LocalClient: {
+          clientConstructor: expect.anything(),
+        },
         S3Client: {
           clientConstructor: expect.anything(),
           credentials: {
