@@ -28,9 +28,14 @@ export class CognitoAuthMiddleware implements NestMiddleware {
       const { sub, username }: CognitoAccessToken =
         await this.authService.verifyToken(accessToken);
 
+      // Decode the identity token to extract the email
+      const decodedIdentityToken = this.authService.decodeToken(identityToken);
+      const email = decodedIdentityToken.payload.email;
+
       req.session = {
         userId: sub,
         username,
+        email,
         accessToken,
         identityToken,
       };

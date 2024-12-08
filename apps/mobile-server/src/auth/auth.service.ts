@@ -30,8 +30,12 @@ export class AuthService {
     return this.cachedKeys;
   }
 
+  decodeToken(token: string): any {
+    return jwt.decode(token, { complete: true });
+  }
+
   async verifyToken(token: string): Promise<any> {
-    const decodedHeader = jwt.decode(token, { complete: true });
+    const decodedHeader = this.decodeToken(token);
     const jwks = await this.getJWKs();
     const publicKey = jwks[decodedHeader?.header.kid as string];
 

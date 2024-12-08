@@ -63,7 +63,7 @@ export class RoomsController {
   @Get('native/init')
   async initNativeRoom(@Session() session: SessionData) {
     const roomId = 'native';
-    const email = session.username; // session.email;
+    const email = session.email;
     const roomList = this.getRoomConfig(session);
     const roomConfig = roomList.find((room) => room.id === roomId);
 
