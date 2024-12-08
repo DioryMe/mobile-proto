@@ -5,6 +5,7 @@ import NavBar from "./components/NavBar";
 
 const EndpointTestPage = () => {
   const [responses, setResponses] = useState<Record<string, any>>({
+    "/room/native/init": null,
     "/room/native/diograph": null,
     "/room/demo/diograph": null,
     "/room/thumbnail": null,
@@ -20,20 +21,28 @@ const EndpointTestPage = () => {
 
   return (
     <div>
-      <NavBar />
       <h1>Hello World</h1>
       {Object.entries(responses).map(([key, value]) => (
-        <div>
+        <div key={key}>
           {key}: {value ? "OK" : "-"}
         </div>
       ))}
       <button
+        key="nativeDiographInitButton"
+        data-test-id="nativeDiographInitButton"
+        onClick={() => handleApiRequest("/room/native/init")}
+      >
+        Init Diograph
+      </button>
+      <button
+        key="nativeDiographButton"
         data-test-id="nativeDiographButton"
         onClick={() => handleApiRequest("/room/native/diograph")}
       >
         Native Diograph
       </button>
       <button
+        key="demoDiographButton"
         data-test-id="demoDiographButton"
         onClick={() => handleApiRequest("/room/demo/diograph")}
       >
@@ -41,18 +50,21 @@ const EndpointTestPage = () => {
       </button>
       <br />
       <button
+        key="thumbnailButton"
         data-test-id="thumbnailButton"
         onClick={() => handleApiRequest("/room/thumbnail")}
       >
         Thumbnail
       </button>
       <button
+        key="contentButton"
         data-test-id="contentButton"
         onClick={() => handleApiRequest("/room/content")}
       >
         Content
       </button>
       <button
+        key="listButton"
         data-test-id="listButton"
         onClick={() => handleApiRequest("/room/list")}
       >

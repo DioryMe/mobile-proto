@@ -45,6 +45,9 @@ const NavBar = () => {
           <button onClick={() => navigate("/upload-create")}>
             Upload/Create
           </button>
+          <button onClick={() => navigate("/endpoint-test")}>
+            Endpoint Test
+          </button>
           <button onClick={() => navigate("/copy")}>Copy</button>
         </div>
       )}

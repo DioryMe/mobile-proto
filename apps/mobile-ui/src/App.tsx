@@ -19,6 +19,7 @@ import EditDelete from "./components/EditDelete";
 import LoginPage from "./loginPage";
 import { RoomProvider } from "./contexts/RoomContext";
 import NavBar from "./components/NavBar";
+import EndpointTestPage from "./endpointTest";
 
 const App = () => {
   const isAuthenticated = () => {
@@ -50,6 +51,7 @@ const App = () => {
           <Route path="/timeline" element={<Timeline />} />
           <Route path="/map" element={<Map />} />
           <Route path="/edit-delete" element={<EditDelete />} />
+          <Route path="/endpoint-test" element={<EndpointTestPage />} />
         </Routes>
       </Router>
     </RoomProvider>
