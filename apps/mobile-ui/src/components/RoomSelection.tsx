@@ -15,6 +15,7 @@ const RoomSelection = ({
     {rooms.map((room: RoomConfigData) => (
       <li
         key={room.id}
+        data-test-id={`room-selection-item-${room.id}`}
         style={{
           cursor: "pointer",
           textTransform: "uppercase",

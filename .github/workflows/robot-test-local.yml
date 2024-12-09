@@ -72,6 +72,11 @@ jobs:
           EXISTING_EMAIL: ${{ vars.EXISTING_EMAIL }}
         run: robot tests/main.robot
 
+      - name: Run Cognito cleanup
+        env:
+          USER_POOL_ID: ${{ vars.VITE_AWS_COGNITO_USER_POOL_ID }}
+        run: ./scripts/cleanup-cognito-users.sh
+
       - name: Upload test artifacts
         if: always()
         uses: actions/upload-artifact@v4
