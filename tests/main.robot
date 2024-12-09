@@ -19,25 +19,29 @@ Test Login and Verify Alert
     Should Be Equal    ${error_text}    Sign in failed: NotAuthorizedException: Incorrect username or password.
     Close Browser
 
-# Test Sign up and Make API Request
-#     New Browser  headless=True
-#     New Page  ${BASE_URL}
-#     Click    css=button[data-test-id="signInOrUpToggle"]
-#     Fill Text    id=email    ${AUTO_USER_EMAIL}
-#     Fill Text    id=password    ${PASSWORD}
-#     Fill Text    id=confirmPassword    ${PASSWORD}
-#     Click    css=button[data-test-id="signInOrUpSubmit"]
-#     Sleep  2
-#     Click    css=button[data-test-id="signInOrUpSubmit"]
+Sign up, login, verify room selection and root diory
+    New Browser  headless=True
+    New Page  ${BASE_URL}
+    Click    css=button[data-test-id="signInOrUpToggle"]
+    Fill Text    id=email    ${AUTO_USER_EMAIL}
+    Fill Text    id=password    ${PASSWORD}
+    Fill Text    id=confirmPassword    ${PASSWORD}
+    Click    css=button[data-test-id="signInOrUpSubmit"]
+    Sleep  1
+    Click    css=button[data-test-id="signInOrUpSubmit"]
+    Sleep  1
+    ${demo_item}=    Get Text    data-test-id=room-selection-item-demo
+    Should Be Equal    ${demo_item}    DEMO
+    ${native_item}=    Get Text    data-test-id=room-selection-item-native
+    Should Be Equal    ${native_item}    NATIVE
+    ${diory_heading}=    Get Text    data-test-id=diory-heading-/
+    Should Be Equal    ${diory_heading}    DEMO content
+    # Click    css=div[data-test-id="room-selection-item-native"]
+    # Sleep  2
+    # ${diory_heading}=    Get Text    css=div[data-test-id="diory-heading-/"]
+    # Should Be Equal    ${diory_heading}  ${EXISTING_EMAIL}
+    Close Browser
 
-#     # Tää menee uusiksi
-#     Click    css=button[data-test-id="makeApiRequest"]
-#     ${dioryText}=  Get Text   css=div#diory-1
-#     Should Be Equal  ${dioryText}  Do something nice for someone you care about
-#     ${count}=    Get Element Count    css=div[data-test-id=diory-list] > *
-#     Should Be Equal As Numbers    ${count}    30
-
-#     Close Browser
 
 Test Sign up and User Not Confirmed
     New Browser  headless=True

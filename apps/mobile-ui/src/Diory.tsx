@@ -45,6 +45,7 @@ const Diory = ({ dioryId: dioryIdProp }: DioryProps) => {
     >
       {/* Main content */}
       <div
+        data-test-id={`diory-heading-${dioryIdProp || dioryId}`}
         style={{
           marginBottom: "10px",
           position: "relative",
