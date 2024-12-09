@@ -8,8 +8,8 @@
     "infra"
   ],
   "scripts": {
-    "start:all": "concurrently \"yarn start:mobile-ui\" \"yarn start:mobile-server\" \"yarn start:redis\"",
-    "start:dev:all": "concurrently \"yarn start:dev:mobile-ui\" \"yarn start:dev:mobile-server\" \"yarn start:redis\"",
+    "start:all": "concurrently \"yarn start:mobile-ui\" \"yarn start:mobile-server\"",
+    "start:dev:all": "concurrently \"yarn start:dev:mobile-ui\" \"yarn start:dev:mobile-server\"",
     "start:mobile-ui": "yarn workspace mobile-ui preview",
     "start:dev:mobile-ui": "yarn workspace mobile-ui dev",
     "start:mobile-server": "yarn workspace mobile-server start",

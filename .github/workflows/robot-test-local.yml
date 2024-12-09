@@ -47,11 +47,15 @@ jobs:
           VITE_AWS_COGNITO_CLIENT_ID: ${{ vars.VITE_AWS_COGNITO_CLIENT_ID }}
           VITE_CALLBACK_URL: ${{ vars.VITE_CALLBACK_URL }}
           BASE_URL: ${{ vars.BASE_URL }}
-        run: yarn workspace mobile-ui dev &
+        run: yarn start:dev:all &
 
-      - name: Wait for the server to be ready
+      - name: Wait for the frontend server to be ready
         run: |
-          timeout 60 sh -c "until curl --silent --fail http://localhost:5173; do echo 'Waiting for server...'; sleep 2; done"
+          timeout 60 sh -c "until curl --silent --fail http://localhost:5173; do echo 'Waiting for server...'; sleep 1; done"
+
+      - name: Wait for the backend server to be ready
+        run: |
+          timeout 60 sh -c "until curl --silent --fail http://localhost:3000/static-room/list; do echo 'Waiting for server...'; sleep 1; done"
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
