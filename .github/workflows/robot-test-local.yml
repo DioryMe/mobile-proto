@@ -83,6 +83,7 @@ jobs:
         with:
           name: robot-framework-outputs
           path: |
+            /home/runner/work/mobile-proto/mobile-proto/browser/screenshot/*
             /home/runner/work/mobile-proto/mobile-proto/output.xml
             /home/runner/work/mobile-proto/mobile-proto/log.html
             /home/runner/work/mobile-proto/mobile-proto/report.html
