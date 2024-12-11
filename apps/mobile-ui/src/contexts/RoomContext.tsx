@@ -16,6 +16,10 @@ interface RoomContextType {
   setDiograph: (diograph: Diograph) => void;
   roomId: string;
   setRoomId: (id: string) => void;
+  setLoading: (loading: boolean) => void;
+  loading: boolean;
+  setError: (error: string | null) => void;
+  error: string | null;
 }
 
 const RoomContext = createContext<RoomContextType | undefined>(undefined);
@@ -24,16 +28,36 @@ export function RoomProvider({ children }: { children: ReactNode }) {
   const [dioryId, setDioryId] = useState<string>("/");
   const [diograph, setDiograph] = useState<Diograph | null>(null);
   const [roomId, setRoomId] = useState("demo");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
-  const diographJson = useFetchData<IDiographObject>(
-    `/room/${roomId}/diograph`
-  );
+  console.log("provider");
+  const {
+    result: diographJson,
+    loading: diographLoading,
+    error: diographError,
+  } = useFetchData<IDiographObject>(`/room/${roomId}/diograph`);
 
   useEffect(() => {
     if (diographJson) {
+      console.log("DONE loading in RoomContext...");
+      setLoading(false);
       setDiograph(new Diograph(diographJson));
     }
   }, [diographJson]);
+
+  useEffect(() => {
+    if (diographLoading) {
+      console.log("Loading in RoomContext...");
+      setLoading(true);
+      setError(null);
+    }
+    if (diographError) {
+      console.log("DONE loading in RoomContext...");
+      setLoading(false);
+      setError("diographError: " + JSON.stringify(diographError));
+    }
+  }, [diographLoading, diographError]);
 
   const value = {
     dioryId,
@@ -42,6 +66,10 @@ export function RoomProvider({ children }: { children: ReactNode }) {
     setDiograph,
     roomId,
     setRoomId,
+    loading,
+    setLoading,
+    error,
+    setError,
   };
 
   return <RoomContext.Provider value={value}>{children}</RoomContext.Provider>;

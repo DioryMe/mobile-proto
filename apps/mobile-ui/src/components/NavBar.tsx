@@ -8,7 +8,6 @@ import { IDiographObject } from "@diograph/diograph/types";
 
 const NavBar = () => {
   const navigate = useNavigate();
-  const { diograph, setDiograph, setDioryId } = useRoomContext();
 
   const handleLogout = () => {
     sessionStorage.clear();
@@ -27,15 +26,7 @@ const NavBar = () => {
       />
       {isDevelopment && (
         <div className={styles.leftSection}>
-          <div
-            style={{ cursor: "pointer" }}
-            onClick={() => {
-              setDioryId("/");
-              setDiograph(new Diograph(diographJson as IDiographObject));
-            }}
-          >
-            {diograph ? Object.keys(diograph.toObject()).length : "-"}
-          </div>
+          <div style={{ cursor: "pointer" }}></div>
           <button onClick={() => navigate("/diory-grid")}>DioryGrid</button>
           <button onClick={() => navigate("/room-admin")}>Rooms</button>
           <button onClick={() => navigate("/search")}>Search</button>
