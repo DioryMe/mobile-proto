@@ -8,7 +8,7 @@ import RoomSelection from "./RoomSelection";
 const RoomAdmin = () => {
   const url = `/room/list`;
   const { setRoomId, setDioryId } = useRoomContext();
-  const rooms = useFetchData<RoomConfigData[]>(url);
+  const { result: rooms } = useFetchData<RoomConfigData[]>(url);
   const navigate = useNavigate();
 
   const handleRoomSelect = (roomId: string) => {
