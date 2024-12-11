@@ -25,13 +25,26 @@ export const fetchData = async <T>(url: string): Promise<T> => {
 const baseUrl = import.meta.env.VITE_API_URL;
 
 const useFetchData = <T>(url: string) => {
-  const [data, setData] = useState<T | null>(null);
+  const [result, setResult] = useState<T | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    fetchData<T>(url).then(setData);
+    setLoading(true);
+    setError(null);
+
+    fetchData<T>(url)
+      .then((result) => {
+        setResult(result);
+        setLoading(false);
+      })
+      .catch((err) => {
+        setError(err.message);
+        setLoading(false);
+      });
   }, [url]);
 
-  return data;
+  return { result, loading, error };
 };
 
 export default useFetchData;
