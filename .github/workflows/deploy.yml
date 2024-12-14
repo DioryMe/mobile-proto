@@ -10,6 +10,9 @@ concurrency:
 jobs:
   prod_robot_tests:
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
     environment: production
     steps:
       - name: Checkout code
@@ -73,6 +76,12 @@ jobs:
 
       - name: Wait for deploy to be applied
         run: sleep 3
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_COGNITO_CLEANUP_ASSUME_ROLE }}
+          aws-region: ${{ vars.VITE_AWS_REGION }}
 
       - name: Run Cognito cleanup
         env:
