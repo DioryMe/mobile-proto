@@ -35,12 +35,16 @@ jobs:
           SURGE_DEPLOY_TOKEN: ${{ secrets.SURGE_DEPLOY_TOKEN }}
         run: surge ./apps/mobile-ui/dist --domain http://diory-mobile-proto.surge.sh --token $SURGE_DEPLOY_TOKEN
 
-      # - name: Deploy to Heroku
-      #   env:
-      #     HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-      #   run: |
-      #     git remote add heroku https://git.heroku.com/${{ secrets.HEROKU_APP_NAME }}.git
-      #     git subtree push --prefix apps/mobile-server heroku main --force
+      - name: Install Heroku CLI
+        run: |
+          curl https://cli-assets.heroku.com/install.sh | sh
+
+      - name: Deploy to Heroku
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+        run: |
+          heroku git:remote -a ${{ secrets.HEROKU_APP_NAME }}
+          git subtree push --prefix apps/mobile-server heroku main
 
       - name: Set up Python
         uses: actions/setup-python@v5
