@@ -48,7 +48,15 @@ jobs:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
         run: |
           git remote add heroku https://heroku:${{ secrets.HEROKU_API_KEY }}@git.heroku.com/${{ secrets.HEROKU_APP_NAME }}.git
-          git subtree push --prefix apps/mobile-server heroku main
+          git subtree split --prefix apps/mobile-server -b heroku-deploy
+          git checkout heroku-deploy
+          git push heroku heroku-deploy:main --force
+          git checkout -- .
+          git checkout main
+
+          # Should work like this simple:
+          # git remote add heroku https://heroku:${{ secrets.HEROKU_API_KEY }}@git.heroku.com/${{ secrets.HEROKU_APP_NAME }}.git
+          # git subtree push --prefix apps/mobile-server heroku main
 
       - name: Set up Python
         uses: actions/setup-python@v5
