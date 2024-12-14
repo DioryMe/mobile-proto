@@ -60,7 +60,12 @@ jobs:
         run: echo $(robot --version)
 
       - name: Wait for deploy to be applied
-        run: sleep 5
+        run: sleep 3
+
+      - name: Run Cognito cleanup
+        env:
+          USER_POOL_ID: ${{ vars.VITE_AWS_COGNITO_USER_POOL_ID }}
+        run: ./scripts/cleanup-cognito-users.sh
 
       - name: Run Robot Framework tests
         env:
@@ -69,6 +74,11 @@ jobs:
           NON_CONFIRMED_EMAIL: ${{ vars.NON_CONFIRMED_EMAIL}}
           EXISTING_EMAIL: ${{ vars.EXISTING_EMAIL }}
         run: robot tests/main.robot
+
+      - name: Run Cognito cleanup
+        env:
+          USER_POOL_ID: ${{ vars.VITE_AWS_COGNITO_USER_POOL_ID }}
+        run: ./scripts/cleanup-cognito-users.sh
 
       - name: Upload test artifacts
         if: always()
