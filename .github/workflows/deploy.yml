@@ -3,6 +3,10 @@ name: Deploy and robot tests
 on:
   workflow_dispatch:
 
+concurrency:
+  group: uses-test-cognito-users
+  cancel-in-progress: false
+
 jobs:
   prod_robot_tests:
     runs-on: ubuntu-latest

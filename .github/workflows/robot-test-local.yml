@@ -2,6 +2,10 @@ name: Robot test
 
 on: [push]
 
+concurrency:
+  group: uses-test-cognito-users
+  cancel-in-progress: false
+
 jobs:
   local_robot_tests:
     runs-on: ubuntu-latest
