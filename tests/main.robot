@@ -9,7 +9,8 @@ ${EXISTING_EMAIL}    %{EXISTING_EMAIL}
 ${PASSWORD}     Password1234%
 
 *** Test Cases ***
-Test Login and Verify Alert
+User with wrong password: "Incorrect username or password" error
+# uses already existing user's email with wrong password
     New Browser  headless=True
     New Page  ${BASE_URL}
     Fill Text    id=email    ${EXISTING_EMAIL}
@@ -19,7 +20,8 @@ Test Login and Verify Alert
     Should Be Equal    ${error_text}    Sign in failed: NotAuthorizedException: Incorrect username or password.
     Close Browser
 
-Sign up, login, verify room selection and root diory
+Complete sign up and login flow for new user: checks demo & native rooms
+# uses email which gets auto-confirmed
     New Browser  headless=True
     New Page  ${BASE_URL}
     Click    css=button[data-test-id="signInOrUpToggle"]
@@ -43,7 +45,8 @@ Sign up, login, verify room selection and root diory
     Close Browser
 
 
-Test Sign up and User Not Confirmed
+Sign up and login flow for non-confirmed user: "User is not confirmed" error
+# uses email which doesn't get auto-confirmed, needs to be confirmed manually
     New Browser  headless=True
     New Page  ${BASE_URL}
     Click    css=button[data-test-id="signInOrUpToggle"]
@@ -51,7 +54,8 @@ Test Sign up and User Not Confirmed
     Fill Text    id=password    ${PASSWORD}
     Fill Text    id=confirmPassword    ${PASSWORD}
     Click    css=button[data-test-id="signInOrUpSubmit"]
-    Sleep  1
+    # To prevent flakiness as signup button doesn't always to sign in button and gets clicked twice
+    Sleep  2
     Click    css=button[data-test-id="signInOrUpSubmit"]
     ${error_text}=    Get Text    data-test-id=errorMessage
     Should Be Equal    ${error_text}    Sign in failed: UserNotConfirmedException: User is not confirmed.
