@@ -52,7 +52,7 @@ jobs:
           git checkout heroku-deploy
           git push heroku heroku-deploy:main --force
           git checkout -- .
-          git checkout main
+          git checkout -
 
           # Should work like this simple:
           # git remote add heroku https://heroku:${{ secrets.HEROKU_API_KEY }}@git.heroku.com/${{ secrets.HEROKU_APP_NAME }}.git
