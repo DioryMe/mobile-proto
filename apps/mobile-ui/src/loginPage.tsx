@@ -90,9 +90,15 @@ const LoginPage = () => {
             />
           </div>
         )}
-        <button data-test-id="signInOrUpSubmit" type="submit">
-          {isSignUp ? "Sign Up" : "Sign In"}
-        </button>
+        {isSignUp ? (
+          <button data-test-id="signUpSubmit" type="submit">
+            Sign up
+          </button>
+        ) : (
+          <button data-test-id="signInSubmit" type="submit">
+            Sign In
+          </button>
+        )}
       </form>
       <button
         data-test-id="signInOrUpToggle"
