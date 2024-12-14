@@ -15,7 +15,7 @@ User with wrong password: "Incorrect username or password" error
     New Page  ${BASE_URL}
     Fill Text    id=email    ${EXISTING_EMAIL}
     Fill Text    id=password    ${PASSWORD}
-    Click    css=button[data-test-id="signInOrUpSubmit"]
+    Click    css=button[data-test-id="signInSubmit"]
     ${error_text}=    Get Text    data-test-id=errorMessage
     Should Be Equal    ${error_text}    Sign in failed: NotAuthorizedException: Incorrect username or password.
     Close Browser
@@ -28,10 +28,8 @@ Complete sign up and login flow for new user: checks demo & native rooms
     Fill Text    id=email    ${AUTO_USER_EMAIL}
     Fill Text    id=password    ${PASSWORD}
     Fill Text    id=confirmPassword    ${PASSWORD}
-    Click    css=button[data-test-id="signInOrUpSubmit"]
-    Sleep  1
-    Click    css=button[data-test-id="signInOrUpSubmit"]
-    Sleep  1
+    Click    css=button[data-test-id="signUpSubmit"]
+    Click    css=button[data-test-id="signInSubmit"]
     ${demo_item}=    Get Text    data-test-id=room-selection-item-demo
     Should Be Equal    ${demo_item}    DEMO
     ${native_item}=    Get Text    data-test-id=room-selection-item-native
@@ -53,10 +51,10 @@ Sign up and login flow for non-confirmed user: "User is not confirmed" error
     Fill Text    id=email    ${NON_CONFIRMED_EMAIL}
     Fill Text    id=password    ${PASSWORD}
     Fill Text    id=confirmPassword    ${PASSWORD}
-    Click    css=button[data-test-id="signInOrUpSubmit"]
+    Click    css=button[data-test-id="signUpSubmit"]
     # To prevent flakiness as signup button doesn't always to sign in button and gets clicked twice
-    Sleep  2
-    Click    css=button[data-test-id="signInOrUpSubmit"]
+    # Sleep  2
+    Click    css=button[data-test-id="signInSubmit"]
     ${error_text}=    Get Text    data-test-id=errorMessage
     Should Be Equal    ${error_text}    Sign in failed: UserNotConfirmedException: User is not confirmed.
     Close Browser

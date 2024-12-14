@@ -1,4 +1,4 @@
-name: Deploy and robot tests
+name: Deploy and robot tests in production
 
 on:
   workflow_dispatch:
@@ -47,7 +47,7 @@ jobs:
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
         run: |
-          heroku git:remote -a ${{ secrets.HEROKU_APP_NAME }}
+          git remote add heroku https://heroku:${{ secrets.HEROKU_API_KEY }}@git.heroku.com/${{ secrets.HEROKU_APP_NAME }}.git
           git subtree push --prefix apps/mobile-server heroku main
 
       - name: Set up Python
