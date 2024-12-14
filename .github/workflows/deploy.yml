@@ -2,6 +2,9 @@ name: Deploy and robot tests in production
 
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - rc-*
 
 concurrency:
   group: uses-test-cognito-users
