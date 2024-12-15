@@ -1,0 +1,27 @@
+name: Toggle web process on in Heroku
+
+on:
+  workflow_dispatch:
+    inputs:
+      action:
+        description: "On or off?"
+        required: true
+        default: "on"
+        type: choice
+        options:
+          - on
+          - off
+
+jobs:
+  toggle-web:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Toggle web process in Heroku
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+        run: |
+          if [ "${{ github.event.inputs.action }}" == "on" ]; then
+            heroku ps:scale web=1 --app ${{ secrets.HEROKU_APP_NAME }}
+          else
+            heroku ps:scale web=0 --app ${{ secrets.HEROKU_APP_NAME }}
+          fi
