@@ -64,6 +64,12 @@ jobs:
           # git remote add heroku https://heroku:${{ secrets.HEROKU_API_KEY }}@git.heroku.com/${{ secrets.HEROKU_APP_NAME }}.git
           # git subtree push --prefix apps/mobile-server heroku main
 
+      - name: Toggle web process on in Heroku
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+        run: |
+          heroku ps:scale web=1 --app ${{ secrets.HEROKU_APP_NAME }}
+
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
