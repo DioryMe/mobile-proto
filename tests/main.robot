@@ -36,10 +36,17 @@ Complete sign up and login flow for new user: checks demo & native rooms
     Should Be Equal    ${native_item}    NATIVE
     ${diory_heading}=    Get Text    data-test-id=diory-heading-/
     Should Be Equal    ${diory_heading}    DEMO content
-    # Click    css=div[data-test-id="room-selection-item-native"]
-    # Sleep  2
-    # ${diory_heading}=    Get Text    css=div[data-test-id="diory-heading-/"]
-    # Should Be Equal    ${diory_heading}  ${EXISTING_EMAIL}
+
+    Go To  ${BASE_URL}/endpoint-test
+    Click    css=button[data-test-id="nativeDiographInitButton"]
+    Sleep    2
+
+    Go To  ${BASE_URL}
+    Click    css=li[data-test-id="room-selection-item-native"]
+    Sleep  4
+    ${diory_heading}=    Get Text    css=div[data-test-id="diory-heading-/"]
+    Should Be Equal    ${diory_heading}  ${AUTO_USER_EMAIL}
+
     Close Browser
 
 
