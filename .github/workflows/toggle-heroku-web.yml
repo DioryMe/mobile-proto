@@ -3,14 +3,13 @@ name: Toggle web process on in Heroku
 on:
   workflow_dispatch:
     inputs:
-      action:
-        description: "On or off?"
+      toggle:
+        description: "Scale dynos to..."
         required: true
-        default: "on"
         type: choice
         options:
-          - on
-          - off
+          - 0:Basic (off)
+          - 1:Basic (on)
 
 jobs:
   toggle-web:
@@ -20,7 +19,7 @@ jobs:
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
         run: |
-          if [ "${{ github.event.inputs.action }}" == "on" ]; then
+          if [ "${{ github.event.inputs.toggle }}" == "1:Basic (on)" ]; then
             heroku ps:scale web=1 --app ${{ secrets.HEROKU_APP_NAME }}
           else
             heroku ps:scale web=0 --app ${{ secrets.HEROKU_APP_NAME }}
