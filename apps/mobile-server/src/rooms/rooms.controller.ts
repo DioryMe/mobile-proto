@@ -114,7 +114,7 @@ export class RoomsController {
       try {
         const room = await this.getRoom(roomConfig.id, session);
         response = await room.readContent(
-          'bafkreidqzn2oioyvd62dc4cxvtbuwxcq6p7v5b3ro2i5yoofpa4ouppimy',
+          'bafkreicy2m7z7pup66fqp4y64e7tk6xkebdkeemi6bumhjcfz4mbhr3rpq',
         );
 
         res
