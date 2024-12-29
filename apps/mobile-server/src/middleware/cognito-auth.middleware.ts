@@ -59,6 +59,7 @@ export class CognitoAuthMiddleware implements NestMiddleware {
       console.log(error);
       console.log(error.message);
       console.log(JSON.stringify(error, null, 2));
+      // TODO: Throw here TokenExpiredError which frontend can catch and redirect to login
       throw new UnauthorizedException(
         'Invalid authorization or identity token',
       );

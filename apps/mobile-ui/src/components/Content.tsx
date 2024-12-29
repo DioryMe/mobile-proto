@@ -8,11 +8,12 @@ function Content() {
 
   const diory = diograph && diograph.getDiory({ id: dioryId });
   const CID = diory && diory.data && diory.data[0].contentUrl;
+  const mimeType = diory && diory.data && diory.data[0].encodingFormat;
 
   useEffect(() => {
     if (CID) {
       try {
-        fetchContent(`/room/content?CID=${CID}`)
+        fetchContent(`/room/content?CID=${CID}&mime=${mimeType}`)
           .then((response: any) => response.blob())
           .then((blob) => {
             const url = URL.createObjectURL(blob);
@@ -29,7 +30,15 @@ function Content() {
   return (
     <div>
       <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
-        <img src={contentPayload} width="200" />
+        {mimeType?.startsWith("image") && (
+          <img src={contentPayload} width="200" />
+        )}
+        {mimeType?.startsWith("video") && (
+          <video src={contentPayload} controls width="200" />
+        )}
+        {mimeType?.startsWith("audio") && (
+          <audio src={contentPayload} controls />
+        )}
       </div>
     </div>
   );
