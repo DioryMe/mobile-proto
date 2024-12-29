@@ -117,7 +117,7 @@ export class RoomsController {
 
         res
           .status(200)
-          .header('Content-Type', 'image/jpeg')
+          .header('Content-Type', query.mime)
           .send(Buffer.from(response));
         return;
       } catch (error) {
