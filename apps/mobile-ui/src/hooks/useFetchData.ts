@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-export const fetchData = async <T>(url: string): Promise<T> => {
+export const fetchContent = async <T>(url: string): Promise<T> => {
   const accessToken = sessionStorage.getItem("accessToken");
   const idToken = sessionStorage.getItem("idToken");
 
@@ -19,7 +19,12 @@ export const fetchData = async <T>(url: string): Promise<T> => {
     throw new Error(`API request failed: ${response.statusText}`);
   }
 
-  return response.json() as T;
+  return response as T;
+};
+
+export const fetchData = async <T>(url: string): Promise<T> => {
+  const response = await fetchContent<any>(url);
+  return response.json();
 };
 
 const baseUrl = import.meta.env.VITE_API_URL;

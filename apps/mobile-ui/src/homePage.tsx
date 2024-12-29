@@ -5,6 +5,7 @@ import RoomSelection from "./components/RoomSelection";
 import { useRoomContext } from "./contexts/RoomContext";
 import DioryGrid from "./components/DioryGrid";
 import { RoomConfigData } from "@diograph/diograph/types";
+import Content from "./components/Content";
 
 const HomePage = () => {
   const url = `/room/list`;
@@ -35,6 +36,7 @@ const HomePage = () => {
         selectedRoomId={selectedRoomId}
       />
       <DioryGrid />
+      <Content />
     </div>
   );
 };

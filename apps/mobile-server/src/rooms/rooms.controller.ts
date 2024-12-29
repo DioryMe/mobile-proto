@@ -113,9 +113,7 @@ export class RoomsController {
     for (const roomConfig of roomConfigList) {
       try {
         const room = await this.getRoom(roomConfig.id, session);
-        response = await room.readContent(
-          'bafkreicy2m7z7pup66fqp4y64e7tk6xkebdkeemi6bumhjcfz4mbhr3rpq',
-        );
+        response = await room.readContent(query.CID);
 
         res
           .status(200)
