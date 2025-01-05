@@ -6,22 +6,19 @@ export class NginxServerStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
-    // Create a VPC with a single public subnet
-    const vpc = new ec2.Vpc(this, "NginxServerVpc", {
-      maxAzs: 2, // Default is 2 availability zones
-      ipAddresses: ec2.IpAddresses.cidr("10.0.0.0/16"), // IPv4 CIDR
-      enableDnsHostnames: true,
-      enableDnsSupport: true,
+    const vpc = new ec2.Vpc(this, "Ip6VpcDualStack", {
+      ipProtocol: ec2.IpProtocol.DUAL_STACK,
       subnetConfiguration: [
         {
-          cidrMask: 24,
-          name: "PublicSubnet",
+          name: "Public",
           subnetType: ec2.SubnetType.PUBLIC,
           mapPublicIpOnLaunch: true,
         },
+        // {
+        //   name: "Private",
+        //   subnetType: ec2.SubnetType.PRIVATE_ISOLATED,
+        // },
       ],
-      // Enable IPv6 in the VPC
-      natGateways: 0,
     });
 
     // Define a security group for the EC2 instance
@@ -91,22 +88,15 @@ export class NginxServerStack extends cdk.Stack {
           volume: ec2.BlockDeviceVolume.ebs(8), // Minimal root volume size (8GB)
         },
       ],
+      vpcSubnets: { subnetType: ec2.SubnetType.PUBLIC },
+      allowAllIpv6Outbound: true,
     });
 
-    // Add a static IPv6 address to the EC2 instance (=eip, Elastic IP)
-    const ipv6Address = new ec2.CfnEIP(this, "NginxServerIPv6Address", {
-      domain: "vpc",
-    });
-
-    // Do not remove IP address on stack destruction
-    // ipv6Address.applyRemovalPolicy(cdk.RemovalPolicy.RETAIN);
-
-    // Associate the IPv6 address with the network interface (=eip, Elastic IP)
-    new ec2.CfnEIPAssociation(this, "Ec2Association", {
-      allocationId: ipv6Address.attrAllocationId,
-      // allocationId: "NginxServerIPv6Address",
-      instanceId: ec2Instance.instanceId,
-    });
+    ec2Instance.connections.allowFrom(
+      ec2.Peer.anyIpv6(),
+      ec2.Port.allIcmpV6(),
+      "allow ICMPv6"
+    );
 
     // Add an external EBS volume of type
     const ebsVolume = new ec2.CfnVolume(this, "NginxServerColdHddVolume", {
@@ -118,15 +108,11 @@ export class NginxServerStack extends cdk.Stack {
     // Do not delete the volume on stack destruction
     // ebsVolume.applyRemovalPolicy(cdk.RemovalPolicy.RETAIN);
 
-    // Output the EC2 instance public IP and IPv6 address
-    new cdk.CfnOutput(this, "InstancePublicIP", {
-      value: ec2Instance.instancePublicIp,
-      description: "The public IP of the EC2 instance",
-    });
-
-    new cdk.CfnOutput(this, "InstanceIPv6Address", {
-      value: ipv6Address.ref,
-      description: "The static IPv6 address of the EC2 instance",
+    // Attach the EBS volume to the EC2 instance
+    new ec2.CfnVolumeAttachment(this, "NginxServerVolumeAttachment", {
+      volumeId: ebsVolume.ref, // Reference the created EBS volume
+      instanceId: ec2Instance.instanceId, // Reference the EC2 instance
+      device: "/dev/xvdf", // Device name (e.g., /dev/xvdf)
     });
   }
 }
