@@ -8,6 +8,7 @@
     "build": "tsc",
     "watch": "tsc -w",
     "deploy": "yarn build && cdk synth && cdk deploy",
+    "destroy": "yarn build && cdk synth && cdk destroy",
     "test": "jest",
     "cdk": "cdk"
   },
