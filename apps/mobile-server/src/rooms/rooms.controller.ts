@@ -1,6 +1,15 @@
 import { constructAndLoadRoom } from '@diograph/diograph';
 import { S3Client } from '@diograph/s3-client';
-import { Controller, Get, Param, Query, Res, Session } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  Query,
+  Res,
+  Session,
+} from '@nestjs/common';
 import { Response } from 'express';
 import { SessionData } from '../@types/session-data';
 import { ConnectionClientList, IDiory } from '@diograph/diograph/types';
@@ -100,6 +109,51 @@ export class RoomsController {
   ) {
     const room = await this.getRoom(roomId, session);
     return room.diograph.diograph;
+  }
+
+  @Post('copy')
+  async copyAction(
+    @Res() res: Response,
+    @Body() body: Record<string, any>,
+    @Session() session: SessionData,
+  ) {
+    const {
+      dioryIds,
+      sourceRoomId,
+      destinationRoomId,
+      fromDioryId,
+      diographOnly,
+    } = body;
+
+    if (!dioryIds || !sourceRoomId || !destinationRoomId || !fromDioryId) {
+      res.status(400).send('Invalid request payload');
+      return;
+    }
+    const sourceRoom = await this.getRoom(sourceRoomId, session);
+    const destinationRoom = await this.getRoom(destinationRoomId, session);
+
+    for (const dioryId of dioryIds) {
+      const diory = await sourceRoom.diograph.getDiory({ id: dioryId });
+
+      if (diory.links) {
+        diory.links = [] as any;
+      }
+
+      destinationRoom.diograph.addDioryAndLink(diory, fromDioryId);
+
+      if (!diographOnly) {
+        const contentUrl = diory.data && diory.data[0].contentUrl;
+        if (contentUrl) {
+          const sourceFileContent = await sourceRoom.readContent(contentUrl);
+          await destinationRoom.addContent(sourceFileContent, contentUrl);
+        }
+      }
+    }
+
+    await destinationRoom.saveRoom();
+
+    res.status(200).send('Items copied successfully');
+    return;
   }
 
   @Get('content')
