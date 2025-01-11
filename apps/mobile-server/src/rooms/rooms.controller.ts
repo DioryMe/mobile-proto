@@ -5,6 +5,7 @@ import { Response } from 'express';
 import { SessionData } from '../@types/session-data';
 import { ConnectionClientList, IDiory } from '@diograph/diograph/types';
 import { LocalClient } from '@diograph/local-client';
+import { HttpClient } from '@diograph/http-client';
 import { uploadDefaultFiles } from './initNativeRoom.utils';
 
 @Controller('room')
@@ -14,8 +15,8 @@ export class RoomsController {
       {
         id: 'demo',
         name: 'Demo',
-        address: `${process.cwd()}/src/static-rooms/demo-content-room`,
-        clientType: 'LocalClient',
+        address: `http://diory-demo-content.surge.sh`,
+        clientType: 'HttpClient',
       },
       {
         id: 'native',
@@ -28,16 +29,19 @@ export class RoomsController {
 
   private getClients(credentials: any): ConnectionClientList {
     return {
-      LocalClient: {
-        clientConstructor: LocalClient,
+      HttpClient: {
+        clientConstructor: HttpClient,
       },
-
       S3Client: {
         clientConstructor: S3Client,
         credentials: {
           region: process.env.AWS_REGION,
           credentials,
         },
+      },
+      // LocalClient is available just for local experimenting with temporary rooms
+      LocalClient: {
+        clientConstructor: LocalClient,
       },
     };
   }
@@ -54,9 +58,7 @@ export class RoomsController {
     const clients = this.getClients(
       session.awsCredentials && JSON.parse(session.awsCredentials),
     );
-
     const room = await constructAndLoadRoom(address, clientType, clients);
-
     return room;
   }
 

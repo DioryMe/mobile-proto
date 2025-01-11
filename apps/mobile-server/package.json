@@ -28,6 +28,7 @@
     "@aws-sdk/client-s3": "^3.620.0",
     "@diograph/diograph": "0.2.6-rc2",
     "@diograph/local-client": "0.2.0-rc2",
+    "@diograph/http-client": "0.1.0",
     "@diograph/s3-client": "^0.2.0",
     "@nestjs/axios": "^3.1.0",
     "@nestjs/common": "^10.0.0",
