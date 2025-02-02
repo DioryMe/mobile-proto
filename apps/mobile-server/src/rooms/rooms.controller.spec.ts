@@ -50,6 +50,9 @@ describe('RoomsController', () => {
       expect.stringContaining('s3://'),
       'S3Client',
       {
+        HttpClient: {
+          clientConstructor: expect.anything(),
+        },
         LocalClient: {
           clientConstructor: expect.anything(),
         },
