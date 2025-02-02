@@ -14,11 +14,13 @@ const HomePage = () => {
     setRoomId,
     setDioryId,
     error: diographError,
+    cancelFetch: cancelRoomFetch,
   } = useRoomContext();
   const { result: rooms, error: roomConfigError } =
     useFetchData<RoomConfigData[]>(url);
 
   const handleRoomSelect = (roomId: string) => {
+    cancelRoomFetch();
     setRoomId(roomId);
     setDioryId("/");
   };

@@ -20,6 +20,7 @@ interface RoomContextType {
   loading: boolean;
   setError: (error: string | null) => void;
   error: string | null;
+  cancelFetch: () => void;
 }
 
 const RoomContext = createContext<RoomContextType | undefined>(undefined);
@@ -35,6 +36,7 @@ export function RoomProvider({ children }: { children: ReactNode }) {
     result: diographJson,
     loading: diographLoading,
     error: diographError,
+    cancelFetch,
   } = useFetchData<IDiographObject>(`/room/${roomId}/diograph`);
 
   useEffect(() => {
@@ -66,6 +68,7 @@ export function RoomProvider({ children }: { children: ReactNode }) {
     setLoading,
     error,
     setError,
+    cancelFetch,
   };
 
   return <RoomContext.Provider value={value}>{children}</RoomContext.Provider>;
