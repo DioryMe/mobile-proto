@@ -6,14 +6,14 @@ import { getRoom } from './room.util';
 export class CopyController {
   @Post()
   async copyDiory(
+    @Session() session: SessionData,
     @Body()
     body: {
       sourceRoomId: string;
       copyDioryId: string;
-      parentDioryId: string;
       destinationRoomId: string;
+      parentDioryId: string;
     },
-    @Session() session: SessionData,
   ) {
     const { sourceRoomId, copyDioryId, parentDioryId, destinationRoomId } =
       body;
