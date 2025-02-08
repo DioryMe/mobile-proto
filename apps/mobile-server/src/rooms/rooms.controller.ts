@@ -3,7 +3,7 @@ import { Response } from 'express';
 import { SessionData } from '../@types/session-data';
 import { IDiory } from '@diograph/diograph/types';
 import { uploadDefaultFiles } from './initNativeRoom.utils';
-import { getRoomConfig, getClients, getRoom } from './room.util';
+import { getRoomConfig, getRoom } from './room.util';
 
 @Controller('room')
 export class RoomsController {
