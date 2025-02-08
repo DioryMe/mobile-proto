@@ -1,11 +1,20 @@
 import { Controller, Post, Body, Session } from '@nestjs/common';
 import { SessionData } from '../@types/session-data';
-import chalk from 'chalk';
+import { getRoom } from './room.util';
 
 @Controller('copy')
 export class CopyController {
   @Post()
-  async copyDiory(@Body() body: { fromDiory: string; toDiory: string }) {
+  async copyDiory(
+    @Body()
+    body: {
+      sourceRoomId: string;
+      copyDioryId: string;
+      parentDioryId: string;
+      destinationRoomId: string;
+    },
+    @Session() session: SessionData,
+  ) {
     const { sourceRoomId, copyDioryId, parentDioryId, destinationRoomId } =
       body;
     // const { fromRoomId, dioryId, destinationDioryId, destinationRoomId } = body;
@@ -13,7 +22,7 @@ export class CopyController {
     // Validate and get source diory
     const fromDioryRoomId = sourceRoomId;
     const fromDioryId = copyDioryId;
-    const fromRoom = await getRoom(fromDioryRoomId);
+    const fromRoom = await getRoom(fromDioryRoomId, session);
     const copyDiory = fromRoom.diograph.getDiory({
       id: fromDioryId,
     });
@@ -21,7 +30,7 @@ export class CopyController {
     // Validate destination diory
     const toDioryRoomId = destinationRoomId;
     const toDioryId = parentDioryId;
-    const toRoom = await getRoom(toDioryRoomId);
+    const toRoom = await getRoom(toDioryRoomId, session);
     const parentDiory = toRoom.diograph.getDiory({
       id: toDioryId,
     });
