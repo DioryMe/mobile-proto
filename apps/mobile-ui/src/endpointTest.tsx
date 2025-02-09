@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { fetchData } from "./hooks/useFetchData";
-
-import NavBar from "./components/NavBar";
+import CopyTestForm from "./components/copyTestForm";
 
 const EndpointTestPage = () => {
   const [responses, setResponses] = useState<Record<string, any>>({
@@ -11,12 +10,17 @@ const EndpointTestPage = () => {
     "/room/thumbnail": null,
     "/room/content": null,
     "/room/list": null,
+    "/copy": null,
   });
 
   const handleApiRequest = async (postfix: string) => {
     fetchData(postfix).then((data) =>
-      setResponses({ ...responses, [postfix]: data })
+      setResponses((prev) => ({ ...prev, [postfix]: data }))
     );
+  };
+
+  const handleCopyResponse = (data: any) => {
+    setResponses((prev) => ({ ...prev, "/copy": data }));
   };
 
   return (
@@ -70,6 +74,7 @@ const EndpointTestPage = () => {
       >
         List
       </button>
+      <CopyTestForm onResponse={handleCopyResponse} />
     </div>
   );
 };
