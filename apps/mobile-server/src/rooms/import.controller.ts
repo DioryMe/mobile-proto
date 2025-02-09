@@ -10,7 +10,7 @@ import { SessionData } from '../@types/session-data';
 import { getRoom } from './room.util';
 import { generateDiory } from '@diograph/file-generator';
 import { readFile, unlink } from 'fs/promises';
-import { FileInterceptor } from '@nestjs/platform-express';
+import { FilesInterceptor } from '@nestjs/platform-express';
 import path, { extname } from 'path';
 import { diskStorage } from 'multer';
 
@@ -20,7 +20,7 @@ const TEMP_DISK_FOLDER = '/tmp';
 export class ImportController {
   @Post()
   @UseInterceptors(
-    FileInterceptor('formFiles', {
+    FilesInterceptor('formFiles', 99, {
       storage: diskStorage({
         destination: TEMP_DISK_FOLDER,
         filename: (req, file, callback) => {

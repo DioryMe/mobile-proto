@@ -2,7 +2,7 @@ import React, { useState, ChangeEvent, FormEvent } from "react";
 
 const baseUrl = import.meta.env.VITE_API_URL;
 
-export const fetchContent = async (
+export const postFormContent = async (
   url: string,
   payload: any,
   signal?: AbortSignal
@@ -52,7 +52,7 @@ const CopyTestForm: React.FC<CopyTestFormProps> = ({ onResponse }) => {
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     try {
-      const response = await fetchContent("/copy", copyForm);
+      const response = await postFormContent("/copy", copyForm);
       const data = await response.json();
       onResponse(data);
     } catch (error) {

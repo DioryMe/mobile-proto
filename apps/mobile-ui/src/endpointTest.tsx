@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { fetchData } from "./hooks/useFetchData";
 import CopyTestForm from "./components/copyTestForm";
+import ImportTestForm from "./components/importTestForm";
 
 const EndpointTestPage = () => {
   const [responses, setResponses] = useState<Record<string, any>>({
@@ -11,6 +12,7 @@ const EndpointTestPage = () => {
     "/room/content": null,
     "/room/list": null,
     "/copy": null,
+    "/import": null,
   });
 
   const handleApiRequest = async (postfix: string) => {
@@ -23,12 +25,17 @@ const EndpointTestPage = () => {
     setResponses((prev) => ({ ...prev, "/copy": data }));
   };
 
+  const handleImportResponse = (data: any) => {
+    setResponses((prev) => ({ ...prev, "/import": data }));
+  };
+
   return (
     <div>
       <h1>Hello World</h1>
       {Object.entries(responses).map(([key, value]) => (
         <div key={key}>
-          {key}: {value ? "OK" : "-"}
+          {key}: {value ? JSON.stringify(value) : "-"}
+          {/* {key}: {value ? "OK" : "-"} */}
         </div>
       ))}
       <button
@@ -75,6 +82,7 @@ const EndpointTestPage = () => {
         List
       </button>
       <CopyTestForm onResponse={handleCopyResponse} />
+      <ImportTestForm onResponse={handleImportResponse} />
     </div>
   );
 };
