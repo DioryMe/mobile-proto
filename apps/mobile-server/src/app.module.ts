@@ -7,6 +7,8 @@ import { CognitoAuthMiddleware } from './middleware/cognito-auth.middleware';
 import { HttpModule } from '@nestjs/axios';
 import { StaticRoomsController } from './rooms/static-rooms.controller';
 import { AuthService } from './auth/auth.service';
+import { CopyController } from './rooms/copy.controller';
+import { ImportController } from './rooms/import.controller';
 
 @Module({
   imports: [
@@ -17,7 +19,13 @@ import { AuthService } from './auth/auth.service';
       timeout: 5000,
     }),
   ],
-  controllers: [AppController, RoomsController, StaticRoomsController],
+  controllers: [
+    AppController,
+    RoomsController,
+    StaticRoomsController,
+    CopyController,
+    ImportController,
+  ],
   providers: [
     AuthService,
     // {
