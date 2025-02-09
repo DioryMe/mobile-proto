@@ -30,6 +30,7 @@
     "@diograph/local-client": "0.2.0-rc2",
     "@diograph/http-client": "0.1.1",
     "@diograph/s3-client": "^0.2.0",
+    "@diograph/file-generator": "0.2.0-rc1",
     "@nestjs/axios": "^3.1.0",
     "@nestjs/common": "^10.0.0",
     "@nestjs/config": "^3.2.3",
