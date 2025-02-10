@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { fetchData } from "./hooks/useFetchData";
-import CopyTestForm from "./components/copyTestForm";
-import ImportTestForm from "./components/importTestForm";
+import CopyTestForm from "./components/CopyTestForm";
+import ImportTestForm from "./components/ImportTestForm";
 
 const EndpointTestPage = () => {
   const [responses, setResponses] = useState<Record<string, any>>({
