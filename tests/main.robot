@@ -51,7 +51,6 @@ Complete sign up and login flow for new user: checks demo & native rooms
 
     Close Browser
 
-
 Sign up and login flow for non-confirmed user: "User is not confirmed" error
 # uses email which doesn't get auto-confirmed, needs to be confirmed manually
     New Browser  headless=True
@@ -75,13 +74,14 @@ Import Diory via ImportTestForm
     Fill Text    id=email    ${AUTO_USER_EMAIL}
     Fill Text    id=password    ${PASSWORD}
     Click    css=button[data-test-id="signInSubmit"]
+    Sleep  2
 
-    Go To    ${BASE_URL}/endpoint-test
+    Go To  ${BASE_URL}/endpoint-test
     # Fill & submit the form
     # - currently using default values)
     # Fill Text    id=parentDioryId    /
     # Fill Text    id=destinationRoomId    native
-    Upload File By Selector   id=formFiles     ${CURDIR}/BangBang.png
+    Upload File By Selector   id=formFiles     ${CURDIR}/PIXNIO-53551-1782x1188.jpeg
     Click    css=button[data-test-id="submitImportTestForm"]
     Sleep   5
     ${response_text}=    Get Text    css=div[data-test-id=response-import]
@@ -91,7 +91,7 @@ Import Diory via ImportTestForm
     Sleep  2
     Click    css=li[data-test-id="room-selection-item-native"]
     Sleep  6
-    Click   css=div[data-test-id="diory-link-bafkreif4lt3vhlmxpcey4xooxlsoebpwfdwtflfwfru7d2meai2fb236eu"]
+    Click   css=button[data-test-id="diory-link-bafkreif4lt3vhlmxpcey4xooxlsoebpwfdwtflfwfru7d2meai2fb236eu"]
     Sleep  10
     ${element}    Get Element    css=div[data-test-id="content"]
     Should Not Be Equal    ${element}    None
@@ -99,13 +99,14 @@ Import Diory via ImportTestForm
     Close Browser
 
 Copy Diory via CopyTestForm
-    New Browser  headless=False
+    New Browser  headless=True
     New Page  ${BASE_URL}
     Fill Text    id=email    ${AUTO_USER_EMAIL}
     Fill Text    id=password    ${PASSWORD}
     Click    css=button[data-test-id="signInSubmit"]
+    Sleep  2
 
-    Go To    ${BASE_URL}/endpoint-test
+    Go To  ${BASE_URL}/endpoint-test
     # Fill & submit the form
     # - currently using default values)
     # Fill Text    id=sourceRoomId    demo
@@ -113,7 +114,7 @@ Copy Diory via CopyTestForm
     # Fill Text    id=destinationRoomId    native
     # Fill Text    id=parentDioryId    /
     Click    css=button[data-test-id="submitCopyTestForm"]
-    Sleep   5
+    Sleep   4
     ${response_text}=    Get Text    css=div[data-test-id=response-copy]
     Should Contain    ${response_text}    Diory copied successfully
 
@@ -122,11 +123,11 @@ Copy Diory via CopyTestForm
     Sleep  2
     Click    css=li[data-test-id="room-selection-item-native"]
     Sleep  6
-    ${diory_link_text}=    Get Text    css=div[data-test-id="diory-link-generic-content"]
+    ${diory_link_text}=    Get Text    css=button[data-test-id="diory-link-generic-content"]
     Should Be Equal    ${diory_link_text}  Generic content
 
     # Click the link diory
-    Click  css=div[data-test-id="diory-link-generic-content"]
+    Click  css=button[data-test-id="diory-link-generic-content"]
     Sleep  2
     ${diory_heading}=    Get Text    css=div[data-test-id="diory-heading-generic-content"]
     Should Be Equal    ${diory_heading}   Generic content
