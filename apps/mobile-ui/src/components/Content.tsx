@@ -5,6 +5,7 @@ import { fetchContent } from "../hooks/useFetchData";
 function Content() {
   const { diograph, dioryId } = useRoomContext();
   const [contentPayload, setContentPayload] = useState<any>(null);
+  const [loading, setLoading] = useState<any>(false);
 
   const diory = diograph && diograph.getDiory({ id: dioryId });
   const CID = diory && diory.data && diory.data[0].contentUrl;
@@ -13,11 +14,13 @@ function Content() {
   useEffect(() => {
     if (CID) {
       try {
+        setLoading(true);
         fetchContent(`/room/content?CID=${CID}&mime=${mimeType}`)
           .then((response: any) => response.blob())
           .then((blob) => {
             const url = URL.createObjectURL(blob);
             setContentPayload(url);
+            setLoading(false);
           });
       } catch (error) {
         console.log("error", error);
@@ -27,8 +30,8 @@ function Content() {
     }
   }, [dioryId]);
 
-  return (
-    <div>
+  return contentPayload ? (
+    <div data-test-id="content">
       <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
         {mimeType?.startsWith("image") && (
           <img src={contentPayload} width="200" />
@@ -41,6 +44,10 @@ function Content() {
         )}
       </div>
     </div>
+  ) : loading ? (
+    <img src="/loadicon.gif" width="32px"></img>
+  ) : (
+    "No content available"
   );
 }
 

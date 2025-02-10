@@ -113,7 +113,9 @@ const CopyTestForm: React.FC<CopyTestFormProps> = ({ onResponse }) => {
             />
           </label>
         </div>
-        <button type="submit">Copy Diory</button>
+        <button type="submit" data-test-id="submitCopyTestForm">
+          Copy Diory
+        </button>
       </form>
     </div>
   );
