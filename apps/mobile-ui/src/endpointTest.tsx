@@ -33,7 +33,7 @@ const EndpointTestPage = () => {
     <div>
       <h1>Hello World</h1>
       {Object.entries(responses).map(([key, value]) => (
-        <div key={key}>
+        <div key={key} data-test-id={`response-${key}`}>
           {key}: {value ? JSON.stringify(value) : "-"}
           {/* {key}: {value ? "OK" : "-"} */}
         </div>

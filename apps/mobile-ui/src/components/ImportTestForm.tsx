@@ -135,6 +135,7 @@ const ImportTestForm: React.FC<ImportTestFormProps> = ({ onResponse }) => {
             Select Files:
             <input
               type="file"
+              id="formFiles"
               name="formFiles"
               onChange={handleChange}
               multiple
@@ -142,7 +143,9 @@ const ImportTestForm: React.FC<ImportTestFormProps> = ({ onResponse }) => {
             />
           </label>
         </div>
-        <button type="submit">Import Diory</button>
+        <button type="submit" data-test-id="submitImportTestForm">
+          Import Diory
+        </button>
       </form>
     </div>
   );
