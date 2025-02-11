@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { fetchData } from "./hooks/useFetchData";
-
-import NavBar from "./components/NavBar";
+import CopyTestForm from "./components/CopyTestForm";
+import ImportTestForm from "./components/ImportTestForm";
 
 const EndpointTestPage = () => {
   const [responses, setResponses] = useState<Record<string, any>>({
@@ -11,20 +11,31 @@ const EndpointTestPage = () => {
     "/room/thumbnail": null,
     "/room/content": null,
     "/room/list": null,
+    "/copy": null,
+    "/import": null,
   });
 
   const handleApiRequest = async (postfix: string) => {
     fetchData(postfix).then((data) =>
-      setResponses({ ...responses, [postfix]: data })
+      setResponses((prev) => ({ ...prev, [postfix]: data }))
     );
+  };
+
+  const handleCopyResponse = (data: any) => {
+    setResponses((prev) => ({ ...prev, "/copy": data }));
+  };
+
+  const handleImportResponse = (data: any) => {
+    setResponses((prev) => ({ ...prev, "/import": data }));
   };
 
   return (
     <div>
       <h1>Hello World</h1>
       {Object.entries(responses).map(([key, value]) => (
-        <div key={key}>
-          {key}: {value ? "OK" : "-"}
+        <div key={key} data-test-id={`response-${key.slice(1, key.length)}`}>
+          {key}: {value ? JSON.stringify(value) : "-"}
+          {/* {key}: {value ? "OK" : "-"} */}
         </div>
       ))}
       <button
@@ -70,6 +81,8 @@ const EndpointTestPage = () => {
       >
         List
       </button>
+      <CopyTestForm onResponse={handleCopyResponse} />
+      <ImportTestForm onResponse={handleImportResponse} />
     </div>
   );
 };

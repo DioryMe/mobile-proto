@@ -83,6 +83,7 @@ const Diory = ({ dioryId: dioryIdProp }: DioryProps) => {
         {diory.links?.map((link) => (
           <button
             key={link.id}
+            data-test-id={`diory-link-${link.id}`}
             onClick={() => setDioryId(link.id)}
             style={{
               backgroundImage: diograph.getDiory({ id: link.id }).image
