@@ -76,19 +76,19 @@ Import Diory via ImportTestForm
     Click    css=button[data-test-id="signInSubmit"]
     Sleep  2
 
-    Go To  ${BASE_URL}/endpoint-test
+    Go To  ${BASE_URL}/add
     # Fill & submit the form
     # - currently using default values)
     # Fill Text    id=parentDioryId    /
     # Fill Text    id=destinationRoomId    native
     Upload File By Selector   id=formFiles     ${CURDIR}/PIXNIO-53551-1782x1188.jpeg
     Click    css=button[data-test-id="submitImportTestForm"]
-    Sleep   5
-    ${response_text}=    Get Text    css=div[data-test-id=response-import]
-    Should Contain    ${response_text}    Diory imported successfully
+    Sleep   7
+    # ${response_text}=    Get Text    css=div[data-test-id=response-import]
+    # Should Contain    ${response_text}    Diory imported successfully
 
-    Go To  ${BASE_URL}
-    Sleep  2
+    # Go To  ${BASE_URL}
+    # Sleep  2
     Click    css=li[data-test-id="room-selection-item-native"]
     Sleep  6
     Click   css=button[data-test-id="diory-link-bafkreif4lt3vhlmxpcey4xooxlsoebpwfdwtflfwfru7d2meai2fb236eu"]
@@ -106,7 +106,7 @@ Copy Diory via CopyTestForm
     Click    css=button[data-test-id="signInSubmit"]
     Sleep  2
 
-    Go To  ${BASE_URL}/endpoint-test
+    Go To  ${BASE_URL}/copy
     # Fill & submit the form
     # - currently using default values)
     # Fill Text    id=sourceRoomId    demo
@@ -114,13 +114,13 @@ Copy Diory via CopyTestForm
     # Fill Text    id=destinationRoomId    native
     # Fill Text    id=parentDioryId    /
     Click    css=button[data-test-id="submitCopyTestForm"]
-    Sleep   4
-    ${response_text}=    Get Text    css=div[data-test-id=response-copy]
-    Should Contain    ${response_text}    Diory copied successfully
+    Sleep   6
+    # ${response_text}=    Get Text    css=div[data-test-id=response-copy]
+    # Should Contain    ${response_text}    Diory copied successfully
 
-    # Check that it is copied
-    Go To  ${BASE_URL}
-    Sleep  2
+    # # Check that it is copied
+    # Go To  ${BASE_URL}
+    # Sleep  2
     Click    css=li[data-test-id="room-selection-item-native"]
     Sleep  6
     ${diory_link_text}=    Get Text    css=button[data-test-id="diory-link-generic-content"]

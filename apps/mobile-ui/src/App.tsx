@@ -8,17 +8,13 @@ import {
   Navigate,
 } from "react-router-dom";
 import HomePage from "./homePage";
-import DioryGrid from "./components/DioryGrid";
 import RoomAdmin from "./components/RoomAdmin";
 import Copy from "./components/CopyLink";
-import UploadCreate from "./components/UploadCreate";
-import Search from "./components/Search";
-import Timeline from "./components/Timeline";
-import Map from "./components/Map";
-import EditDelete from "./components/EditDelete";
+import UploadCreate from "./components/Add";
 import LoginPage from "./loginPage";
 import { RoomProvider } from "./contexts/RoomContext";
 import NavBar from "./components/NavBar";
+import Add from "./components/Add";
 import EndpointTestPage from "./endpointTest";
 
 const App = () => {
@@ -36,6 +32,9 @@ const App = () => {
             path="/"
             element={
               isAuthenticated() ? (
+                // Native room has no diories
+                // <Navigate replace to="/init" />
+                // else
                 <Navigate replace to="/home" />
               ) : (
                 <Navigate replace to="/login" />
@@ -43,14 +42,11 @@ const App = () => {
             }
           />
           <Route path="/home" element={<HomePage />} />
-          <Route path="/diory-grid" element={<DioryGrid />} />
           <Route path="/room-admin" element={<RoomAdmin />} />
+          <Route path="/add" element={<Add />} />
           <Route path="/copy" element={<Copy />} />
-          <Route path="/upload-create" element={<UploadCreate />} />
-          <Route path="/search" element={<Search />} />
-          <Route path="/timeline" element={<Timeline />} />
-          <Route path="/map" element={<Map />} />
-          <Route path="/edit-delete" element={<EditDelete />} />
+          {/* <Route path="/content" element={<Content />} /> */}
+          {/* <Route path="/search" element={<Search />} /> */}
           <Route path="/endpoint-test" element={<EndpointTestPage />} />
         </Routes>
       </Router>

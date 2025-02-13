@@ -1,4 +1,3 @@
-import { useNavigate } from "react-router-dom";
 import useFetchData from "./hooks/useFetchData";
 
 import RoomSelection from "./components/RoomSelection";
