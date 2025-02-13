@@ -10,8 +10,6 @@ const NavBar = () => {
     navigate("/login");
   };
 
-  const isDevelopment = process.env.NODE_ENV === "development";
-
   return (
     <nav className={styles.navbar}>
       {loading ? (
@@ -24,14 +22,12 @@ const NavBar = () => {
           onClick={() => navigate("/")}
         />
       )}
-      {isDevelopment && (
-        <div className={styles.leftSection}>
-          {/* <button onClick={() => navigate("/room-admin")}>Rooms</button> */}
-          {/* <button onClick={() => navigate("/search")}>Search</button> */}
-          <button onClick={() => navigate("/add")}>Add</button>
-          <button onClick={() => navigate("/copy")}>Copy</button>
-        </div>
-      )}
+      <div className={styles.leftSection}>
+        {/* <button onClick={() => navigate("/room-admin")}>Rooms</button> */}
+        {/* <button onClick={() => navigate("/search")}>Search</button> */}
+        <button onClick={() => navigate("/add")}>Add</button>
+        <button onClick={() => navigate("/copy")}>Copy</button>
+      </div>
       <div className={styles.rightSection}>
         <button onClick={handleLogout}>Logout</button>
       </div>
