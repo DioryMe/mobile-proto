@@ -1,9 +1,7 @@
 import { useRoomContext } from "../contexts/RoomContext";
-import NavBar from "./NavBar";
 import smallDiograph from "../smallDiograph.json";
 import { useNavigate } from "react-router-dom";
 import { Diograph } from "@diograph/diograph";
-import Diory from "../Diory";
 
 const Search = () => {
   const { diograph, setDiograph, setDioryId } = useRoomContext();

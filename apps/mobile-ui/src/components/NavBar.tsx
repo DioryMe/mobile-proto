@@ -26,18 +26,9 @@ const NavBar = () => {
       )}
       {isDevelopment && (
         <div className={styles.leftSection}>
-          <button onClick={() => navigate("/diory-grid")}>DioryGrid</button>
-          <button onClick={() => navigate("/room-admin")}>Rooms</button>
-          <button onClick={() => navigate("/search")}>Search</button>
-          <button onClick={() => navigate("/timeline")}>Timeline</button>
-          <button onClick={() => navigate("/map")}>Map</button>
-          <button onClick={() => navigate("/edit-delete")}>Edit/Delete</button>
-          <button onClick={() => navigate("/upload-create")}>
-            Upload/Create
-          </button>
-          <button onClick={() => navigate("/endpoint-test")}>
-            Endpoint Test
-          </button>
+          {/* <button onClick={() => navigate("/room-admin")}>Rooms</button> */}
+          {/* <button onClick={() => navigate("/search")}>Search</button> */}
+          <button onClick={() => navigate("/add")}>Add</button>
           <button onClick={() => navigate("/copy")}>Copy</button>
         </div>
       )}

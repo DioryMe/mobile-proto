@@ -1,17 +1,21 @@
 import { Diory } from "@diograph/diograph";
 import { useRoomContext } from "../contexts/RoomContext";
-import NavBar from "./NavBar";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import ImportTestForm from "./ImportTestForm";
 
-const UploadCreate = () => {
+const Add = () => {
   const { diograph, setDiograph, dioryId } = useRoomContext();
   const navigate = useNavigate();
   const [dioryText, setDioryText] = useState("Superii");
 
+  const handleImportResponse = (data: any) => {
+    navigate("/home");
+  };
+
   return (
     <div>
-      <h2>Upload & Create</h2>
+      <h2>Create</h2>
       <input
         type="text"
         value={dioryText}
@@ -23,19 +27,16 @@ const UploadCreate = () => {
             diograph.addDioryAndLink(new Diory({ text: dioryText }), {
               id: dioryId,
             });
-          navigate("/diory-grid");
+          navigate("/home");
         }}
       >
-        Create
+        {" "}
+        Create{" "}
       </button>
-      <ul>
-        <li>Checkbox to create without linking</li>
-        <li></li>
-        <li>Upload image or drag&drop file (triggers file-generator)</li>
-        <li></li>
-      </ul>
+
+      <ImportTestForm onResponse={handleImportResponse} />
     </div>
   );
 };
 
-export default UploadCreate;
+export default Add;
