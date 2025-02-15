@@ -37,7 +37,7 @@ Non-confirmed user: "User is not confirmed" error
 
 Successful sign up and login
 # uses email which gets auto-confirmed
-    New Browser  headless=False
+    New Browser  headless=True
     New Page  ${BASE_URL}
     Click    css=button[data-test-id="signInOrUpToggle"]
     Fill Text    id=email    ${AUTO_USER_EMAIL}
@@ -50,7 +50,7 @@ Successful sign up and login
     # Init
     Go To  ${BASE_URL}/endpoint-test
     Click    css=button[data-test-id="nativeDiographInitButton"]
-    Sleep    2
+    Sleep    4
 
     # Demo room
     Go To  ${BASE_URL}/browse
@@ -83,7 +83,7 @@ Import Diory via ImportTestForm
     # Check imported diory from My Diory
     # Go To  ${BASE_URL}
     Click   css=button[data-test-id="diory-link-bafkreif4lt3vhlmxpcey4xooxlsoebpwfdwtflfwfru7d2meai2fb236eu"]
-    Click    css=div[data-test-id="content"]
+    Click    css=div[data-test-id="see-content"]
     ${response_text}=    Get Text    css=div[data-test-id=no-content-available]
     Should Contain    ${response_text}    No content available
 
