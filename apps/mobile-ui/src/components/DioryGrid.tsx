@@ -87,7 +87,11 @@ function DioryGrid({ diograph }: { diograph?: Diograph | null }) {
           the first story)
         </li>
       </ul> */}
-      <button disabled={!CID} onClick={() => navigate("/content")}>
+      <button
+        data-test-id="see-content"
+        disabled={!CID}
+        onClick={() => navigate("/content")}
+      >
         See content
       </button>
     </div>

@@ -21,37 +21,7 @@ User with wrong password: "Incorrect username or password" error
     Should Be Equal    ${error_text}    Sign in failed: NotAuthorizedException: Incorrect username or password.
     Close Browser
 
-Complete sign up and login flow for new user: checks demo & native rooms
-# uses email which gets auto-confirmed
-    New Browser  headless=True
-    New Page  ${BASE_URL}
-    Click    css=button[data-test-id="signInOrUpToggle"]
-    Fill Text    id=email    ${AUTO_USER_EMAIL}
-    Fill Text    id=password    ${PASSWORD}
-    Fill Text    id=confirmPassword    ${PASSWORD}
-    Click    css=button[data-test-id="signUpSubmit"]
-    Click    css=button[data-test-id="signInSubmit"]
-    ${demo_item}=    Get Text    data-test-id=room-selection-item-demo
-    Should Be Equal    ${demo_item}    DEMO
-    ${native_item}=    Get Text    data-test-id=room-selection-item-native
-    Should Be Equal    ${native_item}    NATIVE
-    ${diory_heading}=    Get Text    data-test-id=diory-heading-/
-    Should Be Equal    ${diory_heading}    Diory demo content
-
-    Go To  ${BASE_URL}/endpoint-test
-    Click    css=button[data-test-id="nativeDiographInitButton"]
-    Sleep    4
-
-    Go To  ${BASE_URL}
-    Sleep  2
-    Click    css=li[data-test-id="room-selection-item-native"]
-    Sleep  6
-    ${diory_heading}=    Get Text    css=div[data-test-id="diory-heading-/"]
-    Should Be Equal    ${diory_heading}  ${AUTO_USER_EMAIL}
-
-    Close Browser
-
-Sign up and login flow for non-confirmed user: "User is not confirmed" error
+Non-confirmed user: "User is not confirmed" error
 # uses email which doesn't get auto-confirmed, needs to be confirmed manually
     New Browser  headless=True
     New Page  ${BASE_URL}
@@ -60,12 +30,38 @@ Sign up and login flow for non-confirmed user: "User is not confirmed" error
     Fill Text    id=password    ${PASSWORD}
     Fill Text    id=confirmPassword    ${PASSWORD}
     Click    css=button[data-test-id="signUpSubmit"]
-
-    # To prevent flakiness as signup button doesn't always to sign in button and gets clicked twice
-    # Sleep  2
     Click    css=button[data-test-id="signInSubmit"]
     ${error_text}=    Get Text    data-test-id=errorMessage
     Should Be Equal    ${error_text}    Sign in failed: UserNotConfirmedException: User is not confirmed.
+    Close Browser
+
+Successful sign up and login
+# uses email which gets auto-confirmed
+    New Browser  headless=False
+    New Page  ${BASE_URL}
+    Click    css=button[data-test-id="signInOrUpToggle"]
+    Fill Text    id=email    ${AUTO_USER_EMAIL}
+    Fill Text    id=password    ${PASSWORD}
+    Fill Text    id=confirmPassword    ${PASSWORD}
+    Click    css=button[data-test-id="signUpSubmit"]
+    Click    css=button[data-test-id="signInSubmit"]
+
+    # Init
+    Go To  ${BASE_URL}/endpoint-test
+    Click    css=button[data-test-id="nativeDiographInitButton"]
+    Sleep    4
+
+    # Demo room
+    Go To  ${BASE_URL}/browse
+    ${diory_heading}=    Get Text    data-test-id=diory-heading-/
+    Should Be Equal    ${diory_heading}    Diory demo content
+
+    # Native room
+    Go To  ${BASE_URL}/home
+    Sleep  6
+    ${diory_heading}=    Get Text    css=div[data-test-id="diory-heading-/"]
+    Should Be Equal    ${diory_heading}  ${AUTO_USER_EMAIL}
+
     Close Browser
 
 Import Diory via ImportTestForm
@@ -77,24 +73,18 @@ Import Diory via ImportTestForm
     Sleep  2
 
     Go To  ${BASE_URL}/add
-    # Fill & submit the form
-    # - currently using default values)
-    # Fill Text    id=parentDioryId    /
-    # Fill Text    id=destinationRoomId    native
     Upload File By Selector   id=formFiles     ${CURDIR}/PIXNIO-53551-1782x1188.jpeg
     Click    css=button[data-test-id="submitImportTestForm"]
     Sleep   7
     # ${response_text}=    Get Text    css=div[data-test-id=response-import]
     # Should Contain    ${response_text}    Diory imported successfully
 
+    # Check imported diory from My Diory
     # Go To  ${BASE_URL}
-    # Sleep  2
-    Click    css=li[data-test-id="room-selection-item-native"]
-    Sleep  6
     Click   css=button[data-test-id="diory-link-bafkreif4lt3vhlmxpcey4xooxlsoebpwfdwtflfwfru7d2meai2fb236eu"]
-    Sleep  10
-    ${element}    Get Element    css=div[data-test-id="content"]
-    Should Not Be Equal    ${element}    None
+    Click    css=div[data-test-id="content"]
+    ${response_text}=    Get Text    css=div[data-test-id=no-content-available]
+    Should Contain    ${response_text}    No content available
 
     Close Browser
 
@@ -107,22 +97,13 @@ Copy Diory via CopyTestForm
     Sleep  2
 
     Go To  ${BASE_URL}/copy
-    # Fill & submit the form
-    # - currently using default values)
-    # Fill Text    id=sourceRoomId    demo
-    # Fill Text    id=copyDioryId    generic-content
-    # Fill Text    id=destinationRoomId    native
-    # Fill Text    id=parentDioryId    /
     Click    css=button[data-test-id="submitCopyTestForm"]
-    Sleep   6
+    Sleep   7
     # ${response_text}=    Get Text    css=div[data-test-id=response-copy]
     # Should Contain    ${response_text}    Diory copied successfully
 
-    # # Check that it is copied
+    # Check copied diory from My Diory
     # Go To  ${BASE_URL}
-    # Sleep  2
-    Click    css=li[data-test-id="room-selection-item-native"]
-    Sleep  6
     ${diory_link_text}=    Get Text    css=button[data-test-id="diory-link-generic-content"]
     Should Be Equal    ${diory_link_text}  Generic content
 

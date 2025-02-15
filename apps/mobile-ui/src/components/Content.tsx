@@ -47,7 +47,7 @@ function Content() {
   ) : loading ? (
     <img src="/loadicon.gif" width="32px"></img>
   ) : (
-    "No content available"
+    <div data-test-id="no-content-available">No content available</div>
   );
 }
 

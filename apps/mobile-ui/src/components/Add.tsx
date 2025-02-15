@@ -5,7 +5,7 @@ import { useState } from "react";
 import ImportTestForm from "./ImportTestForm";
 
 const Add = () => {
-  const { diograph, setDiograph, dioryId } = useRoomContext();
+  const { diograph, dioryId } = useRoomContext();
   const navigate = useNavigate();
   const [dioryText, setDioryText] = useState("Superii");
 
