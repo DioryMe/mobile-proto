@@ -7,9 +7,13 @@ import { OpenInNewWindow } from "./OpenInNewWindow";
 import { Diograph } from "@diograph/diograph";
 import { useNavigate } from "react-router-dom";
 
-function DioryGrid({ diograph }: { diograph?: Diograph | null }) {
-  const [dioryId, setDioryId] = useState("/");
+interface DioryGridProps {
+  diograph?: Diograph | null;
+  dioryId: string;
+  setDioryId: (id: string) => void;
+}
 
+function DioryGrid({ diograph, dioryId, setDioryId }: DioryGridProps) {
   const [parentId, setParentId] = useState<string>("/");
   const [parentDiories, setParentDiories] = useState<[string, IDioryObject][]>(
     []

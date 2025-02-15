@@ -1,4 +1,5 @@
 import React, { useState, ChangeEvent, FormEvent } from "react";
+import { useRoomContext } from "../contexts/RoomContext";
 
 const baseUrl = import.meta.env.VITE_API_URL;
 
@@ -38,6 +39,8 @@ interface ImportTestFormProps {
 }
 
 const ImportTestForm: React.FC<ImportTestFormProps> = ({ onResponse }) => {
+  const { nativeDioryId, nativeDiograph } = useRoomContext();
+
   const [importForm, setImportForm] = useState({
     parentDioryId: "/",
     destinationRoomId: "native",
@@ -93,28 +96,10 @@ const ImportTestForm: React.FC<ImportTestFormProps> = ({ onResponse }) => {
       <h2>Import Diory</h2>
       <form onSubmit={handleSubmit} encType="multipart/form-data">
         <div>
-          <label>
-            Parent Diory ID:
-            <input
-              type="text"
-              name="parentDioryId"
-              value={importForm.parentDioryId}
-              onChange={handleChange}
-              required
-            />
-          </label>
+          <label>Destination Room ID: native</label>
         </div>
         <div>
-          <label>
-            Destination Room ID:
-            <input
-              type="text"
-              name="destinationRoomId"
-              value={importForm.destinationRoomId}
-              onChange={handleChange}
-              required
-            />
-          </label>
+          <label>Parent Diory ID: {nativeDioryId}</label>
         </div>
         <div>
           <label>
