@@ -30,7 +30,9 @@ const HomePage = () => {
         <DioryGrid diograph={nativeDiograph} />
       ) : (
         <>
-          <div>Native room not initialized</div>
+          <div data-test-id="native-room-not-initialised">
+            Native room not initialised
+          </div>
           <button
             key="nativeDiographInitButton"
             data-test-id="nativeDiographInitButton"

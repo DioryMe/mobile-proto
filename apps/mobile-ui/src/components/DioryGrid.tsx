@@ -38,8 +38,11 @@ function DioryGrid({ diograph }: { diograph?: Diograph | null }) {
     setParentId(newParentId);
   };
 
-  const diory = diograph && diograph.getDiory({ id: dioryId });
-  const CID = diory && diory.data && diory.data[0].contentUrl;
+  let CID;
+  try {
+    const diory = diograph && diograph.getDiory({ id: dioryId });
+    CID = diory && diory.data && diory.data[0].contentUrl;
+  } catch {}
 
   return (
     <div>
@@ -89,7 +92,7 @@ function DioryGrid({ diograph }: { diograph?: Diograph | null }) {
       </ul> */}
       <button
         data-test-id="see-content"
-        disabled={!CID}
+        disabled={!(CID || false)}
         onClick={() => navigate("/content")}
       >
         See content
