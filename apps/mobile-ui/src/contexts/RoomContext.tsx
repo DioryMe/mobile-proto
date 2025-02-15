@@ -13,6 +13,7 @@ interface RoomContextType {
   dioryId: string;
   setDioryId: (id: string) => void;
   nativeDiograph: Diograph | null;
+  nativeDiographError: string | null;
   diograph: Diograph | null;
   setDiograph: (diograph: Diograph) => void;
   roomId: string;
@@ -78,6 +79,7 @@ export function RoomProvider({ children }: { children: ReactNode }) {
     diograph,
     setDiograph,
     nativeDiograph,
+    nativeDiographError,
     roomId,
     setRoomId,
     loading,

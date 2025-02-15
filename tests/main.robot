@@ -45,11 +45,12 @@ Successful sign up and login
     Fill Text    id=confirmPassword    ${PASSWORD}
     Click    css=button[data-test-id="signUpSubmit"]
     Click    css=button[data-test-id="signInSubmit"]
+    Sleep    2
 
     # Init
     Go To  ${BASE_URL}/endpoint-test
     Click    css=button[data-test-id="nativeDiographInitButton"]
-    Sleep    4
+    Sleep    2
 
     # Demo room
     Go To  ${BASE_URL}/browse
