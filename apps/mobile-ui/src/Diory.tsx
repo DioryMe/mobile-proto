@@ -31,7 +31,7 @@ const Diory = ({ dioryId, diograph, onClick }: DioryProps) => {
   try {
     diory = diograph.getDiory({ id: dioryId });
   } catch (e) {
-    return <div>Diory not found</div>;
+    return <div data-test-id="diory-not-found">Diory not found</div>;
   }
 
   return (

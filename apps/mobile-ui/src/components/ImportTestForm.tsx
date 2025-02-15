@@ -42,8 +42,6 @@ const ImportTestForm: React.FC<ImportTestFormProps> = ({ onResponse }) => {
   const { nativeDioryId, nativeDiograph } = useRoomContext();
 
   const [importForm, setImportForm] = useState({
-    parentDioryId: "/",
-    destinationRoomId: "native",
     diographOnly: "false",
     formFiles: [] as File[],
   });
@@ -72,8 +70,8 @@ const ImportTestForm: React.FC<ImportTestFormProps> = ({ onResponse }) => {
     const formData = new FormData();
 
     // Append non-file fields
-    formData.append("parentDioryId", importForm.parentDioryId);
-    formData.append("destinationRoomId", importForm.destinationRoomId);
+    formData.append("destinationRoomId", "native");
+    formData.append("parentDioryId", nativeDioryId);
     formData.append("diographOnly", importForm.diographOnly.toString()); // Convert boolean to string
 
     // Append files

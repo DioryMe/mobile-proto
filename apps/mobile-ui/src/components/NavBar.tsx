@@ -20,13 +20,22 @@ const NavBar = () => {
           alt="Diograph Logo"
           style={{ width: "32px", height: "32px", cursor: "pointer" }}
           onClick={() => navigate("/")}
+          data-test-id="nav-home"
         />
       )}
       <div className={styles.leftSection}>
-        <button onClick={() => navigate("/browse")}>Browse</button>
-        <button onClick={() => navigate("/add")}>Add</button>
-        <button onClick={() => navigate("/copy")}>Copy</button>
-        <button onClick={() => navigate("/search")}>Search</button>
+        <button data-test-id="nav-browse" onClick={() => navigate("/browse")}>
+          Browse
+        </button>
+        <button data-test-id="nav-add" onClick={() => navigate("/add")}>
+          Add
+        </button>
+        <button data-test-id="nav-copy" onClick={() => navigate("/copy")}>
+          Copy
+        </button>
+        <button data-test-id="nav-search" onClick={() => navigate("/search")}>
+          Search
+        </button>
       </div>
       <div className={styles.rightSection}>
         <button onClick={handleLogout}>Logout</button>
