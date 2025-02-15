@@ -8,7 +8,12 @@ import Content from "./components/Content";
 import { useEffect, useState } from "react";
 
 const HomePage = () => {
-  const { nativeDiograph, nativeDiographError } = useRoomContext();
+  const {
+    nativeDioryId,
+    setNativeDioryId,
+    nativeDiograph,
+    nativeDiographError,
+  } = useRoomContext();
 
   const [nativeRoomInited, setNativeRoomInited] = useState(false);
 
@@ -27,7 +32,11 @@ const HomePage = () => {
     <div>
       <h2>My Diory</h2>
       {nativeRoomInited ? (
-        <DioryGrid diograph={nativeDiograph} />
+        <DioryGrid
+          dioryId={nativeDioryId}
+          setDioryId={setNativeDioryId}
+          diograph={nativeDiograph}
+        />
       ) : (
         <>
           <div data-test-id="native-room-not-initialised">

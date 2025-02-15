@@ -1,4 +1,5 @@
 import React, { useState, ChangeEvent, FormEvent } from "react";
+import { useRoomContext } from "../contexts/RoomContext";
 
 const baseUrl = import.meta.env.VITE_API_URL;
 
@@ -37,6 +38,9 @@ interface CopyTestFormProps {
 }
 
 const CopyTestForm: React.FC<CopyTestFormProps> = ({ onResponse }) => {
+  const { nativeDioryId } = useRoomContext();
+  const { roomId, dioryId } = useRoomContext();
+
   const [copyForm, setCopyForm] = useState({
     sourceRoomId: "demo",
     copyDioryId: "generic-content",
@@ -66,52 +70,16 @@ const CopyTestForm: React.FC<CopyTestFormProps> = ({ onResponse }) => {
       <h2>Copy Diory</h2>
       <form onSubmit={handleSubmit}>
         <div>
-          <label>
-            Source Room ID:
-            <input
-              type="text"
-              name="sourceRoomId"
-              value={copyForm.sourceRoomId}
-              onChange={handleChange}
-              required
-            />
-          </label>
+          <label>Destination Room ID: native</label>
         </div>
         <div>
-          <label>
-            Copy Diory ID:
-            <input
-              type="text"
-              name="copyDioryId"
-              value={copyForm.copyDioryId}
-              onChange={handleChange}
-              required
-            />
-          </label>
+          <label>Parent Diory ID: {nativeDioryId}</label>
         </div>
         <div>
-          <label>
-            Destination Room ID:
-            <input
-              type="text"
-              name="destinationRoomId"
-              value={copyForm.destinationRoomId}
-              onChange={handleChange}
-              required
-            />
-          </label>
+          <label>Source Room ID: {roomId}</label>
         </div>
         <div>
-          <label>
-            Parent Diory ID:
-            <input
-              type="text"
-              name="parentDioryId"
-              value={copyForm.parentDioryId}
-              onChange={handleChange}
-              required
-            />
-          </label>
+          <label>Copy Diory ID: {dioryId}</label>
         </div>
         <button type="submit" data-test-id="submitCopyTestForm">
           Copy Diory

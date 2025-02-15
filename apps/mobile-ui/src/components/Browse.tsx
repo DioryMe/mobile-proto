@@ -11,6 +11,7 @@ const Browse = () => {
     diograph,
     roomId: selectedRoomId,
     setRoomId,
+    dioryId,
     setDioryId,
     error: diographError,
     cancelFetch: cancelRoomFetch,
@@ -29,7 +30,11 @@ const Browse = () => {
       <div>
         <h2>Browse rooms</h2>
       </div>
-      <DioryGrid diograph={diograph} />
+      <DioryGrid
+        dioryId={dioryId}
+        setDioryId={setDioryId}
+        diograph={diograph}
+      />
       <RoomSelection
         rooms={(rooms && rooms.filter((r) => r.id !== "native")) || []}
         onSelect={handleRoomSelect}
