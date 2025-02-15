@@ -15,11 +15,14 @@ const Add = () => {
 
   return (
     <div>
+      <ImportTestForm onResponse={handleImportResponse} />
+
       <h2>Create</h2>
       <input
         type="text"
         value={dioryText}
         onChange={(e) => setDioryText(e.target.value)}
+        disabled
       />
       <button
         onClick={() => {
@@ -29,12 +32,10 @@ const Add = () => {
             });
           navigate("/home");
         }}
+        disabled
       >
-        {" "}
-        Create{" "}
+        Create
       </button>
-
-      <ImportTestForm onResponse={handleImportResponse} />
     </div>
   );
 };
