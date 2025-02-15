@@ -8,12 +8,19 @@ import Content from "./components/Content";
 import { useState } from "react";
 
 const HomePage = () => {
-  const { nativeDiograph } = useRoomContext();
+  const { nativeDiograph, nativeDiographError } = useRoomContext();
 
   return (
     <div>
       <h2>My Diory</h2>
-      <DioryGrid diograph={nativeDiograph} />
+      {nativeDiograph && Object.keys(nativeDiograph.toObject()).length ? (
+        <DioryGrid diograph={nativeDiograph} />
+      ) : (
+        <>
+          <div>Native room not initialized</div>
+        </>
+      )}
+      <div>{nativeDiographError}</div>
     </div>
   );
 };
