@@ -1,18 +1,22 @@
 import React from "react";
-import { useRoomContext } from "./contexts/RoomContext";
 import { IDioryObject } from "@diograph/diograph/types";
+import { Diograph } from "@diograph/diograph";
 
-export const ParentDioryLink = ({
-  parentDiories,
-  parentId,
-  onParentChange,
-}: {
+interface ParentDioryLinkProps {
+  diograph: Diograph | null | undefined;
+  onClick: (id: string) => void;
   parentDiories: [string, IDioryObject][];
   parentId: string;
   onParentChange: (parentId: string) => void;
-}) => {
-  const { dioryId, setDioryId, diograph } = useRoomContext();
+}
 
+export const ParentDioryLink: React.FC<ParentDioryLinkProps> = ({
+  diograph,
+  onClick,
+  parentDiories,
+  parentId,
+  onParentChange,
+}) => {
   return (
     <>
       <select
@@ -36,7 +40,7 @@ export const ParentDioryLink = ({
       </select>
 
       <button
-        onClick={() => parentId && setDioryId(parentId)}
+        onClick={() => parentId && onClick(parentId)}
         disabled={!parentId}
         style={{
           padding: "8px 16px",

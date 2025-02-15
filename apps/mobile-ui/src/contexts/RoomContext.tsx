@@ -12,6 +12,7 @@ import useFetchData from "../hooks/useFetchData";
 interface RoomContextType {
   dioryId: string;
   setDioryId: (id: string) => void;
+  nativeDiograph: Diograph | null;
   diograph: Diograph | null;
   setDiograph: (diograph: Diograph) => void;
   roomId: string;
@@ -28,6 +29,7 @@ const RoomContext = createContext<RoomContextType | undefined>(undefined);
 export function RoomProvider({ children }: { children: ReactNode }) {
   const [dioryId, setDioryId] = useState<string>("/");
   const [diograph, setDiograph] = useState<Diograph | null>(null);
+  const [nativeDiograph, setNativeDiograph] = useState<Diograph | null>(null);
   const [roomId, setRoomId] = useState("demo");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -39,12 +41,25 @@ export function RoomProvider({ children }: { children: ReactNode }) {
     cancelFetch,
   } = useFetchData<IDiographObject>(`/room/${roomId}/diograph`);
 
+  const {
+    result: nativeDiographJson,
+    loading: nativeDiographLoading,
+    error: nativeDiographError,
+  } = useFetchData<IDiographObject>(`/room/native/diograph`);
+
   useEffect(() => {
     if (diographJson) {
       setLoading(false);
       setDiograph(new Diograph(diographJson));
     }
   }, [diographJson]);
+
+  useEffect(() => {
+    if (nativeDiographJson) {
+      setLoading(false);
+      setNativeDiograph(new Diograph(nativeDiographJson));
+    }
+  }, [nativeDiographJson]);
 
   useEffect(() => {
     if (diographLoading) {
@@ -62,6 +77,7 @@ export function RoomProvider({ children }: { children: ReactNode }) {
     setDioryId,
     diograph,
     setDiograph,
+    nativeDiograph,
     roomId,
     setRoomId,
     loading,

@@ -16,6 +16,9 @@ import { RoomProvider } from "./contexts/RoomContext";
 import NavBar from "./components/NavBar";
 import Add from "./components/Add";
 import EndpointTestPage from "./endpointTest";
+import Content from "./components/Content";
+import Search from "./components/Search";
+import Browse from "./components/Browse";
 
 const App = () => {
   const isAuthenticated = () => {
@@ -42,12 +45,12 @@ const App = () => {
             }
           />
           <Route path="/home" element={<HomePage />} />
-          <Route path="/room-admin" element={<RoomAdmin />} />
+          <Route path="/browse" element={<Browse />} />
           <Route path="/add" element={<Add />} />
           <Route path="/copy" element={<Copy />} />
-          {/* <Route path="/content" element={<Content />} /> */}
-          {/* <Route path="/search" element={<Search />} /> */}
+          <Route path="/search" element={<Search />} />
           <Route path="/endpoint-test" element={<EndpointTestPage />} />
+          <Route path="/content" element={<Content />} />
         </Routes>
       </Router>
     </RoomProvider>

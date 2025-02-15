@@ -1,8 +1,13 @@
+import { Diograph } from "@diograph/diograph";
 import { useRoomContext } from "../contexts/RoomContext";
 
-export const OpenInNewWindow = () => {
-  const { diograph, dioryId } = useRoomContext();
-
+export const OpenInNewWindow = ({
+  diograph,
+  dioryId,
+}: {
+  diograph: Diograph | null | undefined;
+  dioryId: string;
+}) => {
   return (
     diograph && (
       <button

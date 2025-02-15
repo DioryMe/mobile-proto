@@ -1,6 +1,7 @@
 import React from "react";
 import { useRoomContext } from "./contexts/RoomContext";
 import { IDiory } from "@diograph/diograph/types";
+import { Diograph } from "@diograph/diograph";
 
 export interface DioryData {
   text: string;
@@ -13,10 +14,14 @@ export interface DioryData {
 
 interface DioryProps {
   dioryId?: string;
+  diograph: Diograph | null | undefined;
+  onClick: any;
 }
 
-const Diory = ({ dioryId: dioryIdProp }: DioryProps) => {
-  const { dioryId, setDioryId, diograph } = useRoomContext();
+const Diory = ({ dioryId, diograph, onClick }: DioryProps) => {
+  if (!dioryId) {
+    return <div>No dioryId given</div>;
+  }
 
   if (!diograph) {
     return <div>Diograph not found</div>;
@@ -24,7 +29,7 @@ const Diory = ({ dioryId: dioryIdProp }: DioryProps) => {
 
   let diory: IDiory;
   try {
-    diory = diograph.getDiory({ id: dioryIdProp || dioryId });
+    diory = diograph.getDiory({ id: dioryId });
   } catch (e) {
     return <div>Diory not found</div>;
   }
@@ -45,7 +50,7 @@ const Diory = ({ dioryId: dioryIdProp }: DioryProps) => {
     >
       {/* Main content */}
       <div
-        data-test-id={`diory-heading-${dioryIdProp || dioryId}`}
+        data-test-id={`diory-heading-${dioryId}`}
         style={{
           marginBottom: "10px",
           position: "relative",
@@ -84,7 +89,7 @@ const Diory = ({ dioryId: dioryIdProp }: DioryProps) => {
           <button
             key={link.id}
             data-test-id={`diory-link-${link.id}`}
-            onClick={() => setDioryId(link.id)}
+            onClick={() => onClick(link.id)}
             style={{
               backgroundImage: diograph.getDiory({ id: link.id }).image
                 ? `url(${diograph.getDiory({ id: link.id }).image})`
