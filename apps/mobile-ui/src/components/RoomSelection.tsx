@@ -31,6 +31,21 @@ const RoomSelection = ({
         {room.id}
       </li>
     ))}
+    <li
+      onClick={() => alert("Not implemented yet")}
+      style={{
+        cursor: "pointer",
+        textTransform: "uppercase",
+        padding: "10px",
+        backgroundColor: "transparent",
+        width: "100%",
+        color: "black",
+        textAlign: "center",
+        border: "solid black 1px",
+      }}
+    >
+      + Add new
+    </li>
   </ul>
 );
 

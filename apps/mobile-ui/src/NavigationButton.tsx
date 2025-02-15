@@ -1,15 +1,21 @@
 import React from "react";
-import { DioryData } from "./Diory";
-import { useRoomContext } from "./contexts/RoomContext";
+import { Diograph } from "@diograph/diograph";
 
-export const NavigationButton = ({
-  direction,
-  parentId,
-}: {
+interface NavigationButtonProps {
   direction: "prev" | "next";
   parentId: string;
+  diograph: Diograph | null | undefined;
+  dioryId: string;
+  onClick: (id: string) => void;
+}
+
+export const NavigationButton: React.FC<NavigationButtonProps> = ({
+  direction,
+  parentId,
+  diograph,
+  dioryId,
+  onClick,
 }) => {
-  const { dioryId, setDioryId, diograph } = useRoomContext();
   if (!parentId || !diograph) return null;
 
   const parentData = diograph.getDiory({ id: parentId });
@@ -25,7 +31,9 @@ export const NavigationButton = ({
     targetIndex >= parentData.links.length;
 
   const handleClick = () => {
-    setDioryId(parentData.links![targetIndex].id);
+    if (!disabled) {
+      onClick(parentData.links![targetIndex].id);
+    }
   };
 
   return (
@@ -36,11 +44,11 @@ export const NavigationButton = ({
         backgroundColor: "#f0f0f0",
         border: "1px solid #ddd",
         borderRadius: "4px",
-        cursor: "pointer",
+        cursor: disabled ? "not-allowed" : "pointer",
         display: "flex",
         alignItems: "center",
       }}
-      {...(disabled ? { disabled } : {})}
+      disabled={disabled}
     >
       {direction === "prev" ? "←" : "→"}
     </button>
