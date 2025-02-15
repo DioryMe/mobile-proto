@@ -46,13 +46,15 @@ Successful sign up and login
     Click    css=button[data-test-id="signInSubmit"]
 
     # Init
-    Click    css=button[data-test-id="nativeDiographInitButton"]
     ${native-room-not-initialised}=    Get Text    data-test-id=native-room-not-initialised
     Should Be Equal    ${native-room-not-initialised}    Native room not initialised
+    Click    css=button[data-test-id="nativeDiographInitButton"]
+    Sleep  10
+    Go To  ${BASE_URL}/home
 
     # Demo room
     Go To  ${BASE_URL}/browse
-    ${diory_heading}=    Get Text    data-test-id=diory-heading-/
+    ${diory_heading}=    Get Text    css=div[data-test-id="diory-heading-/"]
     Should Be Equal    ${diory_heading}    Diory demo content
 
     # Native room
@@ -93,8 +95,16 @@ Copy Diory via CopyTestForm
     Fill Text    id=password    ${PASSWORD}
     Click    css=button[data-test-id="signInSubmit"]
 
+    # Put generic-content in focus
+    Sleep   2
+    Go To  ${BASE_URL}/browse
+    ${diory_link_text}=    Get Text    css=button[data-test-id="diory-link-generic-content"]
+    Should Be Equal    ${diory_link_text}  Generic content
+    # Click the link diory
+    Click  css=button[data-test-id="diory-link-generic-content"]
+
     Sleep  2
-    Go To  ${BASE_URL}/copy
+    Click    css=button[data-test-id="nav-copy"]
     Click    css=button[data-test-id="submitCopyTestForm"]
     # ${response_text}=    Get Text    css=div[data-test-id=response-copy]
     # Should Contain    ${response_text}    Diory copied successfully

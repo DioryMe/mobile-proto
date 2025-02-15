@@ -41,22 +41,16 @@ const CopyTestForm: React.FC<CopyTestFormProps> = ({ onResponse }) => {
   const { nativeDioryId } = useRoomContext();
   const { roomId, dioryId } = useRoomContext();
 
-  const [copyForm, setCopyForm] = useState({
-    sourceRoomId: "demo",
-    copyDioryId: "generic-content",
-    destinationRoomId: "native",
-    parentDioryId: "/",
-  });
-
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setCopyForm((prev) => ({ ...prev, [name]: value }));
-  };
-
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     try {
-      const response = await postFormContent("/copy", copyForm);
+      const response = await postFormContent("/copy", {
+        destinationRoomId: "native",
+        parentDioryId: nativeDioryId,
+        sourceRoomId: roomId,
+        copyDioryId: dioryId,
+      });
+
       const data = await response.json();
       onResponse(data);
     } catch (error) {
