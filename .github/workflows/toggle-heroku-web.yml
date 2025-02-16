@@ -15,6 +15,11 @@ jobs:
   toggle-web:
     runs-on: ubuntu-latest
     steps:
+      - name: Install Heroku CLI
+        run: |
+          curl https://cli-assets.heroku.com/install.sh | sh
+      - name: Show version
+        run: heroku --version
       - name: Toggle web process in Heroku
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
