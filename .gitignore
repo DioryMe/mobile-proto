@@ -37,3 +37,6 @@ tests/report.html
 # Own diographs
 apps/mobile-ui/src/ignored
 apps/mobile-server/src/static-rooms/ignored
+
+# Sentry Config File
+.env.sentry-build-plugin
