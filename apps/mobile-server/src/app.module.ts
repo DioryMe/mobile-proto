@@ -1,3 +1,4 @@
+import { SentryModule } from '@sentry/nestjs/setup';
 import { MiddlewareConsumer, Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 // import { redisClientFactory } from './redisClientFactory';
@@ -12,6 +13,7 @@ import { ImportController } from './rooms/import.controller';
 
 @Module({
   imports: [
+    SentryModule.forRoot(),
     ConfigModule.forRoot({
       envFilePath: ['.env', '.env.local'],
     }),
