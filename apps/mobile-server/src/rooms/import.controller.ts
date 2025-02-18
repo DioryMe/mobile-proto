@@ -11,7 +11,7 @@ import { getRoom } from './room.util';
 import { generateDiory } from '@diograph/file-generator';
 import { readFile, unlink } from 'fs/promises';
 import { FilesInterceptor } from '@nestjs/platform-express';
-import path, { extname } from 'path';
+import { extname } from 'path';
 import { diskStorage } from 'multer';
 
 const TEMP_DISK_FOLDER = '/tmp';
@@ -58,12 +58,9 @@ export class ImportController {
 
     const results = [];
 
-    console.log(JSON.stringify(body, null, 2));
-    console.log(JSON.stringify(formFiles, null, 2));
-
     for (const formFile of formFiles) {
       const result = await this.handleFormFile(
-        formFile,
+        formFile.path,
         destinationRoom,
         parentDiory,
         diographOnly,
@@ -80,16 +77,14 @@ export class ImportController {
   }
 
   private async handleFormFile(
-    formFile: Express.Multer.File,
+    formFilePath: string,
     destinationRoom: any,
     parentDiory: any,
     diographOnly: boolean,
   ) {
-    const filePath = path.join(TEMP_DISK_FOLDER, formFile.filename);
-
     let diory;
     try {
-      diory = await generateDiory('', filePath);
+      diory = await generateDiory('', formFilePath);
     } catch (error: any) {
       if (/^FFMPEG_PATH not defined/.test(error.message)) {
         console.log(
@@ -105,11 +100,11 @@ export class ImportController {
 
     const contentUrl = diory.data && diory.data[0].contentUrl;
     if (!diographOnly) {
-      const sourceFileContent = await readFile(filePath);
+      const sourceFileContent = await readFile(formFilePath);
       await destinationRoom.addContent(sourceFileContent, contentUrl);
     }
 
-    await unlink(filePath);
+    await unlink(formFilePath);
 
     return {
       dioryId: diory.id,
