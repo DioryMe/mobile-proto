@@ -44,13 +44,14 @@ Successful sign up and login
     Fill Text    id=confirmPassword    ${PASSWORD}
     Click    css=button[data-test-id="signUpSubmit"]
     Click    css=button[data-test-id="signInSubmit"]
+    Sleep  4
 
     # Init
     ${native-room-not-initialised}=    Get Text    data-test-id=native-room-not-initialised
     Should Be Equal    ${native-room-not-initialised}    Native room not initialised
+    Sleep  4
     Click    css=button[data-test-id="nativeDiographInitButton"]
     Sleep  10
-    Go To  ${BASE_URL}/home
 
     # Demo room
     Go To  ${BASE_URL}/browse
@@ -70,16 +71,16 @@ Import Diory via ImportTestForm
     Fill Text    id=email    ${AUTO_USER_EMAIL}
     Fill Text    id=password    ${PASSWORD}
     Click    css=button[data-test-id="signInSubmit"]
+    Sleep   2
 
-    Sleep  2
     Go To  ${BASE_URL}/add
     Upload File By Selector   id=formFiles     ${CURDIR}/PIXNIO-53551-1782x1188.jpeg
     Click    css=button[data-test-id="submitImportTestForm"]
+    Sleep   4
     # ${response_text}=    Get Text    css=div[data-test-id=response-import]
     # Should Contain    ${response_text}    Diory imported successfully
 
     # Check imported diory from My Diory
-    Sleep   2
     Go To  ${BASE_URL}/home
     Click   css=button[data-test-id="diory-link-bafkreif4lt3vhlmxpcey4xooxlsoebpwfdwtflfwfru7d2meai2fb236eu"]
     Click   css=button[data-test-id="see-content"]
@@ -94,23 +95,23 @@ Copy Diory via CopyTestForm
     Fill Text    id=email    ${AUTO_USER_EMAIL}
     Fill Text    id=password    ${PASSWORD}
     Click    css=button[data-test-id="signInSubmit"]
+    Sleep   2
 
     # Put generic-content in focus
-    Sleep   2
     Go To  ${BASE_URL}/browse
     ${diory_link_text}=    Get Text    css=button[data-test-id="diory-link-generic-content"]
     Should Be Equal    ${diory_link_text}  Generic content
     # Click the link diory
     Click  css=button[data-test-id="diory-link-generic-content"]
 
-    Sleep  2
+    # Submit copy form
     Click    css=button[data-test-id="nav-copy"]
     Click    css=button[data-test-id="submitCopyTestForm"]
+    Sleep   10
     # ${response_text}=    Get Text    css=div[data-test-id=response-copy]
     # Should Contain    ${response_text}    Diory copied successfully
 
     # Check copied diory from My Diory
-    Sleep   2
     Go To  ${BASE_URL}/home
     ${diory_link_text}=    Get Text    css=button[data-test-id="diory-link-generic-content"]
     Should Be Equal    ${diory_link_text}  Generic content
