@@ -58,6 +58,9 @@ export class ImportController {
 
     const results = [];
 
+    console.log(JSON.stringify(body, null, 2));
+    console.log(JSON.stringify(formFiles, null, 2));
+
     for (const formFile of formFiles) {
       const result = await this.handleFormFile(
         formFile,
