@@ -5,13 +5,9 @@ import React, {
   ReactNode,
   useEffect,
 } from "react";
-// import { Diograph } from "@diograph/diograph";
+import { Diograph } from "@diograph/diograph";
 import { IDiographObject } from "@diograph/diograph/types";
 import useFetchData from "../hooks/useFetchData";
-
-interface Diograph {
-  new (diographJson: IDiographObject): Diograph;
-}
 
 interface DiosphereContextType {
   myDioryRoom: {
@@ -69,7 +65,7 @@ export function DiosphereProvider({ children }: { children: ReactNode }) {
   // My Diory diograph
   useEffect(() => {
     if (myDioryDiographJson) {
-      setMyDioryDiograph(null); // new Diograph(myDioryDiographJson));
+      setMyDioryDiograph(new Diograph(myDioryDiographJson));
       // TODO: myDioryInfo
     }
   }, [myDioryDiographJson]);
@@ -77,7 +73,7 @@ export function DiosphereProvider({ children }: { children: ReactNode }) {
   // Browse diograph
   useEffect(() => {
     if (browseDiographJson) {
-      setBrowseDiograph(null); // new Diograph(browseDiographJson));
+      setBrowseDiograph(new Diograph(browseDiographJson));
       // TODO: browseInfo
     }
   }, [browseDiographJson]);

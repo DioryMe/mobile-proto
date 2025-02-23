@@ -3,13 +3,21 @@ import { render, waitFor, screen } from "@testing-library/react";
 import { DiosphereProvider, useDiosphereContext } from "./DiosphereContext";
 import { fetchData } from "../hooks/fetchData";
 
+jest.mock("uuid", () => ({
+  v4: jest.fn(() => "8670abb3-253a-4750-b5a7-1476d2effd60"),
+}));
+
 jest.mock("../hooks/fetchData", () => ({
   fetchData: jest.fn(),
 }));
 
 const mockDiographData = {
-  id: "/",
-  text: "Root",
+  "/": {
+    id: "/",
+    text: "Mocked root diory",
+    created: new Date().toISOString(),
+    modified: new Date().toISOString(),
+  },
 };
 
 const TestComponent: React.FC = () => {
