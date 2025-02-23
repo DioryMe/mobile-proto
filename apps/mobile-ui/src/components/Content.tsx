@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useRoomContext } from "../contexts/RoomContext";
-import { fetchContent } from "../hooks/useFetchData";
+import { fetchContent } from "../hooks/fetchData";
 
 function Content() {
   const { diograph, dioryId } = useRoomContext();

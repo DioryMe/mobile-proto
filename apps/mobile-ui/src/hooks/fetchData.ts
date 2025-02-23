@@ -1,6 +1,6 @@
-const baseUrl = ""; // import.meta.env.VITE_API_URL;
+const baseUrl = import.meta.env.VITE_API_URL;
 
-const fetchContent = async <T>(
+export const fetchContent = async <T>(
   url: string,
   signal?: AbortSignal
 ): Promise<T> => {

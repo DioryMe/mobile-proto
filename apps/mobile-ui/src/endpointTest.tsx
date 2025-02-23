@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { fetchData } from "./hooks/useFetchData";
+import { fetchData } from "./hooks/fetchData";
 import CopyTestForm from "./components/CopyTestForm";
 import ImportTestForm from "./components/ImportTestForm";
 
