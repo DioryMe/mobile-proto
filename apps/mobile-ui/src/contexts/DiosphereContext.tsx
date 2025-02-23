@@ -17,10 +17,12 @@ interface DiosphereContextType {
   myDioryRoom: {
     setRoomId: (roomId: string) => void;
     setFocusId: (focusId: string) => void;
+    myDioryDiographJson: any;
   };
   browseRoom: {
     setRoomId: (roomId: string) => void;
     setFocusId: (focusId: string) => void;
+    browseDiographJson: any;
   };
   loading: boolean;
   error: string | null;
@@ -112,11 +114,13 @@ export function DiosphereProvider({ children }: { children: ReactNode }) {
     myDioryRoom: {
       setRoomId: setMyDioryRoomId,
       setFocusId: setMyDioryFocusId,
+      myDioryDiographJson: myDioryDiographJson,
       ...myDioryInfo,
     },
     browseRoom: {
       setRoomId: setBrowseRoomId,
       setFocusId: setBrowseFocusId,
+      browseDiographJson: browseDiographJson,
       ...browseInfo,
     },
     loading,
