@@ -91,17 +91,21 @@ export function DiosphereProvider({ children }: { children: ReactNode }) {
 
   // Error
   useEffect(() => {
-    if (myDioryDiographError) {
-      setError(
-        (error || "") + " myDioryDiograph:(" + myDioryDiographError + ") "
-      );
-    }
-    if (browseDiographError) {
-      setError((error || "") + " browseDiograph:(" + browseDiographError);
-    }
     if (!browseDiographError && !myDioryDiographError) {
       setError(null);
     }
+
+    const myDioryErrorText = `myDioryDiograph: ${myDioryDiographError}`;
+    const browseErrorText = `browseDiograph: ${browseDiographError}`;
+    let errorText;
+    if (myDioryDiographError && browseDiographError) {
+      errorText = `${myDioryErrorText}, ${browseErrorText}`;
+    } else if (myDioryDiographError) {
+      errorText = myDioryErrorText;
+    } else if (browseDiographError) {
+      errorText = browseErrorText;
+    }
+    setError(errorText || null);
   }, [browseDiographError, myDioryDiographError]);
 
   const value = {
