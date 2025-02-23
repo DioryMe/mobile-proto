@@ -9,11 +9,12 @@ export interface DioryInfo {
   prev: string | null;
   next: string | null;
   focus: {
-    content: { contentUrl: string } | null;
+    text: string | null;
     image: string | null;
     latlng: string | null;
     date: string | null;
     linked: string[];
+    content: { contentUrl: string } | null;
   };
   focusDiory: IDiory;
   relatedGeo: string[];
@@ -31,7 +32,7 @@ export const getDioryInfo = (
 ): DioryInfo => {
   const diograph = new Diograph(diographJson);
   const focusDiory = diograph.getDiory({ id: focusId });
-  const { image, latlng, date } = focusDiory;
+  const { text, image, latlng, date } = focusDiory;
   return {
     diograph: new Diograph(diographJson),
     focusId: focusDiory.id,
@@ -41,6 +42,7 @@ export const getDioryInfo = (
     next: null,
     focus: {
       content: null, // { contentUrl: "content" },
+      text: text || null,
       image: image || null,
       latlng: latlng || null,
       date: date || null,
