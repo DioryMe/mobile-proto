@@ -53,6 +53,7 @@ const useFetchData = <T>(url: string) => {
     const controller = new AbortController();
     setAbortController(controller);
 
+    setResult(null);
     setLoading(true);
     setError(null);
 
