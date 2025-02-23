@@ -22,8 +22,11 @@ jobs:
       - name: Install
         run: yarn
 
-      - name: Run lint
+      - name: Run mobile-server lint
         run: yarn workspace mobile-server lint
 
-      - name: Run tests
+      - name: Run mobile-server tests
         run: yarn workspace mobile-server test
+
+      - name: Run mobile-ui tests
+        run: yarn workspace mobile-ui test
