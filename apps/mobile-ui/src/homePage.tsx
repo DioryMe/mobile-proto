@@ -1,11 +1,7 @@
-import useFetchData, { fetchData } from "./hooks/useFetchData";
-
-import RoomSelection from "./components/RoomSelection";
 import { useRoomContext } from "./contexts/RoomContext";
 import DioryGrid from "./components/DioryGrid";
-import { IDiographObject, RoomConfigData } from "@diograph/diograph/types";
-import Content from "./components/Content";
 import { useEffect, useState } from "react";
+import { fetchData } from "./hooks/fetchData";
 
 const HomePage = () => {
   const {
