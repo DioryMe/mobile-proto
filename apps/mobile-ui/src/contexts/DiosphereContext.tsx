@@ -9,7 +9,23 @@ import { Diograph } from "@diograph/diograph";
 import { IDiographObject } from "@diograph/diograph/types";
 import useFetchData from "../hooks/useFetchData";
 
-interface DiosphereContextType {}
+interface Diograph {
+  new (diographJson: IDiographObject): Diograph;
+}
+
+interface DiosphereContextType {
+  myDioryRoom: {
+    setRoomId: (roomId: string) => void;
+    setFocusId: (focusId: string) => void;
+  };
+  browseRoom: {
+    setRoomId: (roomId: string) => void;
+    setFocusId: (focusId: string) => void;
+  };
+  loading: boolean;
+  error: string | null;
+  cancelFetch: () => void;
+}
 
 const DiosphereContext = createContext<DiosphereContextType | undefined>(
   undefined
@@ -30,19 +46,63 @@ export function DiosphereProvider({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  // Load My Diory room
   const {
     result: myDioryDiographJson,
     loading: myDioryDiographLoading,
     error: myDioryDiographError,
+    // fetch: fetchMyDioryDiograph,
     cancelFetch: cancelMyDioryDiographFetch,
   } = useFetchData<IDiographObject>(`/room/${myDioryRoomId}/diograph`);
 
+  // Load Browse room
   const {
     result: browseDiographJson,
     loading: browseDiographLoading,
     error: browseDiographError,
+    // fetch: fetchBrowseDiograph,
     cancelFetch: cancelBrowseDiographFetch,
   } = useFetchData<IDiographObject>(`/room/${browseRoomId}/diograph`);
+
+  // My Diory diograph
+  useEffect(() => {
+    if (myDioryDiographJson) {
+      setMyDioryDiograph(new Diograph(myDioryDiographJson));
+      // TODO: myDioryInfo
+    }
+  }, [myDioryDiographJson]);
+
+  // Browse diograph
+  useEffect(() => {
+    if (browseDiographJson) {
+      setBrowseDiograph(new Diograph(browseDiographJson));
+      // TODO: browseInfo
+    }
+  }, [browseDiographJson]);
+
+  // Loading
+  useEffect(() => {
+    if (browseDiographLoading || myDioryDiographLoading) {
+      setLoading(true);
+    } else {
+      setLoading(false);
+    }
+  }, [browseDiographLoading, myDioryDiographLoading]);
+
+  // Error
+  useEffect(() => {
+    if (myDioryDiographError) {
+      setError(
+        (error || "") + " myDioryDiograph:(" + myDioryDiographError + ") "
+      );
+    }
+    if (browseDiographError) {
+      setError((error || "") + " browseDiograph:(" + browseDiographError);
+    }
+    if (!browseDiographError && !myDioryDiographError) {
+      setError(null);
+    }
+  }, [browseDiographError, myDioryDiographError]);
 
   const value = {
     myDioryRoom: {
