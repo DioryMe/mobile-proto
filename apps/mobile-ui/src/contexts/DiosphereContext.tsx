@@ -8,18 +8,17 @@ import React, {
 import { Diograph } from "@diograph/diograph";
 import { IDiographObject } from "@diograph/diograph/types";
 import useFetchData from "../hooks/useFetchData";
+import { getDioryInfo } from "../diographUtils/dioryInfo";
+
+interface RoomContextType {
+  setRoomId: (roomId: string) => void;
+  setFocusId: (focusId: string) => void;
+  diograph: Diograph | null;
+}
 
 interface DiosphereContextType {
-  myDioryRoom: {
-    setRoomId: (roomId: string) => void;
-    setFocusId: (focusId: string) => void;
-    myDioryDiographJson: any;
-  };
-  browseRoom: {
-    setRoomId: (roomId: string) => void;
-    setFocusId: (focusId: string) => void;
-    browseDiographJson: any;
-  };
+  myDioryRoom: RoomContextType;
+  browseRoom: RoomContextType;
   loading: boolean;
   error: string | null;
   cancelFetch: () => void;
@@ -34,12 +33,12 @@ export function DiosphereProvider({ children }: { children: ReactNode }) {
   const [myDioryFocusId, setMyDioryFocusId] = useState<string>("/");
   const [myDioryDiograph, setMyDioryDiograph] = useState<Diograph | null>(null);
   const [myDioryRoomId, setMyDioryRoomId] = useState("native");
-  const [myDioryInfo, setMyDioryInfo] = useState({});
+  const [myDioryInfo, setMyDioryInfo] = useState<RoomContextType | {}>({});
   // Browse room
   const [browseFocusId, setBrowseFocusId] = useState<string>("/");
   const [browseDiograph, setBrowseDiograph] = useState<Diograph | null>(null);
   const [browseRoomId, setBrowseRoomId] = useState("demo");
-  const [browseInfo, setBrowseInfo] = useState({});
+  const [browseInfo, setBrowseInfo] = useState<RoomContextType | {}>({});
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -66,7 +65,7 @@ export function DiosphereProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     if (myDioryDiographJson) {
       setMyDioryDiograph(new Diograph(myDioryDiographJson));
-      // TODO: myDioryInfo
+      setMyDioryInfo(getDioryInfo(myDioryDiographJson));
     }
   }, [myDioryDiographJson]);
 
@@ -74,7 +73,7 @@ export function DiosphereProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     if (browseDiographJson) {
       setBrowseDiograph(new Diograph(browseDiographJson));
-      // TODO: browseInfo
+      setBrowseInfo(getDioryInfo(browseDiographJson));
     }
   }, [browseDiographJson]);
 
@@ -110,15 +109,13 @@ export function DiosphereProvider({ children }: { children: ReactNode }) {
     myDioryRoom: {
       setRoomId: setMyDioryRoomId,
       setFocusId: setMyDioryFocusId,
-      myDioryDiographJson: myDioryDiographJson,
       ...myDioryInfo,
-    },
+    } as RoomContextType, // TODO: Remove me
     browseRoom: {
       setRoomId: setBrowseRoomId,
       setFocusId: setBrowseFocusId,
-      browseDiographJson: browseDiographJson,
       ...browseInfo,
-    },
+    } as RoomContextType, // TODO: Remove me
     loading,
     error,
     cancelFetch: () => {
