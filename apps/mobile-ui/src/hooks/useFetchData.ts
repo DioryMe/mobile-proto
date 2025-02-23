@@ -31,7 +31,7 @@ const useFetchData = <T>(url: string) => {
         if (err.name === "AbortError") {
           console.log("Fetch aborted", url);
         } else {
-          setError(err.message);
+          setError(err.message || err);
         }
         setLoading(false);
       });
