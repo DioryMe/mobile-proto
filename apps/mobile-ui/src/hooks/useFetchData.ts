@@ -34,7 +34,7 @@ export const fetchData = async <T>(
   return response.json();
 };
 
-const baseUrl = import.meta.env.VITE_API_URL;
+const baseUrl = ""; // import.meta.env.VITE_API_URL;
 
 const useFetchData = <T>(url: string) => {
   const [result, setResult] = useState<T | null>(null);
