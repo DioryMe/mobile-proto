@@ -26,14 +26,10 @@ const TestComponent: React.FC = () => {
   return (
     <div>
       <div data-testid="myDioryDiograph">
-        {(context.myDioryRoom.myDioryDiographJson &&
-          JSON.stringify(context.browseRoom.browseDiographJson)) ||
-          "No myDiory diograph"}
+        {context.myDioryRoom?.diograph?.toJson() || "No myDiory diograph"}
       </div>
       <div data-testid="browseDiograph">
-        {(context.browseRoom.browseDiographJson &&
-          JSON.stringify(context.browseRoom.browseDiographJson)) ||
-          "No browse diograph"}
+        {context.browseRoom?.diograph?.toJson() || "No browse diograph"}
       </div>
       <div data-testid="loading">
         {context.loading ? "Loading" : "Not loading"}
@@ -63,10 +59,10 @@ describe("DiosphereContext", () => {
 
       await waitFor(() => {
         expect(screen.getByTestId("browseDiograph").textContent).toBe(
-          JSON.stringify(mockDiographData)
+          JSON.stringify(mockDiographData, null, 2)
         );
         expect(screen.getByTestId("myDioryDiograph").textContent).toBe(
-          JSON.stringify(mockDiographData)
+          JSON.stringify(mockDiographData, null, 2)
         );
         expect(screen.getByTestId("loading").textContent).toBe("Not loading");
         expect(screen.getByTestId("error").textContent).toEqual("No Error");
@@ -111,10 +107,10 @@ describe("DiosphereContext", () => {
 
       await waitFor(() => {
         expect(screen.getByTestId("browseDiograph").textContent).toBe(
-          JSON.stringify(mockDiographData)
+          JSON.stringify(mockDiographData, null, 2)
         );
         expect(screen.getByTestId("myDioryDiograph").textContent).toBe(
-          JSON.stringify(mockDiographData)
+          JSON.stringify(mockDiographData, null, 2)
         );
         expect(screen.getByTestId("loading").textContent).toBe("Not loading");
         expect(screen.getByTestId("error").textContent).toEqual("No Error");
@@ -223,7 +219,7 @@ describe("DiosphereContext", () => {
 
       await waitFor(() => {
         expect(screen.getByTestId("browseDiograph").textContent).toBe(
-          JSON.stringify(mockDiographData)
+          JSON.stringify(mockDiographData, null, 2)
         );
         expect(screen.getByTestId("myDioryDiograph").textContent).toBe(
           "No myDiory diograph"
@@ -242,7 +238,7 @@ describe("DiosphereContext", () => {
 
       await waitFor(() => {
         expect(screen.getByTestId("browseDiograph").textContent).toBe(
-          JSON.stringify(mockDiographData)
+          JSON.stringify(mockDiographData, null, 2)
         );
         expect(screen.getByTestId("myDioryDiograph").textContent).toBe(
           "No myDiory diograph"
@@ -297,7 +293,7 @@ describe("DiosphereContext", () => {
 
       await waitFor(() => {
         expect(screen.getByTestId("browseDiograph").textContent).toBe(
-          JSON.stringify(mockDiographData)
+          JSON.stringify(mockDiographData, null, 2)
         );
         expect(screen.getByTestId("myDioryDiograph").textContent).toBe(
           "No myDiory diograph"
