@@ -32,7 +32,7 @@ describe("getDioryInfo", () => {
         image: null,
         latlng: null,
         date: null,
-        linked: [],
+        links: [],
         content: null, // { contentUrl: "content" },
       },
       focusDiory: expect.any(Object),
@@ -55,7 +55,7 @@ describe("getDioryInfo", () => {
           image: "demo-content.png",
           latlng: null,
           date: null,
-          linked: [
+          links: [
             "ef79b80c-e319-4bfb-8faa-ebbc1150f27f",
             "generic-content",
             "3e2ddc49-b3b6-4212-8a0a-80b9150a57ae",
