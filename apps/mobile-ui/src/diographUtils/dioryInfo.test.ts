@@ -33,7 +33,7 @@ describe("getDioryInfo", () => {
         latlng: null,
         date: null,
         links: [],
-        content: null, // { contentUrl: "content" },
+        content: null,
       },
       focusDiory: expect.any(Object),
     });
@@ -65,7 +65,29 @@ describe("getDioryInfo", () => {
             "f1470597-1a3c-4a76-8546-2c29591a6846",
             "map-content",
           ],
-          content: null, // { contentUrl: "content" },
+          content: null,
+        },
+        focusDiory: expect.any(Object),
+      });
+    });
+
+    it("Diory 12", () => {
+      const dioryInfo: DioryInfo = getDioryInfo(demoDiograph, "diory12");
+
+      expect(dioryInfo).toMatchObject({
+        diograph: expect.any(Object),
+        focusId: "diory12",
+        storyId: "diory1",
+        stories: ["diory1"],
+        prev: "diory11",
+        next: "diory13",
+        focus: {
+          text: "Diory 12",
+          image: expect.any(String),
+          latlng: null,
+          date: null,
+          links: [],
+          content: null,
         },
         focusDiory: expect.any(Object),
       });
