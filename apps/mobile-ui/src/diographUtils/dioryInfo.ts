@@ -1,5 +1,5 @@
 import { Diograph } from "@diograph/diograph";
-import { IDiographObject, IDiory } from "@diograph/diograph/types";
+import { IDataObject, IDiographObject, IDiory } from "@diograph/diograph/types";
 
 export interface DioryInfo {
   diograph: Diograph | null;
@@ -14,7 +14,7 @@ export interface DioryInfo {
     latlng: string | null;
     date: string | null;
     links: string[];
-    content: { contentUrl: string } | null;
+    data: IDataObject | null;
   };
   focusDiory: IDiory;
   relatedGeo: string[];
@@ -32,7 +32,7 @@ export const getDioryInfo = (
 ): DioryInfo => {
   const diograph = new Diograph(diographJson);
   const focusDiory = diograph.getDiory({ id: focusId });
-  const { text, image, latlng, date } = focusDiory;
+  const { text, image, latlng, date, data } = focusDiory;
 
   const stories = Object.values(diograph.toObject())
     .filter((dioryData) => dioryData.links?.some((link) => link.id === focusId))
@@ -73,7 +73,7 @@ export const getDioryInfo = (
     prev,
     next,
     focus: {
-      content: null, // { contentUrl: "content" },
+      data: (data && data[0]) || null,
       text: text || null,
       image: image || null,
       latlng: latlng || null,
