@@ -1,5 +1,5 @@
 import { Diograph } from "@diograph/diograph";
-import { IDataObject, IDiographObject, IDiory } from "@diograph/diograph/types";
+import { IDataObject, IDiory } from "@diograph/diograph/types";
 
 export interface DioryInfo {
   diograph: Diograph | null;
@@ -26,11 +26,10 @@ export interface DioryInfo {
 }
 
 export const getDioryInfo = (
-  diographJson: IDiographObject,
+  diograph: Diograph,
   focusId: string = "/",
-  storyId?: string
+  storyId?: string | null
 ): DioryInfo => {
-  const diograph = new Diograph(diographJson);
   const focusDiory = diograph.getDiory({ id: focusId });
   const { text, image, latlng, date, data } = focusDiory;
 
@@ -66,7 +65,7 @@ export const getDioryInfo = (
   }
 
   return {
-    diograph: new Diograph(diographJson),
+    diograph: diograph,
     focusId: focusDiory.id,
     storyId: storyDioryId,
     stories: stories,
