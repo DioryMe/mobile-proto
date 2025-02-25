@@ -34,11 +34,13 @@ export function DiosphereProvider({ children }: { children: ReactNode }) {
   const [myDioryDiograph, setMyDioryDiograph] = useState<Diograph | null>(null);
   const [myDioryRoomId, setMyDioryRoomId] = useState("native");
   const [myDioryInfo, setMyDioryInfo] = useState<RoomContextType | {}>({});
+  const [myDioryStoryId, setMyDioryStoryId] = useState<string | null>(null);
   // Browse room
   const [browseFocusId, setBrowseFocusId] = useState<string>("/");
   const [browseDiograph, setBrowseDiograph] = useState<Diograph | null>(null);
   const [browseRoomId, setBrowseRoomId] = useState("demo");
   const [browseInfo, setBrowseInfo] = useState<RoomContextType | {}>({});
+  const [browseStoryId, setBrowseStoryId] = useState<string | null>(null);
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -65,17 +67,31 @@ export function DiosphereProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     if (myDioryDiographJson) {
       setMyDioryDiograph(new Diograph(myDioryDiographJson));
-      setMyDioryInfo(getDioryInfo(myDioryDiographJson));
     }
   }, [myDioryDiographJson]);
+
+  // My Diory diory info
+  useEffect(() => {
+    if (myDioryDiograph) {
+      setMyDioryInfo(
+        getDioryInfo(myDioryDiograph, myDioryFocusId, myDioryStoryId)
+      );
+    }
+  }, [myDioryDiograph, myDioryFocusId, myDioryStoryId]);
 
   // Browse diograph
   useEffect(() => {
     if (browseDiographJson) {
       setBrowseDiograph(new Diograph(browseDiographJson));
-      setBrowseInfo(getDioryInfo(browseDiographJson));
     }
   }, [browseDiographJson]);
+
+  // Browse diory info
+  useEffect(() => {
+    if (browseDiograph) {
+      setBrowseInfo(getDioryInfo(browseDiograph, browseFocusId, browseStoryId));
+    }
+  }, [browseDiograph, browseFocusId, browseStoryId]);
 
   // Loading
   useEffect(() => {
@@ -109,11 +125,13 @@ export function DiosphereProvider({ children }: { children: ReactNode }) {
     myDioryRoom: {
       setRoomId: setMyDioryRoomId,
       setFocusId: setMyDioryFocusId,
+      setStoryId: setMyDioryStoryId,
       ...myDioryInfo,
     } as RoomContextType, // TODO: Remove me
     browseRoom: {
       setRoomId: setBrowseRoomId,
       setFocusId: setBrowseFocusId,
+      setStoryId: setBrowseStoryId,
       ...browseInfo,
     } as RoomContextType, // TODO: Remove me
     loading,

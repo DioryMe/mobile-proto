@@ -1,7 +1,9 @@
 import { IDiographObject } from "@diograph/diograph/types";
 import { getDioryInfo, DioryInfo } from "./dioryInfo";
+import { Diograph } from "@diograph/diograph";
 
-const demoDiograph = require("./diograph.json");
+const demoDiographJson = require("./diograph.json");
+const demoDiograph = new Diograph(demoDiographJson);
 
 jest.mock("uuid", () => ({
   v4: jest.fn(() => "8670abb3-253a-4750-b5a7-1476d2effd60"),
@@ -18,7 +20,7 @@ const mockDiographJson: IDiographObject = {
 
 describe("getDioryInfo", () => {
   it("returns a DioryInfo object based on mockDiographJson", () => {
-    const dioryInfo: DioryInfo = getDioryInfo(mockDiographJson);
+    const dioryInfo: DioryInfo = getDioryInfo(new Diograph(mockDiographJson));
 
     expect(dioryInfo).toMatchObject({
       diograph: expect.any(Object),
