@@ -33,7 +33,7 @@ describe("getDioryInfo", () => {
         latlng: null,
         date: null,
         links: [],
-        content: null,
+        data: null,
       },
       focusDiory: expect.any(Object),
     });
@@ -65,7 +65,7 @@ describe("getDioryInfo", () => {
             "f1470597-1a3c-4a76-8546-2c29591a6846",
             "map-content",
           ],
-          content: null,
+          data: null,
         },
         focusDiory: expect.any(Object),
       });
@@ -87,9 +87,117 @@ describe("getDioryInfo", () => {
           latlng: null,
           date: null,
           links: [],
-          content: null,
+          data: null,
         },
         focusDiory: expect.any(Object),
+      });
+    });
+
+    describe("Photo with Mary & Jane", () => {
+      const dioryId = "bea0b059-413d-42a8-a7ad-62d0f252b596";
+      const latlng = "39.16727289119642, -77.51675583422184";
+      const date = "2013-06-25T23:11:09.000Z";
+      const data = {
+        "@context": "https://schema.org",
+        "@type": "ImageObject",
+        contentUrl:
+          "bafkreifgddwk2ymrc7neoniqdcolrgmvrfqfiknvbagusvxoa5hfca7cle",
+        height: 1188,
+        width: 1782,
+        encodingFormat: "image/jpeg",
+      };
+
+      it("Without explicitly selected story", () => {
+        const storyId = undefined;
+        const dioryInfo: DioryInfo = getDioryInfo(
+          demoDiograph,
+          dioryId,
+          storyId
+        );
+
+        expect(dioryInfo).toMatchObject({
+          diograph: expect.any(Object),
+          focusId: dioryId,
+          storyId: "3e2ddc49-b3b6-4212-8a0a-80b9150a57ae",
+          stories: [
+            "3e2ddc49-b3b6-4212-8a0a-80b9150a57ae",
+            "e07c2f1d-5f5a-488a-a505-34f7b9f55105",
+            "f1470597-1a3c-4a76-8546-2c29591a6846",
+          ],
+          prev: "dd1a14b9-f564-4c2c-8330-df29cd78ac45",
+          next: null,
+          focus: {
+            text: null,
+            image: expect.any(String),
+            latlng,
+            date,
+            links: [],
+            data,
+          },
+          focusDiory: expect.any(Object),
+        });
+      });
+
+      it("Selected story: Scouts BSA International (event)", () => {
+        const storyId = "f1470597-1a3c-4a76-8546-2c29591a6846";
+        const dioryInfo: DioryInfo = getDioryInfo(
+          demoDiograph,
+          dioryId,
+          storyId
+        );
+
+        expect(dioryInfo).toMatchObject({
+          diograph: expect.any(Object),
+          focusId: dioryId,
+          storyId: storyId || null,
+          stories: [
+            "3e2ddc49-b3b6-4212-8a0a-80b9150a57ae",
+            "e07c2f1d-5f5a-488a-a505-34f7b9f55105",
+            "f1470597-1a3c-4a76-8546-2c29591a6846",
+          ],
+          prev: "103f852d-4a2a-44de-8f4f-08ccddc3d280",
+          next: "640518ab-fd17-4b22-9fae-ed4a0384d12f",
+          focus: {
+            text: null,
+            image: expect.any(String),
+            latlng,
+            date,
+            links: [],
+            data,
+          },
+          focusDiory: expect.any(Object),
+        });
+      });
+
+      it("Selected story: Mary", () => {
+        const storyId = "e07c2f1d-5f5a-488a-a505-34f7b9f55105";
+        const dioryInfo: DioryInfo = getDioryInfo(
+          demoDiograph,
+          dioryId,
+          storyId
+        );
+
+        expect(dioryInfo).toMatchObject({
+          diograph: expect.any(Object),
+          focusId: dioryId,
+          storyId: storyId || null,
+          stories: [
+            "3e2ddc49-b3b6-4212-8a0a-80b9150a57ae",
+            "e07c2f1d-5f5a-488a-a505-34f7b9f55105",
+            "f1470597-1a3c-4a76-8546-2c29591a6846",
+          ],
+          prev: "78661050-900d-4e87-84e2-a5262fca6770",
+          next: "f1470597-1a3c-4a76-8546-2c29591a6846",
+          focus: {
+            text: null,
+            image: expect.any(String),
+            latlng,
+            date,
+            links: [],
+            data,
+          },
+          focusDiory: expect.any(Object),
+        });
       });
     });
   });
