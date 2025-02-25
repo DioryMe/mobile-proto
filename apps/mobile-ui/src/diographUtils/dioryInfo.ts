@@ -14,6 +14,7 @@ export interface DioryInfo {
     latlng: string | null;
     date: string | null;
     links: string[];
+    linkedDiories: IDiory[];
     data: IDataObject | null;
   };
   focusDiory: IDiory;
@@ -78,6 +79,9 @@ export const getDioryInfo = (
       latlng: latlng || null,
       date: date || null,
       links: focusDiory.links?.map((link) => link.id) || [],
+      linkedDiories:
+        focusDiory.links?.map((link) => diograph.getDiory({ id: link.id })) ||
+        [],
     },
     focusDiory,
     relatedGeo: ["relatedGeo"],
