@@ -18,7 +18,7 @@ export interface DioryInfo {
     linkedDiories: IDiory[];
     data: IDataObject | null;
   };
-  focusDiory: IDiory;
+  focusDiory: IDiory | null;
   relatedGeo: string[];
   relatedTime: string[];
   relatedStories: string[];
