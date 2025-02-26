@@ -8,12 +8,12 @@ import React, {
 import { Diograph } from "@diograph/diograph";
 import { IDiographObject } from "@diograph/diograph/types";
 import useFetchData from "../hooks/useFetchData";
-import { getDioryInfo } from "../diographUtils/dioryInfo";
+import { DioryInfo, getDioryInfo } from "../diographUtils/dioryInfo";
 
-interface RoomContextType {
+interface RoomContextType extends DioryInfo {
   setRoomId: (roomId: string) => void;
   setFocusId: (focusId: string) => void;
-  diograph: Diograph | null;
+  setStoryId: (storyId: string | null) => void;
 }
 
 interface DiosphereContextType {
@@ -24,8 +24,45 @@ interface DiosphereContextType {
   cancelFetch: () => void;
 }
 
-const DiosphereContext = createContext<DiosphereContextType | undefined>(
-  undefined
+const defaultRoomContextValues: RoomContextType = {
+  setRoomId: () => {},
+  setFocusId: () => {},
+  setStoryId: () => {},
+  diograph: null,
+  focusId: "/",
+  storyId: null,
+  story: null,
+  stories: [],
+  prev: null,
+  next: null,
+  focus: {
+    text: null,
+    image: null,
+    latlng: null,
+    date: null,
+    links: [],
+    linkedDiories: [],
+    data: null,
+  },
+  focusDiory: null,
+  relatedGeo: [],
+  relatedTime: [],
+  relatedStories: [],
+  delete: () => {},
+  link: () => {},
+  edit: () => {},
+};
+
+const diosphereContextDefaultValues: DiosphereContextType = {
+  myDioryRoom: defaultRoomContextValues,
+  browseRoom: defaultRoomContextValues,
+  loading: false,
+  error: null,
+  cancelFetch: () => {},
+};
+
+const DiosphereContext = createContext<DiosphereContextType>(
+  diosphereContextDefaultValues
 );
 
 export function DiosphereProvider({ children }: { children: ReactNode }) {
@@ -33,13 +70,17 @@ export function DiosphereProvider({ children }: { children: ReactNode }) {
   const [myDioryFocusId, setMyDioryFocusId] = useState<string>("/");
   const [myDioryDiograph, setMyDioryDiograph] = useState<Diograph | null>(null);
   const [myDioryRoomId, setMyDioryRoomId] = useState("native");
-  const [myDioryInfo, setMyDioryInfo] = useState<RoomContextType | {}>({});
+  const [myDioryInfo, setMyDioryInfo] = useState<DioryInfo>(
+    diosphereContextDefaultValues.myDioryRoom
+  );
   const [myDioryStoryId, setMyDioryStoryId] = useState<string | null>(null);
   // Browse room
   const [browseFocusId, setBrowseFocusId] = useState<string>("/");
   const [browseDiograph, setBrowseDiograph] = useState<Diograph | null>(null);
   const [browseRoomId, setBrowseRoomId] = useState("demo");
-  const [browseInfo, setBrowseInfo] = useState<RoomContextType | {}>({});
+  const [browseInfo, setBrowseInfo] = useState<DioryInfo>(
+    diosphereContextDefaultValues.myDioryRoom
+  );
   const [browseStoryId, setBrowseStoryId] = useState<string | null>(null);
 
   const [loading, setLoading] = useState(false);
@@ -127,13 +168,13 @@ export function DiosphereProvider({ children }: { children: ReactNode }) {
       setFocusId: setMyDioryFocusId,
       setStoryId: setMyDioryStoryId,
       ...myDioryInfo,
-    } as RoomContextType, // TODO: Remove me
+    },
     browseRoom: {
       setRoomId: setBrowseRoomId,
       setFocusId: setBrowseFocusId,
       setStoryId: setBrowseStoryId,
       ...browseInfo,
-    } as RoomContextType, // TODO: Remove me
+    },
     loading,
     error,
     cancelFetch: () => {
