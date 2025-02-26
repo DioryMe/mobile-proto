@@ -1,5 +1,5 @@
 import React from "react";
-import { render, waitFor, screen } from "@testing-library/react";
+import { render, waitFor, screen, fireEvent } from "@testing-library/react";
 import { DiosphereProvider, useDiosphereContext } from "./DiosphereContext";
 import { fetchData } from "../hooks/fetchData";
 
@@ -20,16 +20,18 @@ const mockDiographData = {
   },
 };
 
+const demoDiographJson = require("../diographUtils/diograph.json");
+
 const TestComponent: React.FC = () => {
   const context = useDiosphereContext();
 
   return (
     <div>
       <div data-testid="myDioryDiograph">
-        {context.myDioryRoom?.diograph?.toJson() || "No myDiory diograph"}
+        {context.myDioryRoom.diograph?.toJson() || "No myDiory diograph"}
       </div>
       <div data-testid="browseDiograph">
-        {context.browseRoom?.diograph?.toJson() || "No browse diograph"}
+        {context.browseRoom.diograph?.toJson() || "No browse diograph"}
       </div>
       <div data-testid="loading">
         {context.loading ? "Loading" : "Not loading"}
@@ -39,10 +41,83 @@ const TestComponent: React.FC = () => {
   );
 };
 
+const photoDioryId = "bea0b059-413d-42a8-a7ad-62d0f252b596";
+const eventDioryId = "f4b3b3b4-0b3b-4b3b-8b3b-3b0b3b3b0b3b";
+const personDioryId = "e07c2f1d-5f5a-488a-a505-34f7b9f55105";
+
+const TestComponent2: React.FC = () => {
+  const { myDioryRoom, browseRoom } = useDiosphereContext();
+
+  return (
+    <div>
+      <div data-testid="myDioryFocusId">{myDioryRoom.focusId}</div>
+      <div data-testid="myDioryStoryId">{myDioryRoom.storyId}</div>
+      <div data-testid="myDioryPrev">{myDioryRoom.prev}</div>
+      <div data-testid="myDioryStoriesLength">{myDioryRoom.stories.length}</div>
+
+      <div data-testid="browseFocusId">{browseRoom.focusId}</div>
+      <div data-testid="browseStoryId">{browseRoom.storyId}</div>
+      <div data-testid="browsePrev">{browseRoom.prev}</div>
+      <div data-testid="browseStoriesLength">{browseRoom.stories.length}</div>
+
+      <button
+        data-testid="changeMyDioryFocus"
+        onClick={() => myDioryRoom.setFocusId(photoDioryId)}
+      >
+        Change MyDiory focusId
+      </button>
+      <button
+        data-testid="changeBrowseFocus"
+        onClick={() => browseRoom.setFocusId(photoDioryId)}
+      >
+        Change Browse focusId
+      </button>
+
+      <button onClick={() => myDioryRoom.setStoryId(eventDioryId)}>
+        Change MyDiory storyId
+      </button>
+      <button onClick={() => browseRoom.setStoryId(personDioryId)}>
+        Change Browse storyId
+      </button>
+    </div>
+  );
+};
+
 describe("DiosphereContext", () => {
   afterEach(() => {
     jest.clearAllMocks();
     jest.useRealTimers();
+  });
+
+  test("changing focusId changes storyId and number of stories", async () => {
+    (fetchData as jest.Mock).mockImplementation(async (url: string) => {
+      return demoDiographJson;
+    });
+
+    render(
+      <DiosphereProvider>
+        <TestComponent2 />
+      </DiosphereProvider>
+    );
+
+    await waitFor(() => {
+      expect(screen.getByTestId("myDioryFocusId").textContent).toBe("/");
+      expect(screen.getByTestId("myDioryStoriesLength").textContent).toBe("0");
+      expect(screen.getByTestId("browseFocusId").textContent).toBe("/");
+      expect(screen.getByTestId("browseStoriesLength").textContent).toBe("0");
+
+      fireEvent.click(screen.getByTestId("changeMyDioryFocus"));
+      expect(screen.getByTestId("myDioryFocusId").textContent).toBe(
+        photoDioryId
+      );
+      expect(screen.getByTestId("myDioryStoriesLength").textContent).toBe("3");
+
+      fireEvent.click(screen.getByTestId("changeBrowseFocus"));
+      expect(screen.getByTestId("browseFocusId").textContent).toBe(
+        photoDioryId
+      );
+      expect(screen.getByTestId("browseStoriesLength").textContent).toBe("3");
+    });
   });
 
   describe("sets diographs, loading and error correctly", () => {
