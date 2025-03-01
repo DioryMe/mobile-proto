@@ -3,15 +3,13 @@ import { fetchContent } from "../hooks/fetchData";
 import { useDiosphereContext } from "../contexts/DiosphereContext";
 import { useNavigate } from "react-router-dom";
 
-function Content({
-  roomId = "myDioryRoom",
-}: {
-  roomId?: "myDioryRoom" | "browseRoom";
-}) {
+function Content({}) {
   const navigate = useNavigate();
+  const { roomId } = useDiosphereContext();
   const {
     [roomId]: { diograph, focusId },
   } = useDiosphereContext();
+
   const [contentPayload, setContentPayload] = useState<any>(null);
   const [loading, setLoading] = useState<any>(false);
 
