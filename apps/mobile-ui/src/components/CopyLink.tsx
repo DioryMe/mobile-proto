@@ -1,5 +1,4 @@
 import { useNavigate } from "react-router-dom";
-import { useRoomContext } from "../contexts/RoomContext";
 import CopyTestForm from "./CopyTestForm";
 
 const CopyLink = () => {

@@ -1,12 +1,12 @@
-import { Diograph } from "@diograph/diograph";
-import { IDataObject, IDiory } from "@diograph/diograph/types";
+import { Diograph, Diory } from "@diograph/diograph";
+import { IDataObject, IDiory, IDioryObject } from "@diograph/diograph/types";
 
 export interface DioryInfo {
   diograph: Diograph | null;
   focusId: string;
   storyId: string | null;
   story: IDiory | null;
-  stories: string[];
+  stories: IDioryObject[];
   prev: string | null;
   next: string | null;
   focus: {
@@ -35,11 +35,11 @@ export const getDioryInfo = (
   const focusDiory = diograph.getDiory({ id: focusId });
   const { text, image, latlng, date, data } = focusDiory;
 
-  const stories = Object.values(diograph.toObject())
-    .filter((dioryData) => dioryData.links?.some((link) => link.id === focusId))
-    .map((dioryData) => dioryData.id);
+  const stories = Object.values(diograph.toObject()).filter((dioryData) =>
+    dioryData.links?.some((link) => link.id === focusId)
+  );
 
-  const storyDioryId = storyId || stories[0] || null;
+  const storyDioryId = storyId || (stories[0] && stories[0].id) || null;
 
   let prev = null;
   let next = null;

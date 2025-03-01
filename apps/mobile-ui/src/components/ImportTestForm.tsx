@@ -1,5 +1,5 @@
 import React, { useState, ChangeEvent, FormEvent } from "react";
-import { useRoomContext } from "../contexts/RoomContext";
+import { useDiosphereContext } from "../contexts/DiosphereContext";
 
 const baseUrl = import.meta.env.VITE_API_URL;
 
@@ -39,7 +39,9 @@ interface ImportTestFormProps {
 }
 
 const ImportTestForm: React.FC<ImportTestFormProps> = ({ onResponse }) => {
-  const { nativeDioryId, nativeDiograph } = useRoomContext();
+  const {
+    myDioryRoom: { focusId },
+  } = useDiosphereContext();
 
   const [importForm, setImportForm] = useState({
     diographOnly: "false",
@@ -71,7 +73,7 @@ const ImportTestForm: React.FC<ImportTestFormProps> = ({ onResponse }) => {
 
     // Append non-file fields
     formData.append("destinationRoomId", "native");
-    formData.append("parentDioryId", nativeDioryId);
+    formData.append("parentDioryId", focusId);
     formData.append("diographOnly", importForm.diographOnly.toString()); // Convert boolean to string
 
     // Append files
@@ -97,7 +99,7 @@ const ImportTestForm: React.FC<ImportTestFormProps> = ({ onResponse }) => {
           <label>Destination Room ID: native</label>
         </div>
         <div>
-          <label>Parent Diory ID: {nativeDioryId}</label>
+          <label>Parent Diory ID: {focusId}</label>
         </div>
         <div>
           <label>

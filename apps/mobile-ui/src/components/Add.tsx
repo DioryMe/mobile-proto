@@ -1,11 +1,13 @@
 import { Diory } from "@diograph/diograph";
-import { useRoomContext } from "../contexts/RoomContext";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import ImportTestForm from "./ImportTestForm";
+import { useDiosphereContext } from "../contexts/DiosphereContext";
 
 const Add = () => {
-  const { diograph, dioryId } = useRoomContext();
+  const {
+    myDioryRoom: { diograph, focusId },
+  } = useDiosphereContext();
   const navigate = useNavigate();
   const [dioryText, setDioryText] = useState("Superii");
 
@@ -28,7 +30,7 @@ const Add = () => {
         onClick={() => {
           diograph &&
             diograph.addDioryAndLink(new Diory({ text: dioryText }), {
-              id: dioryId,
+              id: focusId,
             });
           navigate("/home");
         }}

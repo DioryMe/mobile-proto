@@ -1,5 +1,4 @@
 import { Diograph } from "@diograph/diograph";
-import { useRoomContext } from "../contexts/RoomContext";
 
 export const OpenInNewWindow = ({
   diograph,
