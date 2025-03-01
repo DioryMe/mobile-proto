@@ -107,7 +107,7 @@ Copy Diory via CopyTestForm
     # Submit copy form
     Click    css=button[data-test-id="nav-copy"]
     Click    css=button[data-test-id="submitCopyTestForm"]
-    Sleep   10
+    Sleep   15
     # ${response_text}=    Get Text    css=div[data-test-id=response-copy]
     # Should Contain    ${response_text}    Diory copied successfully
 
