@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { fetchData } from "./fetchData";
+import { useNavigate } from "react-router-dom";
 
 const useFetchData = <T>(url: string) => {
   const [result, setResult] = useState<T | null>(null);
@@ -7,6 +8,7 @@ const useFetchData = <T>(url: string) => {
   const [error, setError] = useState<string | null>(null);
   const [abortController, setAbortController] =
     useState<AbortController | null>(null);
+  const navigate = useNavigate();
 
   const cancelFetch = () => {
     if (abortController) {
@@ -30,6 +32,18 @@ const useFetchData = <T>(url: string) => {
       .catch((err) => {
         if (err.name === "AbortError") {
           console.log("Fetch aborted", url);
+        } else if (err.name === "NoTokensFoundError") {
+          console.error("No tokens found in session storage");
+          navigate("/login");
+        } else if (
+          err.status === 401 ||
+          err.name === "UnauthorizedAccessError"
+        ) {
+          // Assuming fetchData throws error with status
+          console.error("Unauthorized access, redirecting to login.");
+          sessionStorage.removeItem("accessToken");
+          sessionStorage.removeItem("refreshToken");
+          navigate("/login");
         } else {
           setError(err.message || err);
         }

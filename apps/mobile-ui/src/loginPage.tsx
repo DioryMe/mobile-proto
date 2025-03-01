@@ -16,7 +16,7 @@ const LoginPage = () => {
     try {
       const authResult = await signIn(email, password);
       if (authResult) {
-        window.location.href = "/home";
+        window.location.href = "/my-diory";
       }
     } catch (error) {
       setErrorMessage(`Sign in failed: ${error}`);
