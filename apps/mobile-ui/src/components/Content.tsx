@@ -5,7 +5,7 @@ import { useDiosphereContext } from "../contexts/DiosphereContext";
 function Content({
   roomId = "myDioryRoom",
 }: {
-  roomId: "myDioryRoom" | "browseRoom";
+  roomId?: "myDioryRoom" | "browseRoom";
 }) {
   const {
     [roomId]: { diograph, focusId },
@@ -34,7 +34,7 @@ function Content({
     } else {
       setContentPayload(null);
     }
-  }, [focusId]);
+  }, []);
 
   return contentPayload ? (
     <div data-test-id="content">
