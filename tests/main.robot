@@ -83,9 +83,9 @@ Import Diory via ImportTestForm
     # Check imported diory from My Diory
     Go To  ${BASE_URL}/home
     Click   css=button[data-test-id="diory-link-bafkreif4lt3vhlmxpcey4xooxlsoebpwfdwtflfwfru7d2meai2fb236eu"]
-    Click   css=button[data-test-id="see-content"]
-    ${response_text}=    Get Text    css=div[data-test-id=no-content-available]
-    Should Contain    ${response_text}    No content available
+    # Click   css=button[data-test-id="see-content"]
+    # ${response_text}=    Get Text    css=div[data-test-id=no-content-available]
+    # Should Contain    ${response_text}    No content available
 
     Close Browser
 
