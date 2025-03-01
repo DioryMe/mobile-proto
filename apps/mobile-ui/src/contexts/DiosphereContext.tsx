@@ -9,6 +9,8 @@ import { Diograph } from "@diograph/diograph";
 import { IDiographObject } from "@diograph/diograph/types";
 import useFetchData from "../hooks/useFetchData";
 import { DioryInfo, getDioryInfo } from "../diographUtils/dioryInfo";
+import { isAuthenticated } from "../App";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 
 interface RoomContextType extends DioryInfo {
   setRoomId: (roomId: string) => void;
@@ -66,6 +68,17 @@ const DiosphereContext = createContext<DiosphereContextType>(
 );
 
 export function DiosphereProvider({ children }: { children: ReactNode }) {
+  const navigate = useNavigate();
+
+  if (!isAuthenticated()) {
+    navigate("/login");
+  }
+
+  // const { focusId } = useParams();
+  // const location = useLocation();
+  // const query = new URLSearchParams(location.search);
+  // const storyId = query.get("storyId");
+
   // My Diory room
   const [myDioryFocusId, setMyDioryFocusId] = useState<string>("/");
   const [myDioryDiograph, setMyDioryDiograph] = useState<Diograph | null>(null);

@@ -6,7 +6,7 @@ const CopyLink = () => {
 
   const handleCopyResponse = (data: any) => {
     // alert(JSON.stringify(data));
-    navigate("/home");
+    navigate("/my-diory");
   };
 
   return (

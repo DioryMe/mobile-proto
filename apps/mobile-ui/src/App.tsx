@@ -18,14 +18,17 @@ import Search from "./components/Search";
 import Browse from "./components/Browse";
 import { DiosphereProvider } from "./contexts/DiosphereContext";
 
+export const isAuthenticated = () => {
+  const accessToken = sessionStorage.getItem("accessToken");
+  const idToken = sessionStorage.getItem("idToken");
+
+  return !!accessToken && !!idToken;
+};
+
 const App = () => {
-  const isAuthenticated = () => {
-    const accessToken = sessionStorage.getItem("accessToken");
-    return !!accessToken;
-  };
   return (
-    <DiosphereProvider>
-      <Router>
+    <Router>
+      <DiosphereProvider>
         <NavBar />
         <Routes>
           <Route path="/login" element={<LoginPage />} />
@@ -33,25 +36,25 @@ const App = () => {
             path="/"
             element={
               isAuthenticated() ? (
-                // Native room has no diories
-                // <Navigate replace to="/init" />
-                // else
-                <Navigate replace to="/home" />
+                <Navigate replace to="/my-diory" />
               ) : (
                 <Navigate replace to="/login" />
               )
             }
           />
-          <Route path="/home" element={<HomePage />} />
+          <Route path="/my-diory" element={<HomePage />} />
+          <Route path="/my-diory/:focusId" element={<HomePage />} />
+          <Route path="/my-diory/:focusId/content" element={<Content />} />
           <Route path="/browse" element={<Browse />} />
+          <Route path="/browse/:focusId" element={<Browse />} />
+          <Route path="/browse/:focusId/content" element={<Content />} />
           <Route path="/add" element={<Add />} />
           <Route path="/copy" element={<Copy />} />
           <Route path="/search" element={<Search />} />
           <Route path="/endpoint-test" element={<EndpointTestPage />} />
-          <Route path="/content" element={<Content />} />
         </Routes>
-      </Router>
-    </DiosphereProvider>
+      </DiosphereProvider>
+    </Router>
   );
 };
 
