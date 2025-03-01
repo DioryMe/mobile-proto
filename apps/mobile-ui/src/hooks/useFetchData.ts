@@ -35,7 +35,10 @@ const useFetchData = <T>(url: string) => {
         } else if (err.name === "NoTokensFoundError") {
           console.error("No tokens found in session storage");
           navigate("/login");
-        } else if (err.status === 401) {
+        } else if (
+          err.status === 401 ||
+          err.name === "UnauthorizedAccessError"
+        ) {
           // Assuming fetchData throws error with status
           console.error("Unauthorized access, redirecting to login.");
           sessionStorage.removeItem("accessToken");
