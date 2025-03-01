@@ -77,7 +77,7 @@ function DioryGrid({ roomId }: { roomId: "myDioryRoom" | "browseRoom" }) {
       <button
         data-test-id="see-content"
         disabled={!(focus.data?.contentUrl || false)}
-        onClick={() => navigate(`${focusId}/content?storyId=${storyId}`)}
+        onClick={() => navigate(`content?storyId=${storyId}`)}
       >
         See content
       </button>

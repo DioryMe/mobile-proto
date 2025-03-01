@@ -83,10 +83,6 @@ export function DiosphereProvider({ children }: { children: ReactNode }) {
   const query = new URLSearchParams(search);
   const storyId = query.get("storyId");
 
-  console.log("location", location);
-  console.log("focusId", focusId);
-  console.log("storyId", storyId);
-
   // Room
   const [roomId, setRoomId] = useState<RoomIdType>("myDioryRoom");
 
@@ -109,6 +105,21 @@ export function DiosphereProvider({ children }: { children: ReactNode }) {
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  // Custom setter functions to update state and URL
+  const updateMyDioryFocusId = (focusId: string) => {
+    setMyDioryFocusId(focusId);
+    navigate(
+      `/my-diory/${focusId}${myDioryStoryId ? `?storyId=${myDioryStoryId}` : ""}`
+    );
+  };
+
+  const updateBrowseFocusId = (focusId: string) => {
+    setBrowseFocusId(focusId);
+    navigate(
+      `/browse/${focusId}${browseStoryId ? `?storyId=${browseStoryId}` : ""}`
+    );
+  };
 
   // Load My Diory room
   const {
@@ -218,13 +229,13 @@ export function DiosphereProvider({ children }: { children: ReactNode }) {
     roomId,
     myDioryRoom: {
       setRoomId: setMyDioryRoomId,
-      setFocusId: setMyDioryFocusId,
+      setFocusId: updateMyDioryFocusId,
       setStoryId: setMyDioryStoryId,
       ...myDioryInfo,
     },
     browseRoom: {
       setRoomId: setBrowseRoomId,
-      setFocusId: setBrowseFocusId,
+      setFocusId: updateBrowseFocusId,
       setStoryId: setBrowseStoryId,
       ...browseInfo,
     },
