@@ -5,7 +5,7 @@ import { Diograph } from "@diograph/diograph";
 interface ParentDioryLinkProps {
   diograph: Diograph | null | undefined;
   onClick: (id: string) => void;
-  parentDiories: [string, IDioryObject][];
+  parentDiories: IDioryObject[];
   parentId: string;
   onParentChange: (parentId: string) => void;
 }
@@ -32,8 +32,8 @@ export const ParentDioryLink: React.FC<ParentDioryLinkProps> = ({
           cursor: "pointer",
         }}
       >
-        {parentDiories.map(([parentId, parentData]) => (
-          <option key={parentId} value={parentId}>
+        {parentDiories.map((parentData) => (
+          <option key={parentData.id} value={parentId}>
             {parentDiories.length} {parentData.text}
           </option>
         ))}

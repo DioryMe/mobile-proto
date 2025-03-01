@@ -1,15 +1,12 @@
-import { useRoomContext } from "./contexts/RoomContext";
 import DioryGrid from "./components/DioryGrid";
 import { useEffect, useState } from "react";
 import { fetchData } from "./hooks/fetchData";
+import { useDiosphereContext } from "./contexts/DiosphereContext";
 
 const HomePage = () => {
   const {
-    nativeDioryId,
-    setNativeDioryId,
-    nativeDiograph,
-    nativeDiographError,
-  } = useRoomContext();
+    myDioryRoom: { diograph: nativeDiograph },
+  } = useDiosphereContext();
 
   const [nativeRoomInited, setNativeRoomInited] = useState(false);
 
@@ -28,11 +25,7 @@ const HomePage = () => {
     <div>
       <h2>My Diory</h2>
       {nativeRoomInited ? (
-        <DioryGrid
-          dioryId={nativeDioryId}
-          setDioryId={setNativeDioryId}
-          diograph={nativeDiograph}
-        />
+        <DioryGrid roomId="myDioryRoom" />
       ) : (
         <>
           <div data-test-id="native-room-not-initialised">
@@ -47,7 +40,6 @@ const HomePage = () => {
           </button>
         </>
       )}
-      <div>{nativeDiographError}</div>
     </div>
   );
 };

@@ -1,13 +1,19 @@
 import React, { useEffect, useState } from "react";
-import { useRoomContext } from "../contexts/RoomContext";
 import { fetchContent } from "../hooks/fetchData";
+import { useDiosphereContext } from "../contexts/DiosphereContext";
 
-function Content() {
-  const { diograph, dioryId } = useRoomContext();
+function Content({
+  roomId = "myDioryRoom",
+}: {
+  roomId: "myDioryRoom" | "browseRoom";
+}) {
+  const {
+    [roomId]: { diograph, focusId },
+  } = useDiosphereContext();
   const [contentPayload, setContentPayload] = useState<any>(null);
   const [loading, setLoading] = useState<any>(false);
 
-  const diory = diograph && diograph.getDiory({ id: dioryId });
+  const diory = diograph && diograph.getDiory({ id: focusId });
   const CID = diory && diory.data && diory.data[0].contentUrl;
   const mimeType = diory && diory.data && diory.data[0].encodingFormat;
 
@@ -28,7 +34,7 @@ function Content() {
     } else {
       setContentPayload(null);
     }
-  }, [dioryId]);
+  }, [focusId]);
 
   return contentPayload ? (
     <div data-test-id="content">

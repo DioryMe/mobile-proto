@@ -1,10 +1,10 @@
 import { useNavigate } from "react-router-dom";
 import styles from "./NavBar.module.css";
-import { useRoomContext } from "../contexts/RoomContext";
+import { useDiosphereContext } from "../contexts/DiosphereContext";
 
 const NavBar = () => {
   const navigate = useNavigate();
-  const { loading } = useRoomContext();
+  const { loading } = useDiosphereContext();
   const handleLogout = () => {
     sessionStorage.clear();
     navigate("/login");

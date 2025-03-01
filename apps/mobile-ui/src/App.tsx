@@ -8,17 +8,15 @@ import {
   Navigate,
 } from "react-router-dom";
 import HomePage from "./homePage";
-import RoomAdmin from "./components/RoomAdmin";
 import Copy from "./components/CopyLink";
-import UploadCreate from "./components/Add";
 import LoginPage from "./loginPage";
-import { RoomProvider } from "./contexts/RoomContext";
 import NavBar from "./components/NavBar";
 import Add from "./components/Add";
 import EndpointTestPage from "./endpointTest";
 import Content from "./components/Content";
 import Search from "./components/Search";
 import Browse from "./components/Browse";
+import { DiosphereProvider } from "./contexts/DiosphereContext";
 
 const App = () => {
   const isAuthenticated = () => {
@@ -26,7 +24,7 @@ const App = () => {
     return !!accessToken;
   };
   return (
-    <RoomProvider>
+    <DiosphereProvider>
       <Router>
         <NavBar />
         <Routes>
@@ -53,7 +51,7 @@ const App = () => {
           <Route path="/content" element={<Content />} />
         </Routes>
       </Router>
-    </RoomProvider>
+    </DiosphereProvider>
   );
 };
 

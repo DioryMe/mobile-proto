@@ -1,5 +1,4 @@
 import React from "react";
-import { useRoomContext } from "./contexts/RoomContext";
 import { IDiory } from "@diograph/diograph/types";
 import { Diograph } from "@diograph/diograph";
 

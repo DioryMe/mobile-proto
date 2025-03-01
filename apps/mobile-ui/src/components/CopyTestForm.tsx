@@ -1,5 +1,5 @@
 import React, { useState, ChangeEvent, FormEvent } from "react";
-import { useRoomContext } from "../contexts/RoomContext";
+import { useDiosphereContext } from "../contexts/DiosphereContext";
 
 const baseUrl = import.meta.env.VITE_API_URL;
 
@@ -38,17 +38,19 @@ interface CopyTestFormProps {
 }
 
 const CopyTestForm: React.FC<CopyTestFormProps> = ({ onResponse }) => {
-  const { nativeDioryId } = useRoomContext();
-  const { roomId, dioryId } = useRoomContext();
+  const {
+    myDioryRoom: { focusId: myDioryFocusId },
+    browseRoom: { focusId: browseFocusId },
+  } = useDiosphereContext();
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     try {
       const response = await postFormContent("/copy", {
         destinationRoomId: "native",
-        parentDioryId: nativeDioryId,
-        sourceRoomId: roomId,
-        copyDioryId: dioryId,
+        parentDioryId: myDioryFocusId,
+        sourceRoomId: "demo",
+        copyDioryId: browseFocusId,
       });
 
       const data = await response.json();
@@ -67,13 +69,13 @@ const CopyTestForm: React.FC<CopyTestFormProps> = ({ onResponse }) => {
           <label>Destination Room ID: native</label>
         </div>
         <div>
-          <label>Parent Diory ID: {nativeDioryId}</label>
+          <label>Parent Diory ID: {myDioryFocusId}</label>
         </div>
         <div>
-          <label>Source Room ID: {roomId}</label>
+          <label>Source Room ID: demo</label>
         </div>
         <div>
-          <label>Copy Diory ID: {dioryId}</label>
+          <label>Copy Diory ID: {browseFocusId}</label>
         </div>
         <button type="submit" data-test-id="submitCopyTestForm">
           Copy Diory

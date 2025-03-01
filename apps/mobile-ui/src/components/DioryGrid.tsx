@@ -1,68 +1,41 @@
 import React, { useEffect, useState } from "react";
 import Diory from "../Diory";
 import { ParentDioryLink } from "../ParentDioryLink";
-import { NavigationButton } from "../NavigationButton";
-import { IDioryObject } from "@diograph/diograph/types";
-import { OpenInNewWindow } from "./OpenInNewWindow";
-import { Diograph } from "@diograph/diograph";
 import { useNavigate } from "react-router-dom";
+import { useDiosphereContext } from "../contexts/DiosphereContext";
 
-interface DioryGridProps {
-  diograph?: Diograph | null;
-  dioryId: string;
-  setDioryId: (id: string) => void;
-}
-
-function DioryGrid({ diograph, dioryId, setDioryId }: DioryGridProps) {
-  const [parentId, setParentId] = useState<string>("/");
-  const [parentDiories, setParentDiories] = useState<[string, IDioryObject][]>(
-    []
-  );
+function DioryGrid({ roomId }: { roomId: "myDioryRoom" | "browseRoom" }) {
+  const {
+    [roomId]: { setStoryId, setFocusId, focusId, storyId, stories, diograph },
+  } = useDiosphereContext();
 
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (!diograph) {
-      return;
-    }
-
-    const parentDiories = Object.entries(diograph.toObject()).filter(
-      ([_, dioryData]) => dioryData.links?.some((link) => link.id === dioryId)
-    );
-    const parentDioryId = parentDiories[0]?.[0] || "/";
-    setParentId(parentDioryId);
-    setParentDiories(parentDiories);
-  }, [diograph, dioryId]);
-
   const handleDioryClick = (dioryId: string) => {
-    setDioryId(dioryId);
+    setFocusId(dioryId);
   };
 
-  const handleParentChange = (newParentId: string) => {
-    setParentId(newParentId);
+  const handleStoryChange = (newStoryId: string) => {
+    setStoryId(newStoryId);
   };
-
-  let CID;
-  try {
-    const diory = diograph && diograph.getDiory({ id: dioryId });
-    CID = diory && diory.data && diory.data[0].contentUrl;
-  } catch {}
 
   return (
     <div>
-      {dioryId !== "/" && (
+      {stories.length !== 0 && (
         <div>
           <div style={{ display: "flex", gap: "8px", margin: "8px 0" }}>
-            <ParentDioryLink
-              diograph={diograph}
-              onClick={handleDioryClick}
-              parentDiories={parentDiories}
-              parentId={parentId}
-              onParentChange={handleParentChange}
-            />
+            {storyId && (
+              <ParentDioryLink
+                diograph={diograph}
+                onClick={handleDioryClick}
+                parentDiories={stories}
+                parentId={storyId}
+                onParentChange={handleStoryChange}
+              />
+            )}
           </div>
           <div style={{ display: "flex", gap: "8px", margin: "8px 0" }}>
-            <NavigationButton
+            {/* <NavigationButton
               direction="prev"
               parentId={parentId}
               diograph={diograph}
@@ -75,14 +48,13 @@ function DioryGrid({ diograph, dioryId, setDioryId }: DioryGridProps) {
               diograph={diograph}
               dioryId={dioryId}
               onClick={handleDioryClick}
-            />
-            <OpenInNewWindow diograph={diograph} dioryId={dioryId} />
+            /> */}
           </div>
         </div>
       )}
       <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
         <Diory
-          dioryId={dioryId}
+          dioryId={focusId}
           diograph={diograph}
           onClick={(id: string | undefined) => id && handleDioryClick(id)}
         />
@@ -94,13 +66,13 @@ function DioryGrid({ diograph, dioryId, setDioryId }: DioryGridProps) {
           the first story)
         </li>
       </ul> */}
-      <button
+      {/* <button
         data-test-id="see-content"
         disabled={!(CID || false)}
         onClick={() => navigate("/content")}
       >
         See content
-      </button>
+      </button> */}
     </div>
   );
 }

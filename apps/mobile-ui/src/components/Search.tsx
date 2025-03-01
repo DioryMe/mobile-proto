@@ -1,10 +1,12 @@
-import { useRoomContext } from "../contexts/RoomContext";
 import smallDiograph from "../smallDiograph.json";
 import { useNavigate } from "react-router-dom";
 import { Diograph } from "@diograph/diograph";
+import { useDiosphereContext } from "../contexts/DiosphereContext";
 
 const Search = () => {
-  const { diograph, setDiograph, setDioryId } = useRoomContext();
+  const {
+    myDioryRoom: { diograph, setFocusId },
+  } = useDiosphereContext();
   const navigate = useNavigate();
 
   const dateSearchResultMaaliskuu = () =>
@@ -32,8 +34,8 @@ const Search = () => {
       <h2>Search</h2>
       <button
         onClick={() => {
-          setDiograph(new Diograph(smallDiograph));
-          setDioryId("/");
+          // setDiograph(new Diograph(smallDiograph));
+          setFocusId("/");
           navigate("/diory-grid");
         }}
       >
@@ -68,7 +70,7 @@ const Search = () => {
           <img
             key={`maalis-${diory.id}`}
             onClick={() => {
-              setDioryId(diory.id);
+              setFocusId(diory.id);
               navigate("/diory-grid");
             }}
             width={100}
@@ -84,7 +86,7 @@ const Search = () => {
           <div key={`text-${diory.id}`}>
             <img
               onClick={() => {
-                setDioryId(diory.id);
+                setFocusId(diory.id);
                 navigate("/diory-grid");
               }}
               width={100}
@@ -103,7 +105,7 @@ const Search = () => {
           <img
             key={`geo-${diory.id}`}
             onClick={() => {
-              setDioryId(diory.id);
+              setFocusId(diory.id);
               navigate("/diory-grid");
             }}
             width={100}
