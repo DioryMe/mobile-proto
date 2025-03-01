@@ -106,7 +106,7 @@ export function DiosphereProvider({ children }: { children: ReactNode }) {
 
   // My Diory diograph
   useEffect(() => {
-    if (myDioryDiographJson) {
+    if (myDioryDiographJson && Object.keys(myDioryDiographJson).length > 0) {
       setMyDioryDiograph(new Diograph(myDioryDiographJson));
     }
   }, [myDioryDiographJson]);
@@ -122,7 +122,7 @@ export function DiosphereProvider({ children }: { children: ReactNode }) {
 
   // Browse diograph
   useEffect(() => {
-    if (browseDiographJson) {
+    if (browseDiographJson && Object.keys(browseDiographJson).length > 0) {
       setBrowseDiograph(new Diograph(browseDiographJson));
     }
   }, [browseDiographJson]);
