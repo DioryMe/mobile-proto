@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { fetchContent } from "../hooks/fetchData";
 import { useDiosphereContext } from "../contexts/DiosphereContext";
+import { useNavigate } from "react-router-dom";
 
 function Content({
   roomId = "myDioryRoom",
 }: {
   roomId?: "myDioryRoom" | "browseRoom";
 }) {
+  const navigate = useNavigate();
   const {
     [roomId]: { diograph, focusId },
   } = useDiosphereContext();
@@ -38,9 +40,9 @@ function Content({
 
   return contentPayload ? (
     <div data-test-id="content">
-      <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
+      <div onClick={() => navigate(-1)}>
         {mimeType?.startsWith("image") && (
-          <img src={contentPayload} width="200" />
+          <img src={contentPayload} width="100%" />
         )}
         {mimeType?.startsWith("video") && (
           <video src={contentPayload} controls width="200" />
@@ -49,6 +51,7 @@ function Content({
           <audio src={contentPayload} controls />
         )}
       </div>
+      <div data-test-id="content-available">Content available</div>
     </div>
   ) : loading ? (
     <img src="/loadicon.gif" width="32px"></img>
