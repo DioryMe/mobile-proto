@@ -74,10 +74,6 @@ const DiosphereContext = createContext<DiosphereContextType>(
 export function DiosphereProvider({ children }: { children: ReactNode }) {
   const navigate = useNavigate();
 
-  if (!isAuthenticated()) {
-    navigate("/login");
-  }
-
   const { focusId } = useParams();
   const { pathname, search } = useLocation();
   const query = new URLSearchParams(search);
@@ -140,6 +136,10 @@ export function DiosphereProvider({ children }: { children: ReactNode }) {
   } = useFetchData<IDiographObject>(`/room/${browseRoomId}/diograph`);
 
   useEffect(() => {
+    if (!isAuthenticated()) {
+      navigate("/login");
+    }
+
     if (pathname.startsWith("/my-diory")) {
       setRoomId("myDioryRoom");
     }
