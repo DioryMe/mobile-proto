@@ -65,6 +65,7 @@ export class RoomsController {
         res
           .status(200)
           .header('Content-Type', query.mime)
+          .header('Cache-Control', 'public, max-age=3600')
           .send(Buffer.from(response));
         return;
       } catch (error) {
