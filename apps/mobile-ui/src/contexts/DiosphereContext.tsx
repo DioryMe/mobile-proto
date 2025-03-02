@@ -13,9 +13,9 @@ import { isAuthenticated } from "../App";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 
 interface RoomContextType extends DioryInfo {
-  setRoomId: (roomId: string) => void;
-  setFocusId: (focusId: string) => void;
-  setStoryId: (storyId: string | null) => void;
+  setRoomId: ((roomId: string) => void) | null;
+  setFocusId: ((focusId: string) => void) | null;
+  setStoryId: ((storyId: string | null) => void) | null;
 }
 
 interface DiosphereContextType {
@@ -23,13 +23,13 @@ interface DiosphereContextType {
   browseRoom: RoomContextType;
   loading: boolean;
   error: string | null;
-  cancelFetch: () => void;
+  cancelFetch: (() => void) | null;
 }
 
 const defaultRoomContextValues: RoomContextType = {
-  setRoomId: () => {},
-  setFocusId: () => {},
-  setStoryId: () => {},
+  setRoomId: null,
+  setFocusId: null,
+  setStoryId: null,
   diograph: null,
   focusId: "/",
   storyId: null,
@@ -50,9 +50,9 @@ const defaultRoomContextValues: RoomContextType = {
   relatedGeo: [],
   relatedTime: [],
   relatedStories: [],
-  delete: () => {},
-  link: () => {},
-  edit: () => {},
+  delete: null,
+  link: null,
+  edit: null,
 };
 
 const diosphereContextDefaultValues: DiosphereContextType = {
@@ -60,7 +60,7 @@ const diosphereContextDefaultValues: DiosphereContextType = {
   browseRoom: defaultRoomContextValues,
   loading: false,
   error: null,
-  cancelFetch: () => {},
+  cancelFetch: null,
 };
 
 const DiosphereContext = createContext<DiosphereContextType>(
