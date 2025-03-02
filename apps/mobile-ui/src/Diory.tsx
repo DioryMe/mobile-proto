@@ -20,7 +20,6 @@ const Diory = ({ onClick }: DioryProps) => {
   } = useDiosphereContext();
 
   useEffect(() => {
-    console.log("BOO", focus);
     setDiory(focus);
   }, [focus]);
 

@@ -1,21 +1,30 @@
 import React, { useEffect, useState } from "react";
 import { fetchContent } from "../hooks/fetchData";
 import { useDiosphereContext } from "../contexts/DiosphereContext";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 
 function Content() {
   const navigate = useNavigate();
 
   const [contentPayload, setContentPayload] = useState<any>(null);
+  const [mimeType, setMimeType] = useState<any>(null);
   const [loading, setLoading] = useState<any>(false);
 
-  const { pathname } = useLocation();
+  const { pathname, search } = useLocation();
   const roomId = pathname.startsWith("/my-diory")
     ? "myDioryRoom"
     : "browseRoom";
+  const { focusId } = useParams();
+  const query = new URLSearchParams(search);
+  const storyIdFromUrl = query.get("storyId");
+
   const {
-    [roomId]: { diograph, focusId },
+    [roomId]: { setFocusId, diograph },
   } = useDiosphereContext();
+
+  useEffect(() => {
+    // next, prev logic in here
+  }, [storyIdFromUrl, focusId, setFocusId]);
 
   useEffect(() => {
     let diory;
@@ -28,6 +37,7 @@ function Content() {
 
     const CID = diory && diory.data && diory.data[0].contentUrl;
     const mimeType = diory && diory.data && diory.data[0].encodingFormat;
+    setMimeType(mimeType);
 
     if (CID) {
       try {
