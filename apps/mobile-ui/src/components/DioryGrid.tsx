@@ -4,7 +4,8 @@ import { ParentDioryLink } from "../ParentDioryLink";
 import { useNavigate } from "react-router-dom";
 import { useDiosphereContext } from "../contexts/DiosphereContext";
 
-function DioryGrid({ roomId }: { roomId: "myDioryRoom" | "browseRoom" }) {
+function DioryGrid() {
+  const { roomId } = useDiosphereContext();
   const {
     [roomId]: {
       setStoryId,
@@ -62,8 +63,6 @@ function DioryGrid({ roomId }: { roomId: "myDioryRoom" | "browseRoom" }) {
       )}
       <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
         <Diory
-          dioryId={focusId}
-          diograph={diograph}
           onClick={(id: string | undefined) => id && handleDioryClick(id)}
         />
       </div>

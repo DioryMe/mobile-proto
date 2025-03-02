@@ -1,37 +1,15 @@
 import React from "react";
-import { IDiory } from "@diograph/diograph/types";
-import { Diograph } from "@diograph/diograph";
-
-export interface DioryData {
-  text: string;
-  image?: string;
-  links?: { id: string }[];
-  created: string;
-  modified: string;
-  id: string;
-}
+import { useDiosphereContext } from "./contexts/DiosphereContext";
 
 interface DioryProps {
-  dioryId?: string;
-  diograph: Diograph | null | undefined;
   onClick: any;
 }
 
-const Diory = ({ dioryId, diograph, onClick }: DioryProps) => {
-  if (!dioryId) {
-    return <div>No dioryId given</div>;
-  }
-
-  if (!diograph) {
-    return <div>Diograph not found</div>;
-  }
-
-  let diory: IDiory;
-  try {
-    diory = diograph.getDiory({ id: dioryId });
-  } catch (e) {
-    return <div data-test-id="diory-not-found">Diory not found</div>;
-  }
+const Diory = ({ onClick }: DioryProps) => {
+  const { roomId } = useDiosphereContext();
+  const {
+    [roomId]: { focusId: dioryId, focus: diory },
+  } = useDiosphereContext();
 
   return (
     <div
@@ -84,15 +62,13 @@ const Diory = ({ dioryId, diograph, onClick }: DioryProps) => {
           zIndex: 1,
         }}
       >
-        {diory.links?.map((link) => (
+        {diory.linkedDiories.map((link) => (
           <button
             key={link.id}
             data-test-id={`diory-link-${link.id}`}
             onClick={() => onClick(link.id)}
             style={{
-              backgroundImage: diograph.getDiory({ id: link.id }).image
-                ? `url(${diograph.getDiory({ id: link.id }).image})`
-                : "none",
+              backgroundImage: link.image ? `url(${link.image})` : "none",
               backgroundSize: "cover",
               backgroundPosition: "center",
               backgroundColor: "rgba(255,255,255,0.9)",
@@ -124,7 +100,7 @@ const Diory = ({ dioryId, diograph, onClick }: DioryProps) => {
                 textShadow: "1px 1px 2px rgba(0,0,0,0.5)",
               }}
             >
-              {diograph.getDiory({ id: link.id }).text}
+              {link.text}
             </span>
           </button>
         ))}
