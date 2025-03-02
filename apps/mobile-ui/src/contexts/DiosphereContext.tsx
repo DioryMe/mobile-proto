@@ -72,15 +72,16 @@ const DiosphereContext = createContext<DiosphereContextType>(
 );
 
 export function DiosphereProvider({ children }: { children: ReactNode }) {
-  const navigate = useNavigate();
-
+  // TODO: This doesn't work...only in Browse.tsx
   const { focusId } = useParams();
+
+  const navigate = useNavigate();
   const { pathname, search } = useLocation();
   const query = new URLSearchParams(search);
   const storyId = query.get("storyId");
 
   // Room
-  const [roomId, setRoomId] = useState<RoomIdType>("myDioryRoom");
+  const [roomId, setRoomId] = useState<RoomIdType | null>(null);
 
   // My Diory room
   const [myDioryFocusId, setMyDioryFocusId] = useState<string>("/");
@@ -142,26 +143,20 @@ export function DiosphereProvider({ children }: { children: ReactNode }) {
 
     if (pathname.startsWith("/my-diory")) {
       setRoomId("myDioryRoom");
+      if (focusId) {
+        setMyDioryFocusId(focusId);
+      }
+      if (storyId) {
+        setMyDioryStoryId(storyId);
+      }
     }
 
     if (pathname.startsWith("/browse")) {
       setRoomId("browseRoom");
-    }
-
-    if (focusId) {
-      if (roomId === "myDioryRoom") {
-        setMyDioryFocusId(focusId);
-      }
-      if (roomId === "browseRoom") {
+      if (focusId) {
         setBrowseFocusId(focusId);
       }
-    }
-
-    if (storyId) {
-      if (roomId === "myDioryRoom") {
-        setMyDioryStoryId(storyId);
-      }
-      if (roomId === "browseRoom") {
+      if (storyId) {
         setBrowseStoryId(storyId);
       }
     }
@@ -177,9 +172,15 @@ export function DiosphereProvider({ children }: { children: ReactNode }) {
   // My Diory diory info
   useEffect(() => {
     if (myDioryDiograph) {
-      setMyDioryInfo(
-        getDioryInfo(myDioryDiograph, myDioryFocusId, myDioryStoryId)
-      );
+      try {
+        setMyDioryInfo(
+          getDioryInfo(myDioryDiograph, myDioryFocusId, myDioryStoryId)
+        );
+      } catch (error) {
+        console.log("getDioryInfo failed: ", error);
+        setMyDioryInfo(getDioryInfo(myDioryDiograph, "/"));
+        navigate("/my-diory");
+      }
     }
   }, [myDioryDiograph, myDioryFocusId, myDioryStoryId]);
 
@@ -193,7 +194,15 @@ export function DiosphereProvider({ children }: { children: ReactNode }) {
   // Browse diory info
   useEffect(() => {
     if (browseDiograph) {
-      setBrowseInfo(getDioryInfo(browseDiograph, browseFocusId, browseStoryId));
+      try {
+        setBrowseInfo(
+          getDioryInfo(browseDiograph, browseFocusId, browseStoryId)
+        );
+      } catch (error) {
+        console.log("getDioryInfo failed: ", error);
+        setBrowseInfo(getDioryInfo(browseDiograph, "/"));
+        navigate("/browse");
+      }
     }
   }, [browseDiograph, browseFocusId, browseStoryId]);
 

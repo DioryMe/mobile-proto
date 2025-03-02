@@ -42,12 +42,12 @@ const App = () => {
               )
             }
           />
-          <Route path="/my-diory" element={<HomePage />} />
-          <Route path="/my-diory/:focusId" element={<HomePage />} />
           <Route path="/my-diory/:focusId/content" element={<Content />} />
-          <Route path="/browse" element={<Browse />} />
-          <Route path="/browse/:focusId" element={<Browse />} />
+          <Route path="/my-diory/:focusId" element={<HomePage />} />
+          <Route path="/my-diory" element={<HomePage />} />
           <Route path="/browse/:focusId/content" element={<Content />} />
+          <Route path="/browse/:focusId" element={<Browse />} />
+          <Route path="/browse" element={<Browse />} />
           <Route path="/add" element={<Add />} />
           <Route path="/copy" element={<Copy />} />
           <Route path="/search" element={<Search />} />

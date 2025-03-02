@@ -1,12 +1,17 @@
 import React from "react";
 import { useDiosphereContext } from "./contexts/DiosphereContext";
+import { useLocation } from "react-router-dom";
 
 interface DioryProps {
   onClick: any;
 }
 
 const Diory = ({ onClick }: DioryProps) => {
-  const { roomId } = useDiosphereContext();
+  const { pathname } = useLocation();
+  const roomId = pathname.startsWith("/my-diory")
+    ? "myDioryRoom"
+    : "browseRoom";
+
   const {
     [roomId]: { focusId: dioryId, focus: diory },
   } = useDiosphereContext();

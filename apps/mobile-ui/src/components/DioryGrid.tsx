@@ -1,21 +1,17 @@
 import React, { useEffect, useState } from "react";
 import Diory from "../Diory";
 import { ParentDioryLink } from "../ParentDioryLink";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useDiosphereContext } from "../contexts/DiosphereContext";
 
 function DioryGrid() {
-  const { roomId } = useDiosphereContext();
+  const { pathname } = useLocation();
+  const roomId = pathname.startsWith("/my-diory")
+    ? "myDioryRoom"
+    : "browseRoom";
+
   const {
-    [roomId]: {
-      setStoryId,
-      setFocusId,
-      focusId,
-      focus,
-      storyId,
-      stories,
-      diograph,
-    },
+    [roomId]: { setStoryId, setFocusId, focus, storyId, stories, diograph },
   } = useDiosphereContext();
 
   const navigate = useNavigate();
