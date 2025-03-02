@@ -10,50 +10,49 @@ function Content() {
   const [mimeType, setMimeType] = useState<any>(null);
   const [loading, setLoading] = useState<any>(false);
 
-  const { pathname, search } = useLocation();
+  const { pathname } = useLocation();
   const roomId = pathname.startsWith("/my-diory")
     ? "myDioryRoom"
     : "browseRoom";
-  const { focusId } = useParams();
-  const query = new URLSearchParams(search);
-  const storyIdFromUrl = query.get("storyId");
 
   const {
-    [roomId]: { setFocusId, diograph },
+    [roomId]: { diograph, focusId },
   } = useDiosphereContext();
 
   useEffect(() => {
     // next, prev logic in here
-  }, [storyIdFromUrl, focusId, setFocusId]);
+  }, [focusId]);
 
   useEffect(() => {
-    let diory;
-    try {
-      diory = diograph && diograph.getDiory({ id: focusId });
-    } catch (error) {
-      navigate(roomId === "myDioryRoom" ? "/my-diory" : "/browse");
-      return;
-    }
-
-    const CID = diory && diory.data && diory.data[0].contentUrl;
-    const mimeType = diory && diory.data && diory.data[0].encodingFormat;
-    setMimeType(mimeType);
-
-    if (CID) {
+    if (focusId) {
+      let diory;
       try {
-        setLoading(true);
-        fetchContent(`/room/content?CID=${CID}&mime=${mimeType}`)
-          .then((response: any) => response.blob())
-          .then((blob) => {
-            const url = URL.createObjectURL(blob);
-            setContentPayload(url);
-            setLoading(false);
-          });
+        diory = diograph && diograph.getDiory({ id: focusId });
       } catch (error) {
-        console.log("error", error);
+        navigate(roomId === "myDioryRoom" ? "/my-diory" : "/browse");
+        return;
       }
-    } else {
-      setContentPayload(null);
+
+      const CID = diory && diory.data && diory.data[0].contentUrl;
+      const mimeType = diory && diory.data && diory.data[0].encodingFormat;
+      setMimeType(mimeType);
+
+      if (CID) {
+        try {
+          setLoading(true);
+          fetchContent(`/room/content?CID=${CID}&mime=${mimeType}`)
+            .then((response: any) => response.blob())
+            .then((blob) => {
+              const url = URL.createObjectURL(blob);
+              setContentPayload(url);
+              setLoading(false);
+            });
+        } catch (error) {
+          console.log("error", error);
+        }
+      } else {
+        setContentPayload(null);
+      }
     }
   }, [diograph, focusId]);
 

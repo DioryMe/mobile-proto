@@ -67,12 +67,20 @@ const DiosphereContext = createContext<DiosphereContextType>(
   diosphereContextDefaultValues
 );
 
-export function DiosphereProvider({ children }: { children: ReactNode }) {
+export function DiosphereProvider({ children }: { children?: ReactNode }) {
   const { pathname, search } = useLocation();
   const navigate = useNavigate();
 
+  const { focusId } = useParams();
+
+  const roomId = pathname.startsWith("/my-diory")
+    ? "myDioryRoom"
+    : "browseRoom";
+
   // My Diory room
-  const [myDioryFocusId, setMyDioryFocusId] = useState<string>("/");
+  const [myDioryFocusId, setMyDioryFocusId] = useState<string>(
+    focusId && roomId === "myDioryRoom" ? focusId : "/"
+  );
   const [myDioryDiograph, setMyDioryDiograph] = useState<Diograph | null>(null);
   const [myDioryRoomId, setMyDioryRoomId] = useState("native");
   const [myDioryInfo, setMyDioryInfo] = useState<DioryInfo>(
@@ -80,7 +88,9 @@ export function DiosphereProvider({ children }: { children: ReactNode }) {
   );
   const [myDioryStoryId, setMyDioryStoryId] = useState<string | null>(null);
   // Browse room
-  const [browseFocusId, setBrowseFocusId] = useState<string>("/");
+  const [browseFocusId, setBrowseFocusId] = useState<string>(
+    focusId && roomId === "browseRoom" ? focusId : "/"
+  );
   const [browseDiograph, setBrowseDiograph] = useState<Diograph | null>(null);
   const [browseRoomId, setBrowseRoomId] = useState("demo");
   const [browseInfo, setBrowseInfo] = useState<DioryInfo>(

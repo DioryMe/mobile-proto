@@ -6,27 +6,14 @@ import { useDiosphereContext } from "../contexts/DiosphereContext";
 
 function DioryGrid() {
   const navigate = useNavigate();
-  const { pathname, search } = useLocation();
+  const { pathname } = useLocation();
   const roomId = pathname.startsWith("/my-diory")
     ? "myDioryRoom"
     : "browseRoom";
-  const { focusId } = useParams();
-  const query = new URLSearchParams(search);
-  const storyIdFromUrl = query.get("storyId");
 
   const {
     [roomId]: { setStoryId, setFocusId, focus, storyId, stories, diograph },
   } = useDiosphereContext();
-
-  useEffect(() => {
-    if (focusId && setFocusId) {
-      setFocusId(focusId);
-    }
-
-    if (storyIdFromUrl && setStoryId) {
-      setStoryId(storyIdFromUrl);
-    }
-  }, [storyIdFromUrl, focusId, setFocusId, setStoryId]);
 
   const handleDioryClick = (dioryId: string) => {
     setFocusId && setFocusId(dioryId);
