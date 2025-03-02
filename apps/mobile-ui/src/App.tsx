@@ -28,32 +28,42 @@ export const isAuthenticated = () => {
 const App = () => {
   return (
     <Router>
-      <DiosphereProvider>
-        <NavBar />
-        <Routes>
-          <Route path="/login" element={<LoginPage />} />
-          <Route
-            path="/"
-            element={
-              isAuthenticated() ? (
-                <Navigate replace to="/my-diory" />
-              ) : (
-                <Navigate replace to="/login" />
-              )
-            }
-          />
-          <Route path="/my-diory/:focusId/content" element={<Content />} />
-          <Route path="/my-diory/:focusId" element={<HomePage />} />
-          <Route path="/my-diory" element={<HomePage />} />
-          <Route path="/browse/:focusId/content" element={<Content />} />
-          <Route path="/browse/:focusId" element={<Browse />} />
-          <Route path="/browse" element={<Browse />} />
+      <NavBar />
+      <Routes>
+        <Route path="/login" element={<LoginPage />} />
+        <Route
+          path="/"
+          element={
+            isAuthenticated() ? (
+              <Navigate replace to="/my-diory" />
+            ) : (
+              <Navigate replace to="/login" />
+            )
+          }
+        />
+
+        <Route element={<DiosphereProvider />}>
+          <Route path="/my-diory">
+            <Route index element={<HomePage />} />
+            <Route path=":focusId">
+              <Route index element={<HomePage />} />
+              <Route path="content" element={<Content />} />
+            </Route>
+          </Route>
+          <Route path="/browse">
+            <Route index element={<Browse />} />
+            <Route path=":focusId">
+              <Route index element={<Browse />} />
+              <Route path="content" element={<Content />} />
+            </Route>
+          </Route>
+          {/* Other standalone routes */}
           <Route path="/add" element={<Add />} />
           <Route path="/copy" element={<Copy />} />
           <Route path="/search" element={<Search />} />
           <Route path="/endpoint-test" element={<EndpointTestPage />} />
-        </Routes>
-      </DiosphereProvider>
+        </Route>
+      </Routes>
     </Router>
   );
 };
