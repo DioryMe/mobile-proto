@@ -62,21 +62,33 @@ const TestComponent2: React.FC = () => {
 
       <button
         data-testid="changeMyDioryFocus"
-        onClick={() => myDioryRoom.setFocusId(photoDioryId)}
+        onClick={() =>
+          myDioryRoom.setFocusId && myDioryRoom.setFocusId(photoDioryId)
+        }
       >
         Change MyDiory focusId
       </button>
       <button
         data-testid="changeBrowseFocus"
-        onClick={() => browseRoom.setFocusId(photoDioryId)}
+        onClick={() =>
+          browseRoom.setFocusId && browseRoom.setFocusId(photoDioryId)
+        }
       >
         Change Browse focusId
       </button>
 
-      <button onClick={() => myDioryRoom.setStoryId(eventDioryId)}>
+      <button
+        onClick={() =>
+          myDioryRoom.setStoryId && myDioryRoom.setStoryId(eventDioryId)
+        }
+      >
         Change MyDiory storyId
       </button>
-      <button onClick={() => browseRoom.setStoryId(personDioryId)}>
+      <button
+        onClick={() =>
+          browseRoom.setStoryId && browseRoom.setStoryId(personDioryId)
+        }
+      >
         Change Browse storyId
       </button>
     </div>

@@ -55,6 +55,7 @@ Successful sign up and login
 
     # Demo room
     Go To  ${BASE_URL}/browse
+    Sleep  2
     ${diory_heading}=    Get Text    css=div[data-test-id="diory-heading-/"]
     Should Be Equal    ${diory_heading}    Diory demo content
 

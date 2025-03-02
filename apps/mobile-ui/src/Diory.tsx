@@ -16,7 +16,7 @@ const Diory = ({ onClick }: DioryProps) => {
   const [diory, setDiory] = useState<any | null>(null);
 
   const {
-    [roomId]: { focus },
+    [roomId]: { focus, focusId: dioryId },
   } = useDiosphereContext();
 
   useEffect(() => {
@@ -40,6 +40,7 @@ const Diory = ({ onClick }: DioryProps) => {
       >
         {/* Main content */}
         <div
+          data-test-id={`diory-heading-${dioryId}`}
           style={{
             marginBottom: "10px",
             position: "relative",
@@ -74,7 +75,7 @@ const Diory = ({ onClick }: DioryProps) => {
             zIndex: 1,
           }}
         >
-          {diory.linkedDiories.map((link) => (
+          {diory.linkedDiories.map((link: any) => (
             <button
               key={link.id}
               data-test-id={`diory-link-${link.id}`}

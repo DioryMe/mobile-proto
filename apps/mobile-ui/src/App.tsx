@@ -28,63 +28,65 @@ export const isAuthenticated = () => {
 const App = () => {
   return (
     <Router>
-      <NavBar />
-      <Routes>
-        {/* Root route */}
-        <Route
-          path="/"
-          element={
-            isAuthenticated() ? (
-              <Navigate replace to="/my-diory" />
-            ) : (
-              <Navigate replace to="/login" />
-            )
-          }
-        />
+      <DiosphereProvider>
+        <NavBar />
+        <Routes>
+          {/* Root route */}
+          <Route
+            path="/"
+            element={
+              isAuthenticated() ? (
+                <Navigate replace to="/my-diory" />
+              ) : (
+                <Navigate replace to="/login" />
+              )
+            }
+          />
 
-        {/* Main routes */}
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/my-diory" element={<HomePage />} />
-        <Route path="/browse" element={<Browse />} />
-        <Route path="/add" element={<Add />} />
-        <Route path="/copy" element={<Copy />} />
-        <Route path="/search" element={<Search />} />
-        <Route path="/endpoint-test" element={<EndpointTestPage />} />
+          {/* Main routes */}
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/my-diory" element={<HomePage />} />
+          <Route path="/browse" element={<Browse />} />
+          <Route path="/add" element={<Add />} />
+          <Route path="/copy" element={<Copy />} />
+          <Route path="/search" element={<Search />} />
+          <Route path="/endpoint-test" element={<EndpointTestPage />} />
 
-        {/* Dynamic routes with DiosphereProvider */}
-        <Route
-          path="/my-diory/:focusId/content"
-          element={
-            <DiosphereProvider>
-              <Content />
-            </DiosphereProvider>
-          }
-        />
-        <Route
-          path="/my-diory/:focusId"
-          element={
-            <DiosphereProvider>
-              <HomePage />
-            </DiosphereProvider>
-          }
-        />
-        <Route
-          path="/browse/:focusId/content"
-          element={
-            <DiosphereProvider>
-              <Content />
-            </DiosphereProvider>
-          }
-        />
-        <Route
-          path="/browse/:focusId"
-          element={
-            <DiosphereProvider>
-              <Browse />
-            </DiosphereProvider>
-          }
-        />
-      </Routes>
+          {/* Dynamic routes with DiosphereProvider */}
+          <Route
+            path="/my-diory/:focusId/content"
+            element={
+              <DiosphereProvider>
+                <Content />
+              </DiosphereProvider>
+            }
+          />
+          <Route
+            path="/my-diory/:focusId"
+            element={
+              <DiosphereProvider>
+                <HomePage />
+              </DiosphereProvider>
+            }
+          />
+          <Route
+            path="/browse/:focusId/content"
+            element={
+              <DiosphereProvider>
+                <Content />
+              </DiosphereProvider>
+            }
+          />
+          <Route
+            path="/browse/:focusId"
+            element={
+              <DiosphereProvider>
+                <Browse />
+              </DiosphereProvider>
+            }
+          />
+        </Routes>
+      </DiosphereProvider>
     </Router>
   );
 };
