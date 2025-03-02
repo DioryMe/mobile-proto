@@ -18,10 +18,7 @@ interface RoomContextType extends DioryInfo {
   setStoryId: (storyId: string | null) => void;
 }
 
-type RoomIdType = "myDioryRoom" | "browseRoom";
-
 interface DiosphereContextType {
-  roomId: RoomIdType;
   myDioryRoom: RoomContextType;
   browseRoom: RoomContextType;
   loading: boolean;
@@ -59,7 +56,6 @@ const defaultRoomContextValues: RoomContextType = {
 };
 
 const diosphereContextDefaultValues: DiosphereContextType = {
-  roomId: "myDioryRoom",
   myDioryRoom: defaultRoomContextValues,
   browseRoom: defaultRoomContextValues,
   loading: false,
@@ -72,16 +68,8 @@ const DiosphereContext = createContext<DiosphereContextType>(
 );
 
 export function DiosphereProvider({ children }: { children: ReactNode }) {
-  // TODO: This doesn't work...only in Browse.tsx
-  const { focusId } = useParams();
-
-  const navigate = useNavigate();
   const { pathname, search } = useLocation();
-  const query = new URLSearchParams(search);
-  const storyId = query.get("storyId");
-
-  // Room
-  const [roomId, setRoomId] = useState<RoomIdType | null>(null);
+  const navigate = useNavigate();
 
   // My Diory room
   const [myDioryFocusId, setMyDioryFocusId] = useState<string>("/");
@@ -139,26 +127,6 @@ export function DiosphereProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     if (!isAuthenticated()) {
       navigate("/login");
-    }
-
-    if (pathname.startsWith("/my-diory")) {
-      setRoomId("myDioryRoom");
-      if (focusId) {
-        setMyDioryFocusId(focusId);
-      }
-      if (storyId) {
-        setMyDioryStoryId(storyId);
-      }
-    }
-
-    if (pathname.startsWith("/browse")) {
-      setRoomId("browseRoom");
-      if (focusId) {
-        setBrowseFocusId(focusId);
-      }
-      if (storyId) {
-        setBrowseStoryId(storyId);
-      }
     }
   }, [pathname, search]);
 
@@ -235,7 +203,6 @@ export function DiosphereProvider({ children }: { children: ReactNode }) {
   }, [browseDiographError, myDioryDiographError]);
 
   const value = {
-    roomId,
     myDioryRoom: {
       setRoomId: setMyDioryRoomId,
       setFocusId: updateMyDioryFocusId,
