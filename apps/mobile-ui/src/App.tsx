@@ -30,7 +30,7 @@ const App = () => {
     <Router>
       <NavBar />
       <Routes>
-        <Route path="/login" element={<LoginPage />} />
+        {/* Root route */}
         <Route
           path="/"
           element={
@@ -42,27 +42,48 @@ const App = () => {
           }
         />
 
-        <Route element={<DiosphereProvider />}>
-          <Route path="/my-diory">
-            <Route index element={<HomePage />} />
-            <Route path=":focusId">
-              <Route index element={<HomePage />} />
-              <Route path="content" element={<Content />} />
-            </Route>
-          </Route>
-          <Route path="/browse">
-            <Route index element={<Browse />} />
-            <Route path=":focusId">
-              <Route index element={<Browse />} />
-              <Route path="content" element={<Content />} />
-            </Route>
-          </Route>
-          {/* Other standalone routes */}
-          <Route path="/add" element={<Add />} />
-          <Route path="/copy" element={<Copy />} />
-          <Route path="/search" element={<Search />} />
-          <Route path="/endpoint-test" element={<EndpointTestPage />} />
-        </Route>
+        {/* Main routes */}
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/my-diory" element={<HomePage />} />
+        <Route path="/browse" element={<Browse />} />
+        <Route path="/add" element={<Add />} />
+        <Route path="/copy" element={<Copy />} />
+        <Route path="/search" element={<Search />} />
+        <Route path="/endpoint-test" element={<EndpointTestPage />} />
+
+        {/* Dynamic routes with DiosphereProvider */}
+        <Route
+          path="/my-diory/:focusId/content"
+          element={
+            <DiosphereProvider>
+              <Content />
+            </DiosphereProvider>
+          }
+        />
+        <Route
+          path="/my-diory/:focusId"
+          element={
+            <DiosphereProvider>
+              <HomePage />
+            </DiosphereProvider>
+          }
+        />
+        <Route
+          path="/browse/:focusId/content"
+          element={
+            <DiosphereProvider>
+              <Content />
+            </DiosphereProvider>
+          }
+        />
+        <Route
+          path="/browse/:focusId"
+          element={
+            <DiosphereProvider>
+              <Browse />
+            </DiosphereProvider>
+          }
+        />
       </Routes>
     </Router>
   );
