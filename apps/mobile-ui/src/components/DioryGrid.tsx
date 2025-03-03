@@ -67,7 +67,10 @@ function DioryGrid() {
       )}
       <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
         <Diory
-          onClick={(id: string | undefined) => id && handleDioryClick(id)}
+          onClick={(id: string | undefined, event: React.MouseEvent) => {
+            event.stopPropagation();
+            id && handleDioryClick(id);
+          }}
         />
       </div>
       {/* <ul>

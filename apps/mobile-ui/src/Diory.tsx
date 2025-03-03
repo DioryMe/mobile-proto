@@ -88,7 +88,7 @@ const Diory = ({ onClick }: DioryProps) => {
             <button
               key={link.id}
               data-test-id={`diory-link-${link.id}`}
-              onClick={() => onClick(link.id)}
+              onClick={(event) => onClick(link.id, event)}
               style={{
                 backgroundImage: link.image ? `url(${link.image})` : "none",
                 backgroundSize: "cover",
