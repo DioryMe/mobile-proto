@@ -43,7 +43,7 @@ const Swipes = () => {
       setSlides((prevSlides: any) => [
         ...prevSlides,
         <SwiperSlide key={focusId}>
-          <img src={focusDiory.image} onClick={backToGrid} />
+          <img src={focusDiory.image || ""} onClick={backToGrid} />
         </SwiperSlide>,
       ]);
 
