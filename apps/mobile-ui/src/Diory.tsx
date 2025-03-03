@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDiosphereContext } from "./contexts/DiosphereContext";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { IDiory, IDioryObject } from "@diograph/diograph/types";
 
 interface DioryProps {
@@ -8,6 +8,8 @@ interface DioryProps {
 }
 
 const Diory = ({ onClick }: DioryProps) => {
+  const navigate = useNavigate();
+
   const { pathname } = useLocation();
   const roomId = pathname.startsWith("/my-diory")
     ? "myDioryRoom"
@@ -23,9 +25,16 @@ const Diory = ({ onClick }: DioryProps) => {
     setDiory(focus);
   }, [focus]);
 
+  const toContent = () => {
+    navigate(
+      `/${roomId == "myDioryRoom" ? "my-diory" : "browse"}/${dioryId}/content`
+    );
+  };
+
   return (
     diory && (
       <div
+        onClick={toContent}
         style={{
           border: "1px solid #ddd",
           padding: "20px",

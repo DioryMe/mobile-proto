@@ -12,7 +12,16 @@ function DioryGrid() {
     : "browseRoom";
 
   const {
-    [roomId]: { setStoryId, setFocusId, focus, storyId, stories, diograph },
+    [roomId]: {
+      setStoryId,
+      setFocusId,
+      focus,
+      storyId,
+      stories,
+      diograph,
+      next,
+      prev,
+    },
   } = useDiosphereContext();
 
   const handleDioryClick = (dioryId: string) => {
@@ -68,13 +77,28 @@ function DioryGrid() {
           the first story)
         </li>
       </ul> */}
-      <button
-        data-test-id="see-content"
-        disabled={!(focus.data?.contentUrl || false)}
-        onClick={() => navigate(`content?storyId=${storyId}`)}
-      >
-        See content
-      </button>
+      <table>
+        <tr>
+          <td>
+            <button
+              data-test-id="prev"
+              disabled={!prev}
+              onClick={() => prev && handleDioryClick(prev)}
+            >
+              Prev
+            </button>
+          </td>
+          <td>
+            <button
+              data-test-id="next"
+              disabled={!next}
+              onClick={() => next && handleDioryClick(next)}
+            >
+              Next
+            </button>
+          </td>
+        </tr>
+      </table>
     </div>
   );
 }

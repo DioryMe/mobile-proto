@@ -17,6 +17,7 @@ import Content from "./components/Content";
 import Search from "./components/Search";
 import Browse from "./components/Browse";
 import { DiosphereProvider } from "./contexts/DiosphereContext";
+import Swipes from "./components/Swipes";
 
 export const isAuthenticated = () => {
   const accessToken = sessionStorage.getItem("accessToken");
@@ -73,7 +74,8 @@ const App = () => {
             path="/browse/:focusId/content"
             element={
               <DiosphereProvider>
-                <Content />
+                <Swipes />
+                {/* <Content /> */}
               </DiosphereProvider>
             }
           />
