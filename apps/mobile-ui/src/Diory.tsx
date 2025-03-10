@@ -33,6 +33,7 @@ const Diory = ({ onClick }: DioryProps) => {
           borderRadius: "8px",
           textAlign: "center" as const,
           backgroundImage: diory.image ? `url(${diory.image})` : "none",
+          backgroundSize: "cover",
           minHeight: "330px",
           width: "450px",
           position: "relative",
@@ -121,39 +122,6 @@ const Diory = ({ onClick }: DioryProps) => {
       </div>
     )
   );
-};
-
-// Styling (for demonstration; adjust as needed)
-const styles = {
-  dioryContainer: {
-    border: "1px solid #ddd",
-    padding: "10px",
-    margin: "10px",
-    borderRadius: "8px",
-    textAlign: "center",
-  },
-  mainContent: {
-    marginBottom: "10px",
-  },
-  linksContainer: {
-    display: "flex",
-    justifyContent: "center",
-    gap: "10px",
-    flexWrap: "wrap",
-  },
-  image: {
-    width: "50px",
-    height: "50px",
-    objectFit: "cover",
-    borderRadius: "50%",
-  },
-  linkItem: {
-    cursor: "pointer", // Indicate the link is clickable
-    border: "1px solid #aaa",
-    borderRadius: "5px",
-    padding: "5px",
-    transition: "transform 0.1s",
-  },
 };
 
 export default Diory;

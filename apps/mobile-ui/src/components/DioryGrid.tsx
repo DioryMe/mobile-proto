@@ -3,6 +3,7 @@ import Diory from "../Diory";
 import { ParentDioryLink } from "../ParentDioryLink";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useDiosphereContext } from "../contexts/DiosphereContext";
+import { NavigationButton } from "../NavigationButton";
 
 function DioryGrid() {
   const navigate = useNavigate();
@@ -12,7 +13,15 @@ function DioryGrid() {
     : "browseRoom";
 
   const {
-    [roomId]: { setStoryId, setFocusId, focus, storyId, stories, diograph },
+    [roomId]: {
+      setStoryId,
+      setFocusId,
+      focus,
+      focusId,
+      storyId,
+      stories,
+      diograph,
+    },
   } = useDiosphereContext();
 
   const handleDioryClick = (dioryId: string) => {
@@ -25,10 +34,10 @@ function DioryGrid() {
 
   return (
     <div>
-      {stories.length !== 0 && (
+      {stories.length !== 0 && storyId && (
         <div>
           <div style={{ display: "flex", gap: "8px", margin: "8px 0" }}>
-            {storyId && (
+            {
               <ParentDioryLink
                 diograph={diograph}
                 onClick={handleDioryClick}
@@ -36,23 +45,23 @@ function DioryGrid() {
                 parentId={storyId}
                 onParentChange={handleStoryChange}
               />
-            )}
+            }
           </div>
           <div style={{ display: "flex", gap: "8px", margin: "8px 0" }}>
-            {/* <NavigationButton
+            <NavigationButton
               direction="prev"
-              parentId={parentId}
+              parentId={storyId}
               diograph={diograph}
-              dioryId={dioryId}
+              dioryId={focusId}
               onClick={handleDioryClick}
             />
             <NavigationButton
               direction="next"
-              parentId={parentId}
+              parentId={storyId}
               diograph={diograph}
-              dioryId={dioryId}
+              dioryId={focusId}
               onClick={handleDioryClick}
-            /> */}
+            />
           </div>
         </div>
       )}
