@@ -1,169 +1,127 @@
-import React from "react";
-import { IDiory } from "@diograph/diograph/types";
-import { Diograph } from "@diograph/diograph";
-
-export interface DioryData {
-  text: string;
-  image?: string;
-  links?: { id: string }[];
-  created: string;
-  modified: string;
-  id: string;
-}
+import React, { useEffect, useState } from "react";
+import { useDiosphereContext } from "./contexts/DiosphereContext";
+import { useLocation } from "react-router-dom";
+import { IDiory, IDioryObject } from "@diograph/diograph/types";
 
 interface DioryProps {
-  dioryId?: string;
-  diograph: Diograph | null | undefined;
   onClick: any;
 }
 
-const Diory = ({ dioryId, diograph, onClick }: DioryProps) => {
-  if (!dioryId) {
-    return <div>No dioryId given</div>;
-  }
+const Diory = ({ onClick }: DioryProps) => {
+  const { pathname } = useLocation();
+  const roomId = pathname.startsWith("/my-diory")
+    ? "myDioryRoom"
+    : "browseRoom";
 
-  if (!diograph) {
-    return <div>Diograph not found</div>;
-  }
+  const [diory, setDiory] = useState<any | null>(null);
 
-  let diory: IDiory;
-  try {
-    diory = diograph.getDiory({ id: dioryId });
-  } catch (e) {
-    return <div data-test-id="diory-not-found">Diory not found</div>;
-  }
+  const {
+    [roomId]: { focus, focusId: dioryId },
+  } = useDiosphereContext();
+
+  useEffect(() => {
+    setDiory(focus);
+  }, [focus]);
 
   return (
-    <div
-      style={{
-        border: "1px solid #ddd",
-        padding: "20px",
-        margin: "10px",
-        borderRadius: "8px",
-        textAlign: "center" as const,
-        backgroundImage: diory.image ? `url(${diory.image})` : "none",
-        minHeight: "330px",
-        width: "450px",
-        position: "relative",
-      }}
-    >
-      {/* Main content */}
-      <div
-        data-test-id={`diory-heading-${dioryId}`}
-        style={{
-          marginBottom: "10px",
-          position: "relative",
-          zIndex: 1,
-          color: "white",
-          textShadow: "2px 2px 4px rgba(0,0,0,0.5)",
-        }}
-      >
-        <h3>{diory.text}</h3>
-      </div>
-
-      {/* Add a semi-transparent overlay to ensure text readability */}
+    diory && (
       <div
         style={{
-          position: "absolute",
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
+          border: "1px solid #ddd",
+          padding: "20px",
+          margin: "10px",
           borderRadius: "8px",
-        }}
-      />
-
-      {/* Links */}
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          gap: "10px",
-          flexWrap: "wrap" as const,
+          textAlign: "center" as const,
+          backgroundImage: diory.image ? `url(${diory.image})` : "none",
+          backgroundSize: "cover",
+          minHeight: "330px",
+          width: "450px",
           position: "relative",
-          zIndex: 1,
         }}
       >
-        {diory.links?.map((link) => (
-          <button
-            key={link.id}
-            data-test-id={`diory-link-${link.id}`}
-            onClick={() => onClick(link.id)}
-            style={{
-              backgroundImage: diograph.getDiory({ id: link.id }).image
-                ? `url(${diograph.getDiory({ id: link.id }).image})`
-                : "none",
-              backgroundSize: "cover",
-              backgroundPosition: "center",
-              backgroundColor: "rgba(255,255,255,0.9)",
-              padding: "5px 10px",
-              border: "none",
-              borderRadius: "4px",
-              cursor: "pointer",
-              minWidth: "100px",
-              minHeight: "50px",
-              position: "relative",
-            }}
-          >
-            <div
+        {/* Main content */}
+        <div
+          data-test-id={`diory-heading-${dioryId}`}
+          style={{
+            marginBottom: "10px",
+            position: "relative",
+            zIndex: 1,
+            color: "white",
+            textShadow: "2px 2px 4px rgba(0,0,0,0.5)",
+          }}
+        >
+          <h3>{diory.text}</h3>
+        </div>
+
+        {/* Add a semi-transparent overlay to ensure text readability */}
+        <div
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            borderRadius: "8px",
+          }}
+        />
+
+        {/* Links */}
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            gap: "10px",
+            flexWrap: "wrap" as const,
+            position: "relative",
+            zIndex: 1,
+          }}
+        >
+          {diory.linkedDiories.map((link: any) => (
+            <button
+              key={link.id}
+              data-test-id={`diory-link-${link.id}`}
+              onClick={() => onClick(link.id)}
               style={{
-                position: "absolute",
-                top: 0,
-                left: 0,
-                right: 0,
-                bottom: 0,
-                backgroundColor: "rgba(0,0,0,0.3)",
+                backgroundImage: link.image ? `url(${link.image})` : "none",
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+                backgroundColor: "rgba(255,255,255,0.9)",
+                padding: "5px 10px",
+                border: "none",
                 borderRadius: "4px",
-              }}
-            />
-            <span
-              style={{
+                cursor: "pointer",
+                minWidth: "100px",
+                minHeight: "50px",
                 position: "relative",
-                zIndex: 1,
-                color: "white",
-                textShadow: "1px 1px 2px rgba(0,0,0,0.5)",
               }}
             >
-              {diograph.getDiory({ id: link.id }).text}
-            </span>
-          </button>
-        ))}
+              <div
+                style={{
+                  position: "absolute",
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  bottom: 0,
+                  backgroundColor: "rgba(0,0,0,0.3)",
+                  borderRadius: "4px",
+                }}
+              />
+              <span
+                style={{
+                  position: "relative",
+                  zIndex: 1,
+                  color: "white",
+                  textShadow: "1px 1px 2px rgba(0,0,0,0.5)",
+                }}
+              >
+                {link.text}
+              </span>
+            </button>
+          ))}
+        </div>
       </div>
-    </div>
+    )
   );
-};
-
-// Styling (for demonstration; adjust as needed)
-const styles = {
-  dioryContainer: {
-    border: "1px solid #ddd",
-    padding: "10px",
-    margin: "10px",
-    borderRadius: "8px",
-    textAlign: "center",
-  },
-  mainContent: {
-    marginBottom: "10px",
-  },
-  linksContainer: {
-    display: "flex",
-    justifyContent: "center",
-    gap: "10px",
-    flexWrap: "wrap",
-  },
-  image: {
-    width: "50px",
-    height: "50px",
-    objectFit: "cover",
-    borderRadius: "50%",
-  },
-  linkItem: {
-    cursor: "pointer", // Indicate the link is clickable
-    border: "1px solid #aaa",
-    borderRadius: "5px",
-    padding: "5px",
-    transition: "transform 0.1s",
-  },
 };
 
 export default Diory;

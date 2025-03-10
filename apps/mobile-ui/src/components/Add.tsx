@@ -12,7 +12,7 @@ const Add = () => {
   const [dioryText, setDioryText] = useState("Superii");
 
   const handleImportResponse = (data: any) => {
-    navigate("/home");
+    navigate("/my-diory");
   };
 
   return (
@@ -32,7 +32,7 @@ const Add = () => {
             diograph.addDioryAndLink(new Diory({ text: dioryText }), {
               id: focusId,
             });
-          navigate("/home");
+          navigate("/my-diory");
         }}
         disabled
       >

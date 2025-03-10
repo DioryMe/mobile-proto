@@ -55,11 +55,12 @@ Successful sign up and login
 
     # Demo room
     Go To  ${BASE_URL}/browse
+    Sleep  2
     ${diory_heading}=    Get Text    css=div[data-test-id="diory-heading-/"]
     Should Be Equal    ${diory_heading}    Diory demo content
 
     # Native room
-    Go To  ${BASE_URL}/home
+    Go To  ${BASE_URL}/my-diory
     ${diory_heading}=    Get Text    css=div[data-test-id="diory-heading-/"]
     Should Be Equal    ${diory_heading}  ${AUTO_USER_EMAIL}
 
@@ -81,7 +82,7 @@ Import Diory via ImportTestForm
     # Should Contain    ${response_text}    Diory imported successfully
 
     # Check imported diory from My Diory
-    Go To  ${BASE_URL}/home
+    Go To  ${BASE_URL}/my-diory
     Click   css=button[data-test-id="diory-link-bafkreif4lt3vhlmxpcey4xooxlsoebpwfdwtflfwfru7d2meai2fb236eu"]
     Click   css=button[data-test-id="see-content"]
     ${response_text}=    Get Text    css=div[data-test-id=content-available]
@@ -112,7 +113,7 @@ Copy Diory via CopyTestForm
     # Should Contain    ${response_text}    Diory copied successfully
 
     # Check copied diory from My Diory
-    Go To  ${BASE_URL}/home
+    Go To  ${BASE_URL}/my-diory
     ${diory_link_text}=    Get Text    css=button[data-test-id="diory-link-generic-content"]
     Should Be Equal    ${diory_link_text}  Generic content
     # Click the link diory

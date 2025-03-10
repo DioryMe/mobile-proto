@@ -35,7 +35,7 @@ const Search = () => {
       <button
         onClick={() => {
           // setDiograph(new Diograph(smallDiograph));
-          setFocusId("/");
+          setFocusId && setFocusId("/");
           navigate("/diory-grid");
         }}
       >
@@ -70,7 +70,7 @@ const Search = () => {
           <img
             key={`maalis-${diory.id}`}
             onClick={() => {
-              setFocusId(diory.id);
+              setFocusId && setFocusId(diory.id);
               navigate("/diory-grid");
             }}
             width={100}
@@ -86,7 +86,7 @@ const Search = () => {
           <div key={`text-${diory.id}`}>
             <img
               onClick={() => {
-                setFocusId(diory.id);
+                setFocusId && setFocusId(diory.id);
                 navigate("/diory-grid");
               }}
               width={100}
@@ -105,7 +105,7 @@ const Search = () => {
           <img
             key={`geo-${diory.id}`}
             onClick={() => {
-              setFocusId(diory.id);
+              setFocusId && setFocusId(diory.id);
               navigate("/diory-grid");
             }}
             width={100}

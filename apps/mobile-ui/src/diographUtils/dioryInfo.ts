@@ -22,9 +22,9 @@ export interface DioryInfo {
   relatedGeo: string[];
   relatedTime: string[];
   relatedStories: string[];
-  delete: () => void;
-  link: () => void;
-  edit: () => void;
+  delete: (() => void) | null;
+  link: (() => void) | null;
+  edit: (() => void) | null;
 }
 
 export const getDioryInfo = (

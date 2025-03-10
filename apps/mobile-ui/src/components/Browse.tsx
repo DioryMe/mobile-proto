@@ -20,12 +20,12 @@ const Browse = () => {
       <div>
         <h2>Browse rooms</h2>
       </div>
-      <DioryGrid roomId="browseRoom" />
-      <RoomSelection
+      <DioryGrid />
+      {/* <RoomSelection
         rooms={(rooms && rooms.filter((r) => r.id !== "native")) || []}
         onSelect={handleRoomSelect}
         // selectedRoomId={selectedRoomId}
-      />
+      /> */}
       {roomConfigError}
     </div>
   );

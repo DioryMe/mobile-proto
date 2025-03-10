@@ -1,4 +1,20 @@
+import { isAuthenticated } from "../App";
+
 const baseUrl = import.meta.env.VITE_API_URL;
+
+class UnauthorizedAccessError extends Error {
+  constructor() {
+    super("Unauthorized access");
+    this.name = "UnauthorizedAccessError";
+  }
+}
+
+class NoTokensFoundError extends Error {
+  constructor() {
+    super("No tokens found in session storage");
+    this.name = "NoTokensFoundError";
+  }
+}
 
 export const fetchContent = async <T>(
   url: string,
@@ -7,8 +23,8 @@ export const fetchContent = async <T>(
   const accessToken = sessionStorage.getItem("accessToken");
   const idToken = sessionStorage.getItem("idToken");
 
-  if (!accessToken || !idToken) {
-    throw new Error("No tokens found");
+  if (!isAuthenticated() || !accessToken || !idToken) {
+    throw new NoTokensFoundError();
   }
 
   const response = await fetch(`${baseUrl}${url}`, {
@@ -20,6 +36,9 @@ export const fetchContent = async <T>(
   });
 
   if (!response.ok) {
+    if (response.status === 401) {
+      throw new UnauthorizedAccessError();
+    }
     throw new Error(`API request failed: ${response.statusText}`);
   }
 

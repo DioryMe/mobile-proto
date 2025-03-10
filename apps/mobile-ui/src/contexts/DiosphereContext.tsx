@@ -9,11 +9,13 @@ import { Diograph } from "@diograph/diograph";
 import { IDiographObject } from "@diograph/diograph/types";
 import useFetchData from "../hooks/useFetchData";
 import { DioryInfo, getDioryInfo } from "../diographUtils/dioryInfo";
+import { isAuthenticated } from "../App";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 
 interface RoomContextType extends DioryInfo {
-  setRoomId: (roomId: string) => void;
-  setFocusId: (focusId: string) => void;
-  setStoryId: (storyId: string | null) => void;
+  setRoomId: ((roomId: string) => void) | null;
+  setFocusId: ((focusId: string) => void) | null;
+  setStoryId: ((storyId: string | null) => void) | null;
 }
 
 interface DiosphereContextType {
@@ -21,13 +23,13 @@ interface DiosphereContextType {
   browseRoom: RoomContextType;
   loading: boolean;
   error: string | null;
-  cancelFetch: () => void;
+  cancelFetch: (() => void) | null;
 }
 
 const defaultRoomContextValues: RoomContextType = {
-  setRoomId: () => {},
-  setFocusId: () => {},
-  setStoryId: () => {},
+  setRoomId: null,
+  setFocusId: null,
+  setStoryId: null,
   diograph: null,
   focusId: "/",
   storyId: null,
@@ -48,9 +50,9 @@ const defaultRoomContextValues: RoomContextType = {
   relatedGeo: [],
   relatedTime: [],
   relatedStories: [],
-  delete: () => {},
-  link: () => {},
-  edit: () => {},
+  delete: null,
+  link: null,
+  edit: null,
 };
 
 const diosphereContextDefaultValues: DiosphereContextType = {
@@ -58,16 +60,27 @@ const diosphereContextDefaultValues: DiosphereContextType = {
   browseRoom: defaultRoomContextValues,
   loading: false,
   error: null,
-  cancelFetch: () => {},
+  cancelFetch: null,
 };
 
 const DiosphereContext = createContext<DiosphereContextType>(
   diosphereContextDefaultValues
 );
 
-export function DiosphereProvider({ children }: { children: ReactNode }) {
+export function DiosphereProvider({ children }: { children?: ReactNode }) {
+  const { pathname, search } = useLocation();
+  const navigate = useNavigate();
+
+  const { focusId } = useParams();
+
+  const roomId = pathname.startsWith("/my-diory")
+    ? "myDioryRoom"
+    : "browseRoom";
+
   // My Diory room
-  const [myDioryFocusId, setMyDioryFocusId] = useState<string>("/");
+  const [myDioryFocusId, setMyDioryFocusId] = useState<string>(
+    focusId && roomId === "myDioryRoom" ? focusId : "/"
+  );
   const [myDioryDiograph, setMyDioryDiograph] = useState<Diograph | null>(null);
   const [myDioryRoomId, setMyDioryRoomId] = useState("native");
   const [myDioryInfo, setMyDioryInfo] = useState<DioryInfo>(
@@ -75,7 +88,9 @@ export function DiosphereProvider({ children }: { children: ReactNode }) {
   );
   const [myDioryStoryId, setMyDioryStoryId] = useState<string | null>(null);
   // Browse room
-  const [browseFocusId, setBrowseFocusId] = useState<string>("/");
+  const [browseFocusId, setBrowseFocusId] = useState<string>(
+    focusId && roomId === "browseRoom" ? focusId : "/"
+  );
   const [browseDiograph, setBrowseDiograph] = useState<Diograph | null>(null);
   const [browseRoomId, setBrowseRoomId] = useState("demo");
   const [browseInfo, setBrowseInfo] = useState<DioryInfo>(
@@ -85,6 +100,21 @@ export function DiosphereProvider({ children }: { children: ReactNode }) {
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  // Custom setter functions to update state and URL
+  const updateMyDioryFocusId = (focusId: string) => {
+    setMyDioryFocusId(focusId);
+    navigate(
+      `/my-diory/${focusId}${myDioryStoryId ? `?storyId=${myDioryStoryId}` : ""}`
+    );
+  };
+
+  const updateBrowseFocusId = (focusId: string) => {
+    setBrowseFocusId(focusId);
+    navigate(
+      `/browse/${focusId}${browseStoryId ? `?storyId=${browseStoryId}` : ""}`
+    );
+  };
 
   // Load My Diory room
   const {
@@ -104,6 +134,12 @@ export function DiosphereProvider({ children }: { children: ReactNode }) {
     cancelFetch: cancelBrowseDiographFetch,
   } = useFetchData<IDiographObject>(`/room/${browseRoomId}/diograph`);
 
+  useEffect(() => {
+    if (!isAuthenticated()) {
+      navigate("/login");
+    }
+  }, [pathname, search]);
+
   // My Diory diograph
   useEffect(() => {
     if (myDioryDiographJson && Object.keys(myDioryDiographJson).length > 0) {
@@ -114,9 +150,15 @@ export function DiosphereProvider({ children }: { children: ReactNode }) {
   // My Diory diory info
   useEffect(() => {
     if (myDioryDiograph) {
-      setMyDioryInfo(
-        getDioryInfo(myDioryDiograph, myDioryFocusId, myDioryStoryId)
-      );
+      try {
+        setMyDioryInfo(
+          getDioryInfo(myDioryDiograph, myDioryFocusId, myDioryStoryId)
+        );
+      } catch (error) {
+        console.log("getDioryInfo failed: ", error);
+        setMyDioryInfo(getDioryInfo(myDioryDiograph, "/"));
+        navigate("/my-diory");
+      }
     }
   }, [myDioryDiograph, myDioryFocusId, myDioryStoryId]);
 
@@ -130,7 +172,15 @@ export function DiosphereProvider({ children }: { children: ReactNode }) {
   // Browse diory info
   useEffect(() => {
     if (browseDiograph) {
-      setBrowseInfo(getDioryInfo(browseDiograph, browseFocusId, browseStoryId));
+      try {
+        setBrowseInfo(
+          getDioryInfo(browseDiograph, browseFocusId, browseStoryId)
+        );
+      } catch (error) {
+        console.log("getDioryInfo failed: ", error);
+        setBrowseInfo(getDioryInfo(browseDiograph, "/"));
+        navigate("/browse");
+      }
     }
   }, [browseDiograph, browseFocusId, browseStoryId]);
 
@@ -165,13 +215,13 @@ export function DiosphereProvider({ children }: { children: ReactNode }) {
   const value = {
     myDioryRoom: {
       setRoomId: setMyDioryRoomId,
-      setFocusId: setMyDioryFocusId,
+      setFocusId: updateMyDioryFocusId,
       setStoryId: setMyDioryStoryId,
       ...myDioryInfo,
     },
     browseRoom: {
       setRoomId: setBrowseRoomId,
-      setFocusId: setBrowseFocusId,
+      setFocusId: updateBrowseFocusId,
       setStoryId: setBrowseStoryId,
       ...browseInfo,
     },

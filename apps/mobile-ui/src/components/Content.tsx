@@ -1,42 +1,60 @@
 import React, { useEffect, useState } from "react";
 import { fetchContent } from "../hooks/fetchData";
 import { useDiosphereContext } from "../contexts/DiosphereContext";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 
-function Content({
-  roomId = "myDioryRoom",
-}: {
-  roomId?: "myDioryRoom" | "browseRoom";
-}) {
+function Content() {
   const navigate = useNavigate();
+
+  const [contentPayload, setContentPayload] = useState<any>(null);
+  const [mimeType, setMimeType] = useState<any>(null);
+  const [loading, setLoading] = useState<any>(false);
+
+  const { pathname } = useLocation();
+  const roomId = pathname.startsWith("/my-diory")
+    ? "myDioryRoom"
+    : "browseRoom";
+
   const {
     [roomId]: { diograph, focusId },
   } = useDiosphereContext();
-  const [contentPayload, setContentPayload] = useState<any>(null);
-  const [loading, setLoading] = useState<any>(false);
-
-  const diory = diograph && diograph.getDiory({ id: focusId });
-  const CID = diory && diory.data && diory.data[0].contentUrl;
-  const mimeType = diory && diory.data && diory.data[0].encodingFormat;
 
   useEffect(() => {
-    if (CID) {
+    // next, prev logic in here
+  }, [focusId]);
+
+  useEffect(() => {
+    if (focusId) {
+      let diory;
       try {
-        setLoading(true);
-        fetchContent(`/room/content?CID=${CID}&mime=${mimeType}`)
-          .then((response: any) => response.blob())
-          .then((blob) => {
-            const url = URL.createObjectURL(blob);
-            setContentPayload(url);
-            setLoading(false);
-          });
+        diory = diograph && diograph.getDiory({ id: focusId });
       } catch (error) {
-        console.log("error", error);
+        navigate(roomId === "myDioryRoom" ? "/my-diory" : "/browse");
+        return;
       }
-    } else {
-      setContentPayload(null);
+
+      const CID = diory && diory.data && diory.data[0].contentUrl;
+      const mimeType = diory && diory.data && diory.data[0].encodingFormat;
+      setMimeType(mimeType);
+
+      if (CID) {
+        try {
+          setLoading(true);
+          fetchContent(`/room/content?CID=${CID}&mime=${mimeType}`)
+            .then((response: any) => response.blob())
+            .then((blob) => {
+              const url = URL.createObjectURL(blob);
+              setContentPayload(url);
+              setLoading(false);
+            });
+        } catch (error) {
+          console.log("error", error);
+        }
+      } else {
+        setContentPayload(null);
+      }
     }
-  }, []);
+  }, [diograph, focusId]);
 
   return contentPayload ? (
     <div data-test-id="content">

@@ -25,7 +25,7 @@ const HomePage = () => {
     <div>
       <h2>My Diory</h2>
       {nativeRoomInited ? (
-        <DioryGrid roomId="myDioryRoom" />
+        <DioryGrid />
       ) : (
         <>
           <div data-test-id="native-room-not-initialised">
