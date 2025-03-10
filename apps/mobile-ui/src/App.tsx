@@ -44,8 +44,22 @@ const App = () => {
 
           {/* Main routes */}
           <Route path="/login" element={<LoginPage />} />
-          <Route path="/my-diory" element={<HomePage />} />
-          <Route path="/browse" element={<Browse />} />
+          <Route
+            path="/my-diory"
+            element={
+              <DiosphereProvider>
+                <HomePage />
+              </DiosphereProvider>
+            }
+          />
+          <Route
+            path="/browse"
+            element={
+              <DiosphereProvider>
+                <Browse />
+              </DiosphereProvider>
+            }
+          />
           <Route path="/add" element={<Add />} />
           <Route path="/copy" element={<Copy />} />
           <Route path="/search" element={<Search />} />
