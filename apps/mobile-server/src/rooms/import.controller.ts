@@ -44,7 +44,7 @@ export class ImportController {
     },
     @UploadedFiles() formFiles: Express.Multer.File[],
   ) {
-    const { parentDioryId, destinationRoomId, diographOnly } = body;
+    const { parentDioryId, destinationRoomId } = body;
 
     // Validate destination diory
     const toDioryRoomId = destinationRoomId;
@@ -63,7 +63,6 @@ export class ImportController {
         formFile.path,
         destinationRoom,
         parentDiory,
-        diographOnly,
       );
       results.push(result);
     }
@@ -80,7 +79,6 @@ export class ImportController {
     formFilePath: string,
     destinationRoom: any,
     parentDiory: any,
-    diographOnly: boolean,
   ) {
     let diory;
     try {
@@ -99,10 +97,8 @@ export class ImportController {
     destinationRoom.diograph.addDioryAndLink(diory, parentDiory);
 
     const contentUrl = diory.data && diory.data[0].contentUrl;
-    if (!diographOnly) {
-      const sourceFileContent = await readFile(formFilePath);
-      await destinationRoom.addContent(sourceFileContent, contentUrl);
-    }
+    const sourceFileContent = await readFile(formFilePath);
+    await destinationRoom.addContent(sourceFileContent, contentUrl);
 
     await unlink(formFilePath);
 
