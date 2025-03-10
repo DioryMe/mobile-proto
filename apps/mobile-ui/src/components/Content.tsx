@@ -34,10 +34,10 @@ function Content() {
     <div data-test-id="content">
       <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
         {mimeType?.startsWith("image") && (
-          <img src={contentPayload} width="200" />
+          <img src={contentPayload} width="400" />
         )}
         {mimeType?.startsWith("video") && (
-          <video src={contentPayload} controls width="200" />
+          <video src={contentPayload} controls width="400" />
         )}
         {mimeType?.startsWith("audio") && (
           <audio src={contentPayload} controls />

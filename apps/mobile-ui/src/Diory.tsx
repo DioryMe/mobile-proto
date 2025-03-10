@@ -43,6 +43,7 @@ const Diory = ({ dioryId, diograph, onClick }: DioryProps) => {
         borderRadius: "8px",
         textAlign: "center" as const,
         backgroundImage: diory.image ? `url(${diory.image})` : "none",
+        backgroundSize: "cover",
         minHeight: "330px",
         width: "450px",
         position: "relative",
