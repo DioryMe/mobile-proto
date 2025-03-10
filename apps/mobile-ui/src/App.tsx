@@ -12,7 +12,6 @@ import Copy from "./components/CopyLink";
 import LoginPage from "./loginPage";
 import NavBar from "./components/NavBar";
 import Add from "./components/Add";
-import EndpointTestPage from "./endpointTest";
 import Content from "./components/Content";
 import Search from "./components/Search";
 import Browse from "./components/Browse";
@@ -50,7 +49,6 @@ const App = () => {
           <Route path="/add" element={<Add />} />
           <Route path="/copy" element={<Copy />} />
           <Route path="/search" element={<Search />} />
-          <Route path="/endpoint-test" element={<EndpointTestPage />} />
 
           {/* Dynamic routes with DiosphereProvider */}
           <Route
